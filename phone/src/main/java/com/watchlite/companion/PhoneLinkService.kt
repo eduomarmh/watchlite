@@ -103,6 +103,10 @@ class PhoneLinkService : Service() {
         }
 
         fun send(type: String, payload: JSONObject = JSONObject()): Boolean = instance?.sendMsg(type, payload) ?: false
+
+        /** Watch is ringing because we asked it to ("Find my watch"). */
+        @Volatile var watchRingingUntil = 0L
+        fun watchRinging() = System.currentTimeMillis() < watchRingingUntil
     }
 
     @Volatile private var running = true
@@ -128,6 +132,7 @@ class PhoneLinkService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == "reconnect") try { socket?.close() } catch (_: Throwable) { }
+        if (intent?.action == "stop_ring") stopRing()
         return START_STICKY
     }
 
@@ -217,6 +222,8 @@ class PhoneLinkService : Service() {
                 changed()
             }
             "find.phone" -> if (prefs.getBoolean("mod_find", true)) ring()
+            "find.phone.stop" -> stopRing(notifyWatch = false)
+            "find.watch.stopped" -> { watchRingingUntil = 0; changed() }
             "notif.dismiss" -> PhoneNotifListener.instance?.dismiss(p.optString("key"))
             "notif.action" -> PhoneNotifListener.instance?.action(p.optString("key"), p.optString("action"))
             "notif.reply" -> PhoneNotifListener.instance?.reply(p.optString("key"), p.optString("action"), p.optString("text"))
@@ -240,14 +247,31 @@ class PhoneLinkService : Service() {
                 r.play(); ringing = r
                 val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 if (Build.VERSION.SDK_INT >= 26) v.vibrate(VibrationEffect.createWaveform(longArrayOf(0, 600, 400), 0))
-                main.postDelayed({ stopRing() }, 30_000)
+                main.removeCallbacks(autoStop); main.postDelayed(autoStop, 30_000)
+                // notification with a Stop button
+                val nm = getSystemService(NotificationManager::class.java)
+                if (Build.VERSION.SDK_INT >= 26) nm.createNotificationChannel(NotificationChannel("find", getString(R.string.find_phone_title), NotificationManager.IMPORTANCE_HIGH).apply { setSound(null, null) })
+                val stop = PendingIntent.getService(this, 3, Intent(this, PhoneLinkService::class.java).setAction("stop_ring"), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+                val b = if (Build.VERSION.SDK_INT >= 26) Notification.Builder(this, "find") else @Suppress("DEPRECATION") Notification.Builder(this)
+                nm.notify(7, b.setSmallIcon(R.drawable.ic_phonelink_ring).setContentTitle(getString(R.string.find_phone_title))
+                    .setContentText(getString(R.string.find_phone_text)).setContentIntent(stop).setDeleteIntent(stop).setAutoCancel(true)
+                    .addAction(Notification.Action.Builder(null, getString(R.string.stop), stop).build()).build())
             } catch (t: Throwable) { Log.w("WLC", "ring", t) }
         }
     }
 
-    fun stopRing() {
-        ringing?.stop(); ringing = null
-        (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).cancel()
+    private val autoStop = Runnable { stopRing() }
+
+    /** Stops "find my phone" (from the app, the notification, the timeout, or the watch). */
+    fun stopRing(notifyWatch: Boolean = true) {
+        val was = ringing != null
+        main.post {
+            ringing?.stop(); ringing = null
+            (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).cancel()
+            getSystemService(NotificationManager::class.java).cancel(7)
+            main.removeCallbacks(autoStop)
+        }
+        if (was && notifyWatch) sendMsg("find.phone.stopped")
     }
 
     private fun media(cmd: String) {

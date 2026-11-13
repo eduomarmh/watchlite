@@ -57,6 +57,7 @@ class MainActivity : Activity() {
     private lateinit var stepsBar: ProgressBar
     private lateinit var details: TextView
     private lateinit var locText: TextView
+    private lateinit var findBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,8 +165,15 @@ class MainActivity : Activity() {
         w.addView(stepsBar, LinearLayout.LayoutParams(-1, dp(10)).apply { topMargin = dp(8) })
         details = tv("", 12f, text2)
         w.addView(details, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
-        w.addView(row(button(getString(R.string.refresh)) { if (!PhoneLinkService.send("stats.request")) toastNotConnected() },
-            button(getString(R.string.find_watch), true) { if (!PhoneLinkService.send("find.watch")) toastNotConnected() }),
+        findBtn = button(getString(R.string.find_watch), true) {
+            if (PhoneLinkService.watchRinging()) {
+                PhoneLinkService.watchRingingUntil = 0; PhoneLinkService.send("find.watch.stop")
+            } else if (PhoneLinkService.send("find.watch")) PhoneLinkService.watchRingingUntil = System.currentTimeMillis() + 30_000
+            else toastNotConnected()
+            render()
+            root.postDelayed({ render() }, 30_500)
+        }
+        w.addView(row(button(getString(R.string.refresh)) { if (!PhoneLinkService.send("stats.request")) toastNotConnected() }, findBtn),
             LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
 
         // location
@@ -231,6 +239,7 @@ class MainActivity : Activity() {
             else -> 0xFF8E8E93.toInt() to getString(R.string.not_connected)
         }
         (statusDot.background as GradientDrawable).setColor(col)
+        findBtn.text = getString(if (PhoneLinkService.watchRinging()) R.string.stop_ringing else R.string.find_watch)
         statusText.text = label
 
         prefs.getString("stats", null)?.let {

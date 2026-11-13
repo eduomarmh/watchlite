@@ -44,4 +44,8 @@
     <string name="open_bt">إعدادات البلوتوث</string>
     <string name="done">تم</string>
     <string name="no_apps_yet">التطبيقات هتظهر هنا بعد ما تبعت إشعار.</string>
+    <string name="find_phone_title">البحث عن الموبايل</string>
+    <string name="find_phone_text">ساعتك بتدوّر على الموبايل ده. المس للإيقاف.</string>
+    <string name="stop">إيقاف</string>
+    <string name="stop_ringing">إيقاف الرنة</string>
 </resources>

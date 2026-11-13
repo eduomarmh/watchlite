@@ -192,7 +192,7 @@ class HomeActivity : Activity() {
             val charging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
             val changedCharging = charging != st.charging
             st.battery = newLevel; st.charging = charging
-            aod.policy.update(newLevel, charging, App.prefs.aodBatteryMin, App.prefs.aodWhileCharging)
+            aod.policy.update(newLevel, charging, App.prefs.aodBatteryMin, App.prefs.aodCharging)
             applyPowerState()
             if (changedCharging) applyTheme()
             if (!aod.policy.allowed && aod.active) { aod.exit(true); screenOff(force = true) }

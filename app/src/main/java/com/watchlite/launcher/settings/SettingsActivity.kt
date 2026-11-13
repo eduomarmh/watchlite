@@ -317,7 +317,8 @@ class SettingsActivity : Activity() {
         choice(s(R.string.aod_idle), listOf(-1 to s(R.string.aod_idle_auto), 0 to s(R.string.aod_idle_home), 5 to "5s", 10 to "10s", 15 to "15s", 20 to "20s", 30 to "30s", 60 to "60s"),
             { p.aodIdleSec }) { p.aodIdleSec = it }
         slider(s(R.string.aod_battery_min), 5, 90, { p.aodBatteryMin }, { p.aodBatteryMin = it }) { Digits.fmt(it) + "%" }
-        switch(s(R.string.aod_charging), null, { p.aodWhileCharging }) { p.aodWhileCharging = it }
+        choice(s(R.string.aod_charging), listOf("always" to s(R.string.aodc_always), "normal" to s(R.string.aodc_normal), "never" to s(R.string.aodc_never)),
+            { p.aodCharging }) { p.aodCharging = it }
         choice(s(R.string.aod_wake), listOf("double" to s(R.string.aod_wake_double), "single" to s(R.string.aod_wake_single)), { p.aodWake }) { p.aodWake = it }
         switch(s(R.string.aod_everywhere), s(R.string.aod_everywhere_sum), { p.aodEverywhere }) { p.aodEverywhere = it }
         switch(s(R.string.aod_raise), s(R.string.aod_raise_sum), { p.aodRaise }) { p.aodRaise = it }

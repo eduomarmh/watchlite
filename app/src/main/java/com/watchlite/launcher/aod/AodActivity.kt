@@ -37,7 +37,7 @@ object AodGate {
     fun canEnter(): Boolean {
         val p = App.prefs; val st = App.I.state
         if (!p.aodEnabled || p.theater || powerSaving()) return false
-        if (!policy.update(st.battery, st.charging, p.aodBatteryMin, p.aodWhileCharging)) return false
+        if (!policy.update(st.battery, st.charging, p.aodBatteryMin, p.aodCharging)) return false
         if (p.aodNightOff) {
             val h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             if (ThemeRepository.inRange(h, p.aodNightFrom, p.aodNightTo)) return false
@@ -95,6 +95,14 @@ class AodActivity : Activity() {
         override fun onReceive(c: Context, i: Intent) { AodGate.lastAodVisible = System.currentTimeMillis(); finish() }
     }
 
+    /** Charger plugged/unplugged: re-check the "while charging" rule right away. */
+    private val power = object : BroadcastReceiver() {
+        override fun onReceive(c: Context, i: Intent) {
+            App.I.state.charging = i.action == Intent.ACTION_POWER_CONNECTED
+            if (!AodGate.canEnter()) { AodGate.lastAodVisible = System.currentTimeMillis(); finish() }
+        }
+    }
+
     override fun attachBaseContext(base: Context) = super.attachBaseContext(LocaleHelper.wrap(base))
 
     @Suppress("DEPRECATION")
@@ -112,6 +120,7 @@ class AodActivity : Activity() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
         registerReceiver(tick, IntentFilter(Intent.ACTION_TIME_TICK))
         registerReceiver(screenOff, IntentFilter(Intent.ACTION_SCREEN_OFF))
+        registerReceiver(power, IntentFilter().apply { addAction(Intent.ACTION_POWER_CONNECTED); addAction(Intent.ACTION_POWER_DISCONNECTED) })
         view.post { view.tick() }
     }
 
@@ -119,7 +128,7 @@ class AodActivity : Activity() {
     override fun onPause() { AodGate.lastAodVisible = System.currentTimeMillis(); showing = false; super.onPause() }
 
     override fun onDestroy() {
-        try { unregisterReceiver(tick); unregisterReceiver(screenOff) } catch (_: Throwable) { }
+        try { unregisterReceiver(tick); unregisterReceiver(screenOff); unregisterReceiver(power) } catch (_: Throwable) { }
         super.onDestroy()
     }
 

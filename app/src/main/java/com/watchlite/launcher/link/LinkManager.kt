@@ -70,7 +70,8 @@ object LinkManager {
             "stats.request" -> sendStats()
             "watch.locate" -> locate()
             "find.watch" -> findWatch(true)
-            "find.watch.stop" -> findWatch(false)
+            "find.watch.stop" -> findWatch(false, remote = true)
+            "find.phone.stopped" -> { phoneRingingUntil = 0; App.I.state.changed() }
             "time.sync" -> Unit
             "notif.post", "notif.update" -> if (enabled("notif")) postPhoneNotification(p)
             "notif.remove" -> App.I.notifications.remove("phone:" + p.optString("key"))
@@ -133,16 +134,27 @@ object LinkManager {
     }
 
     @Volatile private var finding = false
+    @Volatile var phoneRingingUntil = 0L
 
-    /** "Find my watch": rings and vibrates for up to 30 s (or until stopped). */
-    fun findWatch(on: Boolean) {
+    fun phoneRinging() = System.currentTimeMillis() < phoneRingingUntil
+
+    /** Ring the phone, or stop it if it's already ringing. Returns false when not connected. */
+    fun toggleFindPhone(): Boolean {
+        return if (phoneRinging()) { phoneRingingUntil = 0; send("find.phone.stop") }
+        else send("find.phone").also { if (it) phoneRingingUntil = System.currentTimeMillis() + 30_000 }
+    }
+
+    /** "Find my watch": rings and vibrates for up to 30 s (or until stopped locally or from the phone). */
+    fun findWatch(on: Boolean, remote: Boolean = false) {
+        val wasFinding = finding
         finding = on
-        if (!on) return
+        if (!on) { if (wasFinding && !remote) send("find.watch.stopped"); return }
         val h = android.os.Handler(android.os.Looper.getMainLooper())
         val end = System.currentTimeMillis() + 30_000
         val r = object : Runnable {
             override fun run() {
-                if (!finding || System.currentTimeMillis() > end) { finding = false; return }
+                if (!finding) return
+                if (System.currentTimeMillis() > end) { finding = false; send("find.watch.stopped"); return }
                 com.watchlite.launcher.chime.ChimeSounds.play(app, "res:chime_digital", 1f)
                 com.watchlite.launcher.util.Haptics.pattern(app, longArrayOf(0, 300, 150, 300))
                 h.postDelayed(this, 1500)

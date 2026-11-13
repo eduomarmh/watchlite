@@ -28,9 +28,14 @@ class AodPolicy {
     var allowed = true
         private set
 
-    fun update(level: Int, charging: Boolean, min: Int, allowWhileCharging: Boolean): Boolean {
+    fun update(level: Int, charging: Boolean, min: Int, allowWhileCharging: Boolean): Boolean =
+        update(level, charging, min, if (allowWhileCharging) "always" else "normal")
+
+    /** chargingMode: always | normal | never */
+    fun update(level: Int, charging: Boolean, min: Int, chargingMode: String): Boolean {
         allowed = when {
-            charging && allowWhileCharging -> true
+            charging && chargingMode == "never" -> false
+            charging && chargingMode == "always" -> true
             level < min -> false
             level >= min + HYST -> true
             else -> allowed

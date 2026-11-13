@@ -44,4 +44,8 @@
     <string name="open_bt">Bluetooth settings</string>
     <string name="done">Done</string>
     <string name="no_apps_yet">Apps appear here after they send a notification.</string>
+    <string name="find_phone_title">Find my phone</string>
+    <string name="find_phone_text">Your watch is looking for this phone. Tap to stop.</string>
+    <string name="stop">Stop</string>
+    <string name="stop_ringing">Stop ringing</string>
 </resources>

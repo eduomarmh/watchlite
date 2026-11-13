@@ -13,7 +13,7 @@
     <string name="pm">PM</string>
     <string name="aod_battery_min">Turn off below battery</string>
     <string name="aod_brightness">AOD brightness</string>
-    <string name="aod_charging">Always allow while charging</string>
+    <string name="aod_charging">While charging</string>
     <string name="aod_idle">Start after inactivity</string>
     <string name="aod_idle_auto">Auto (just before screen timeout)</string>
     <string name="aod_idle_home">Only with the Home button</string>
@@ -439,6 +439,11 @@
     <string name="attempt_n">Way %1$d of %2$d</string>
     <string name="aod_everywhere">Inside other apps too</string>
     <string name="aod_everywhere_sum">When the screen turns off in any app, the always-on clock appears; double-tap returns to the app. Press power in it to turn fully off.</string>
+    <string name="aodc_always">Always on (ignore battery limit)</string>
+    <string name="aodc_normal">Follow the battery limit</string>
+    <string name="aodc_never">Off while charging</string>
+    <string name="find_ringing">Phone is ringing. Tap again to stop</string>
+    <string name="find_stopped">Stopped</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

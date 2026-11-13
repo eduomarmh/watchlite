@@ -84,8 +84,10 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
         tiles += Tile(R.drawable.ic_battery_saver, R.string.tile_saver, { App.prefs.saverManual }, {
             App.prefs.saverManual = !App.prefs.saverManual; host.applyPowerState()
         })
-        tiles += Tile(R.drawable.ic_phonelink_ring, R.string.tile_find_phone, { null }, {
-            if (!LinkManager.send("find.phone")) host.toast(ctx.getString(R.string.phone_not_connected))
+        tiles += Tile(R.drawable.ic_phonelink_ring, R.string.tile_find_phone, { LinkManager.phoneRinging() }, {
+            val wasRinging = LinkManager.phoneRinging()
+            if (!LinkManager.toggleFindPhone()) host.toast(ctx.getString(R.string.phone_not_connected))
+            else host.toast(ctx.getString(if (wasRinging) R.string.find_stopped else R.string.find_ringing))
         })
         tiles += Tile(R.drawable.ic_photo_camera, R.string.tile_camera_remote, { null }, {
             if (!LinkManager.send("camera.remote")) host.toast(ctx.getString(R.string.phone_not_connected))

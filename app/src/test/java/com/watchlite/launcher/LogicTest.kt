@@ -51,6 +51,14 @@ class LogicTest {
         assertFalse(p.update(10, true, 30, false))
     }
 
+    @Test fun aodChargingModes() {
+        val p = AodPolicy()
+        assertFalse(p.update(90, true, 30, "never"))   // charging + "off while charging"
+        assertTrue(p.update(90, false, 30, "never"))   // unplugged: normal rules again
+        assertTrue(p.update(10, true, 30, "always"))   // charging ignores the battery limit
+        assertFalse(p.update(10, true, 30, "normal"))  // charging, but below the limit
+    }
+
     @Test fun chimeNextHour() {
         TimeZone.setDefault(TimeZone.getTimeZone("Africa/Cairo"))
         val c = Calendar.getInstance().apply { set(2026, Calendar.NOVEMBER, 13, 14, 59, 30); set(Calendar.MILLISECOND, 0) }

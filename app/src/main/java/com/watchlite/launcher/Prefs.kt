@@ -57,7 +57,11 @@ class Prefs(ctx: Context) {
     var aodOpacity by float("aod_opacity", 0.75f)
     var aodIdleSec by int("aod_idle", -1)               // -1 auto (system timeout - 3 s), 0 = only by Home button
     var aodBatteryMin by int("aod_batt_min", 30)
-    var aodWhileCharging by bool("aod_charging", true)
+    var aodWhileCharging by bool("aod_charging", true)  // legacy, migrated to aodCharging
+    /** While charging: always (ignore battery limit) | normal (battery limit applies) | never (no AOD on the charger). */
+    var aodCharging: String
+        get() = sp.getString("aod_charging_mode", null) ?: if (sp.getBoolean("aod_charging", true)) "always" else "never"
+        set(v) { sp.edit().putString("aod_charging_mode", v).apply() }
     var aodNightOff by bool("aod_night_off", false)
     var aodNightFrom by int("aod_night_from", 0)
     var aodNightTo by int("aod_night_to", 6)

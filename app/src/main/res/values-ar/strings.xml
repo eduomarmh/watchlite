@@ -12,7 +12,7 @@
     <string name="pm">م</string>
     <string name="aod_battery_min">يتوقف تحت نسبة شحن</string>
     <string name="aod_brightness">إضاءة الشاشة الدائمة</string>
-    <string name="aod_charging">يشتغل دايمًا وقت الشحن</string>
+    <string name="aod_charging">وقت الشحن</string>
     <string name="aod_idle">يبدأ بعد عدم الاستخدام</string>
     <string name="aod_idle_auto">تلقائي (قبل ما الشاشة تقفل بثواني)</string>
     <string name="aod_idle_home">بزرار الهوم بس</string>
@@ -438,6 +438,11 @@
     <string name="attempt_n">طريقة %1$d من %2$d</string>
     <string name="aod_everywhere">جوه التطبيقات التانية كمان</string>
     <string name="aod_everywhere_sum">لما الشاشة تقفل في أي تطبيق، الساعة الدائمة تظهر، ولمستين يرجّعوك للتطبيق. دوس باور وإنت فيها عشان تقفل خالص.</string>
+    <string name="aodc_always">شغالة دايمًا (تجاهل حد البطارية)</string>
+    <string name="aodc_normal">حسب حد البطارية</string>
+    <string name="aodc_never">مقفولة وقت الشحن</string>
+    <string name="find_ringing">الموبايل بيرن. اضغط تاني للإيقاف</string>
+    <string name="find_stopped">اتوقف</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>
