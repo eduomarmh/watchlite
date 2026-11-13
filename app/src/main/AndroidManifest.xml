@@ -97,6 +97,7 @@
         </service>
 
         <service android:name=".link.LinkService" android:exported="false" />
+        <service android:name=".steps.StepService" android:exported="false" />
 
         <receiver
             android:name=".system.AdminReceiver"

@@ -424,7 +424,7 @@ class SettingsActivity : Activity() {
     }
 
     private fun drawerScreen() {
-        choice(s(R.string.drawer_layout), listOf("honeycomb" to s(R.string.drawer_honeycomb), "grid" to s(R.string.drawer_grid), "list" to s(R.string.drawer_list)),
+        choice(s(R.string.drawer_layout), listOf("bubbles" to s(R.string.drawer_bubbles), "honeycomb" to s(R.string.drawer_honeycomb), "grid" to s(R.string.drawer_grid), "list" to s(R.string.drawer_list)),
             { p.drawerMode }) { p.drawerMode = it }
         slider(s(R.string.icon_size), 0, 4, { 4 - p.drawerZoom }, { p.drawerZoom = 4 - it }) { Digits.fmt(it + 1) }
         choice(s(R.string.icon_style), listOf("wl_gradient" to s(R.string.is_wl_gradient), "wl_line" to s(R.string.is_wl_line),
@@ -447,7 +447,28 @@ class SettingsActivity : Activity() {
     }
 
     private fun stepsScreen() {
-        row(s(R.string.steps_today), Digits.fmt(App.I.steps.today) + " / " + Digits.fmt(p.stepsGoal))
+        val st = App.I.steps
+        row(s(R.string.steps_today), Digits.fmt(st.today) + " / " + Digits.fmt(p.stepsGoal))
+        header(s(R.string.steps_source))
+        choice(s(R.string.steps_source), listOf("auto" to s(R.string.src_auto), "sensor" to s(R.string.src_sensor),
+            "motion" to s(R.string.src_motion), "gps" to s(R.string.src_gps)), { p.stepsSource }) {
+            p.stepsSource = it; p.stepsSensorDead = false
+            if (it == "gps" && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+            st.restart(); refresh()
+        }
+        val now = System.currentTimeMillis()
+        val last = if (st.lastEvent == 0L) s(R.string.never) else Digits.fmt(((now - st.lastEvent) / 1000).toInt()) + " " + s(R.string.sec_ago)
+        row(s(R.string.steps_diag), s(R.string.steps_using) + ": " + srcName(st.source()) + "\n" +
+            s(R.string.step_counter_hw) + ": " + s(if (st.counter != null) R.string.found else R.string.not_found) + " · " +
+            s(R.string.accel_hw) + ": " + s(if (st.accel != null) R.string.found else R.string.not_found) + "\n" +
+            s(R.string.last_reading) + ": " + last)
+        if (st.source() == "sensor") action(s(R.string.steps_not_counting), s(R.string.steps_not_counting_sum)) { st.markSensorDead(); refresh() }
+        if (st.source() == "motion") slider(s(R.string.steps_sensitivity), 8, 30, { 38 - p.stepsSensitivity }, { p.stepsSensitivity = 38 - it }) { Digits.fmt(it - 7) }
+        if (st.source() == "gps") slider(s(R.string.stride), 40, 110, { p.stepsStrideCm }, { p.stepsStrideCm = it }) { Digits.fmt(it) + " cm" }
+        action(s(R.string.refresh)) { refresh() }
+        action(s(R.string.reset_today)) { st.resetToday(); refresh() }
+        header(s(R.string.steps_goal))
         slider(s(R.string.steps_goal), 10, 300, { p.stepsGoal / 100 }, { p.stepsGoal = it * 100 }) { Digits.fmt(it * 100) }
         header(s(R.string.quick_goals))
         val row = ui.hbox().apply { gravity = Gravity.CENTER }
@@ -460,11 +481,16 @@ class SettingsActivity : Activity() {
         if (!App.I.steps.available) list.addView(ui.text(s(R.string.no_step_sensor), 4.4f, Ui.TEXT2, 1, 0), ui.lp(start = 2f))
     }
 
+    private fun srcName(k: String) = s(when (k) { "motion" -> R.string.src_motion; "gps" -> R.string.src_gps; else -> R.string.src_sensor })
+
     private fun notifScreen() {
         val access = NotifListener.hasAccess(this)
         action(s(R.string.notif_access), if (access) s(R.string.granted) else s(R.string.not_granted)) {
             com.watchlite.launcher.system.Permissions.help(this, com.watchlite.launcher.system.Permissions.Kind.NOTIFICATIONS) { refresh() }
         }
+        switch(s(R.string.notif_banner), s(R.string.notif_banner_sum), { p.notifBanner }) { p.notifBanner = it }
+        switch(s(R.string.notif_vibrate), null, { p.notifVibrate }) { p.notifVibrate = it }
+        switch(s(R.string.notif_wake), s(R.string.notif_wake_sum), { p.notifWake }) { p.notifWake = it }
         choice(s(R.string.swipe_down), listOf("auto" to s(R.string.swipe_down_auto), "launcher" to s(R.string.swipe_down_launcher), "system" to s(R.string.swipe_down_system)),
             { p.swipeDown }) { p.swipeDown = it }
         action(s(R.string.canned_replies), s(R.string.canned_replies_sum)) {

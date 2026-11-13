@@ -39,7 +39,17 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
 
     private var apps: List<AppEntry> = emptyList()
     private val scroller = OverScroller(ctx)
-    private var scrollPos = 0f
+    private var panY = 0f
+    private var panX = 0f
+    private var minX = 0f; private var maxX = 0f; private var minY = 0f
+    private val bubbles get() = mode == "bubbles"
+    private val scaleDetector = android.view.ScaleGestureDetector(ctx, object : android.view.ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(d: android.view.ScaleGestureDetector): Boolean {
+            if (!bubbles) return false
+            App.prefs.bubbleScale = (App.prefs.bubbleScale * d.scaleFactor).coerceIn(0.6f, 1.9f)
+            relayout(); invalidate(); return true
+        }
+    })
     private var contentHeight = 0f
     private val iconPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Ui.CARD }
@@ -61,13 +71,21 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
     fun setApps(list: List<AppEntry>) { apps = list; relayout(); invalidate() }
 
     fun zoomBy(d: Int): Boolean {
+        if (bubbles) {
+            val old = App.prefs.bubbleScale
+            val nz = (old * Math.pow(1.12, d.toDouble()).toFloat()).coerceIn(0.6f, 1.9f)
+            if (nz == old) return false
+            App.prefs.bubbleScale = nz
+            panX *= nz / old; panY *= nz / old
+            relayout(); Haptics.tick(context); invalidate(); return true
+        }
         val z = (zoom + d).coerceIn(0, 4)
         if (z == zoom) return false
         // keep the item at the center stable
-        val frac = if (contentHeight > 0) (scrollPos + height / 2f) / contentHeight else 0f
+        val frac = if (contentHeight > 0) (panY + height / 2f) / contentHeight else 0f
         App.prefs.drawerZoom = z
         relayout()
-        scrollPos = (frac * contentHeight - height / 2f).coerceIn(0f, maxScroll())
+        panY = (frac * contentHeight - height / 2f).coerceIn(0f, maxScroll())
         Haptics.tick(context)
         invalidate()
         return true
@@ -75,16 +93,20 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
 
     fun scrollByDetents(d: Int) {
         scroller.forceFinished(true)
-        scrollPos = (scrollPos + d * rowH * 0.6f).coerceIn(0f, maxScroll())
+        panY = (panY + d * rowH * 0.6f).coerceIn(0f, maxScroll())
         invalidate()
     }
 
-    fun resetScroll() { scrollPos = 0f; scroller.forceFinished(true) }
+    fun resetScroll() { panY = 0f; panX = 0f; scroller.forceFinished(true) }
+
+    override fun canScrollHorizontally(direction: Int): Boolean =
+        bubbles && (if (direction < 0) panX > minX + 0.5f else panX < maxX - 0.5f)
 
     override fun canScrollVertically(direction: Int): Boolean =
-        if (direction < 0) scrollPos > 0.5f else scrollPos < maxScroll() - 0.5f
+        if (direction < 0) panY > minY + 0.5f else panY < maxScroll() - 0.5f
 
-    private fun maxScroll() = max(0f, contentHeight - height)
+    private var bubbleMaxY = 0f
+    private fun maxScroll() = if (bubbles) bubbleMaxY else max(0f, contentHeight - height)
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) { relayout() }
 
@@ -94,7 +116,29 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
         val n = apps.size
         cx = FloatArray(n); cy = FloatArray(n)
         val pad = sp.safe.toFloat()
+        minX = 0f; maxX = 0f; minY = 0f
         when (mode) {
+            "bubbles" -> {
+                // Apple-Watch style: rings of icons around the centre, pannable in every direction
+                val spacing = sp.shortSide * 0.30f * App.prefs.bubbleScale
+                cellR = spacing * 0.45f; rowH = spacing
+                val dirs = arrayOf(intArrayOf(1, 0), intArrayOf(1, -1), intArrayOf(0, -1), intArrayOf(-1, 0), intArrayOf(-1, 1), intArrayOf(0, 1))
+                var i = 0; var k = 0
+                fun put(q: Int, r: Int) {
+                    if (i >= n) return
+                    cx[i] = w / 2f + spacing * (q + r / 2f); cy[i] = h / 2f + spacing * 0.866f * r; i++
+                }
+                put(0, 0)
+                while (i < n) {
+                    k++
+                    var q = -k; var r = k        // start corner of ring k
+                    for (d in 0 until 6) for (step in 0 until k) { put(q, r); q += dirs[d][0]; r += dirs[d][1] }
+                }
+                var x0 = 0f; var x1 = 0f; var y0 = 0f; var y1 = 0f
+                for (j in 0 until n) { x0 = minOf(x0, cx[j] - w / 2f); x1 = maxOf(x1, cx[j] - w / 2f); y0 = minOf(y0, cy[j] - h / 2f); y1 = maxOf(y1, cy[j] - h / 2f) }
+                minX = x0; maxX = x1; minY = y0; bubbleMaxY = y1
+                contentHeight = h.toFloat()
+            }
             "list" -> {
                 rowH = sp.shortSide * floatArrayOf(0.16f, 0.19f, 0.22f, 0.26f, 0.3f)[zoom]
                 cellR = rowH * 0.36f
@@ -135,11 +179,11 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
             }
         }
         App.I.apps.requestIconSize((cellR * 2).toInt())
-        scrollPos = scrollPos.coerceIn(0f, maxScroll())
+        panY = panY.coerceIn(minY, maxScroll()); panX = panX.coerceIn(minX, maxX)
     }
 
     override fun computeScroll() {
-        if (scroller.computeScrollOffset()) { scrollPos = scroller.currY.toFloat(); postInvalidateOnAnimation() }
+        if (scroller.computeScrollOffset()) { panY = scroller.currY.toFloat(); if (bubbles) panX = scroller.currX.toFloat(); postInvalidateOnAnimation() }
     }
 
     override fun onDraw(c: Canvas) {
@@ -152,10 +196,15 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
         labelPaint.color = Ui.TEXT
         bgPaint.color = Ui.CARD
         for (i in apps.indices) {
-            val x = cx[i]; val y = cy[i] - scrollPos
+            val x = cx[i] - panX; val y = cy[i] - panY
             if (y < -cellR * 2 - rowH || y > h + cellR * 2 + rowH) continue
             var scale = 1f
-            if (honey) {
+            if (bubbles) {
+                // fisheye: full size near the centre, shrinking smoothly toward the edges
+                val d = hypot(x - w / 2, y - h / 2) / (minOf(w, h) / 2)
+                scale = (1.12f - max(0f, d - 0.3f) * 1.05f).coerceIn(0.12f, 1f)
+                if (d > 1.45f) continue
+            } else if (honey) {
                 // fisheye: shrink toward the edges (and the screen corners on round watches)
                 val dx = (x - w / 2) / (w / 2); val dy = (y - h / 2) / (h / 2)
                 val d = if (sp.isRound) hypot(dx, dy) else max(abs(dx) * 0.9f, abs(dy))
@@ -194,28 +243,30 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
     private fun hit(x: Float, y: Float): Int {
         var best = -1; var bestD = Float.MAX_VALUE
         for (i in apps.indices) {
-            val d = hypot(cx[i] - x, cy[i] - scrollPos - y)
+            val d = hypot(cx[i] - panX - x, cy[i] - panY - y)
             if (d < bestD) { bestD = d; best = i }
         }
         val limit = if (mode == "list") rowH else cellR * 1.15f
-        if (mode == "list" && best >= 0) return if (abs(cy[best] - scrollPos - y) < rowH / 2) best else -1
+        if (mode == "list" && best >= 0) return if (abs(cy[best] - panY - y) < rowH / 2) best else -1
         return if (bestD <= limit) best else -1
     }
 
     private val gd = GestureDetector(ctx, object : GestureDetector.SimpleOnGestureListener() {
         override fun onDown(e: MotionEvent): Boolean { scroller.forceFinished(true); return true }
         override fun onScroll(e1: MotionEvent?, e2: MotionEvent, dx: Float, dy: Float): Boolean {
-            scrollPos = (scrollPos + dy).coerceIn(0f, maxScroll()); invalidate(); return true
+            if (bubbles) panX = (panX + dx).coerceIn(minX, maxX)
+            panY = (panY + dy).coerceIn(minY, maxScroll()); invalidate(); return true
         }
         override fun onFling(e1: MotionEvent?, e2: MotionEvent, vx: Float, vy: Float): Boolean {
-            scroller.fling(0, scrollPos.toInt(), 0, -vy.toInt(), 0, 0, 0, maxScroll().toInt(), 0, (height * 0.08f).toInt())
+            if (bubbles) scroller.fling(panX.toInt(), panY.toInt(), -vx.toInt(), -vy.toInt(), minX.toInt(), maxX.toInt(), minY.toInt(), maxScroll().toInt())
+            else scroller.fling(0, panY.toInt(), 0, -vy.toInt(), 0, 0, 0, maxScroll().toInt(), 0, (height * 0.08f).toInt())
             postInvalidateOnAnimation(); return true
         }
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             val i = hit(e.x, e.y); if (i < 0) return false
             val r = cellR
             val loc = IntArray(2); getLocationOnScreen(loc)
-            val rr = RectF(cx[i] - r + loc[0], cy[i] - scrollPos - r + loc[1], cx[i] + r + loc[0], cy[i] - scrollPos + r + loc[1])
+            val rr = RectF(cx[i] - panX - r + loc[0], cy[i] - panY - r + loc[1], cx[i] - panX + r + loc[0], cy[i] - panY + r + loc[1])
             Haptics.tick(context)
             onLaunch?.invoke(apps[i], this@AppDrawerView, rr)
             return true
@@ -225,6 +276,10 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
         }
     })
 
-    override fun onTouchEvent(ev: MotionEvent): Boolean = gd.onTouchEvent(ev) || super.onTouchEvent(ev)
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        scaleDetector.onTouchEvent(ev)
+        if (scaleDetector.isInProgress) return true
+        return gd.onTouchEvent(ev) || super.onTouchEvent(ev)
+    }
 
 }

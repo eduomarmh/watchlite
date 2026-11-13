@@ -403,6 +403,33 @@
     <string name="flash_auto">لمبة الفلاش لو موجودة، وإلا الشاشة</string>
     <string name="flash_screen">الشاشة دايمًا (أبيض بأعلى إضاءة)</string>
     <string name="tap_to_turn_off">المس للإطفاء</string>
+    <string name="steps_counting">بيعد الخطوات</string>
+    <string name="steps_source">طريقة العد</string>
+    <string name="src_auto">تلقائي</string>
+    <string name="src_sensor">حساس الخطوات (أقل استهلاك)</string>
+    <string name="src_motion">حساس الحركة (شغال جوه البيت)</string>
+    <string name="src_gps">GPS (المشي برّه)</string>
+    <string name="steps_diag">التشخيص</string>
+    <string name="steps_using">المستخدم</string>
+    <string name="step_counter_hw">حساس الخطوات</string>
+    <string name="accel_hw">حساس الحركة</string>
+    <string name="found">موجود</string>
+    <string name="not_found">مش موجود</string>
+    <string name="last_reading">آخر قراءة</string>
+    <string name="never">لسه مفيش، امشي شوية</string>
+    <string name="sec_ago">ث فاتت</string>
+    <string name="steps_not_counting">مش بيعد؟ استخدم حساس الحركة</string>
+    <string name="steps_not_counting_sum">بعض الساعات فيها حساس خطوات مش بيعد فعليًا</string>
+    <string name="steps_sensitivity">الحساسية</string>
+    <string name="stride">طول الخطوة</string>
+    <string name="refresh">تحديث</string>
+    <string name="reset_today">تصفير خطوات النهارده</string>
+    <string name="notif_banner">بانر منبثق</string>
+    <string name="notif_banner_sum">يظهر الإشعارات الجديدة فوق الساعة</string>
+    <string name="notif_vibrate">اهتزاز مع الإشعار</string>
+    <string name="notif_wake">تشغيل الشاشة</string>
+    <string name="notif_wake_sum">تنوّر الشاشة لما ييجي إشعار جديد</string>
+    <string name="drawer_bubbles">فقاعات (زي ساعة أبل)</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

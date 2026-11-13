@@ -41,17 +41,19 @@ class DrawerPage(host: HomeActivity) : Page(host, FROM_RIGHT) {
     override fun onOpening() { grid.setApps(App.I.apps.visible()) }
     override fun onClosed() { grid.resetScroll() }
 
+    override fun contentCanScrollH(direction: Int) = grid.canScrollHorizontally(direction)
+
     override fun onWheel(detents: Int): Boolean {
         if (App.prefs.wheelInDrawer == "zoom") grid.zoomBy(-detents) else grid.scrollByDetents(detents)
         return true
     }
 
     private fun cycleMode() {
-        val modes = listOf("honeycomb", "grid", "list")
+        val modes = listOf("bubbles", "honeycomb", "grid", "list")
         App.prefs.drawerMode = modes[(modes.indexOf(App.prefs.drawerMode) + 1) % modes.size]
         grid.setApps(App.I.apps.visible())
         val label = when (App.prefs.drawerMode) {
-            "grid" -> R.string.drawer_grid; "list" -> R.string.drawer_list; else -> R.string.drawer_honeycomb
+            "grid" -> R.string.drawer_grid; "list" -> R.string.drawer_list; "bubbles" -> R.string.drawer_bubbles; else -> R.string.drawer_honeycomb
         }
         host.toast(context.getString(label))
     }

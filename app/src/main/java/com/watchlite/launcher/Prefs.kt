@@ -32,7 +32,8 @@ class Prefs(ctx: Context) {
     var chargingTheme by str("charging_theme", "")
 
     // ---- Drawer
-    var drawerMode by str("drawer_mode", "honeycomb") // honeycomb | grid | list
+    var drawerMode by str("drawer_mode", "bubbles")   // bubbles | honeycomb | grid | list
+    var bubbleScale by float("bubble_scale", 1.0f)
     var drawerZoom by int("drawer_zoom", 2)            // 0..4
     var wheelInDrawer by str("wheel_drawer", "zoom")   // zoom | scroll
     var hiddenApps by set("hidden_apps")
@@ -82,6 +83,8 @@ class Prefs(ctx: Context) {
     // ---- Notifications
     var cannedReplies by str("canned_replies", "")
     var notifWake by bool("notif_wake", false)
+    var notifBanner by bool("notif_banner", true)
+    var notifVibrate by bool("notif_vibrate", true)
     var swipeDown by str("swipe_down", "auto")          // auto | launcher | system  (auto = system shade if no notification access)
     var blockedNotifApps by set("blocked_notif_apps")
 
@@ -112,6 +115,10 @@ class Prefs(ctx: Context) {
     var stepsBase by int("steps_base", -1)
     var stepsLastRaw by int("steps_last_raw", 0)
     var stepsCarry by int("steps_carry", 0)
+    var stepsSource by str("steps_source", "auto")     // auto | sensor | motion | gps
+    var stepsSensorDead by bool("steps_sensor_dead", false)
+    var stepsSensitivity by int("steps_sens", 16)       // motion threshold ×0.1 m/s²
+    var stepsStrideCm by int("steps_stride", 72)
 
     // ---- Stopwatch / timer
     var swStart by long("sw_start", 0L)

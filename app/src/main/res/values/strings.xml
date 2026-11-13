@@ -404,6 +404,33 @@
     <string name="flash_auto">LED if available, else screen</string>
     <string name="flash_screen">Always the screen (white, max brightness)</string>
     <string name="tap_to_turn_off">Tap to turn off</string>
+    <string name="steps_counting">Counting steps</string>
+    <string name="steps_source">Counting method</string>
+    <string name="src_auto">Automatic</string>
+    <string name="src_sensor">Step sensor (lowest battery)</string>
+    <string name="src_motion">Motion sensor (works indoors)</string>
+    <string name="src_gps">GPS (outdoor walks)</string>
+    <string name="steps_diag">Diagnostics</string>
+    <string name="steps_using">Using</string>
+    <string name="step_counter_hw">Step sensor</string>
+    <string name="accel_hw">Motion sensor</string>
+    <string name="found">found</string>
+    <string name="not_found">not found</string>
+    <string name="last_reading">Last reading</string>
+    <string name="never">none yet, walk a little</string>
+    <string name="sec_ago">s ago</string>
+    <string name="steps_not_counting">Not counting? Switch to motion sensor</string>
+    <string name="steps_not_counting_sum">Some watches report a step sensor that never counts</string>
+    <string name="steps_sensitivity">Sensitivity</string>
+    <string name="stride">Step length</string>
+    <string name="refresh">Refresh</string>
+    <string name="reset_today">Reset today's steps</string>
+    <string name="notif_banner">Pop-up banner</string>
+    <string name="notif_banner_sum">Shows new notifications at the top of the watch face</string>
+    <string name="notif_vibrate">Vibrate on notification</string>
+    <string name="notif_wake">Wake screen</string>
+    <string name="notif_wake_sum">Turn the screen on for new notifications</string>
+    <string name="drawer_bubbles">Bubbles (Apple Watch style)</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

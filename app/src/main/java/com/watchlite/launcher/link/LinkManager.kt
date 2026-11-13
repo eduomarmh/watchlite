@@ -67,6 +67,11 @@ object LinkManager {
             "hello", "capabilities" -> send("capabilities", JSONObject().put("modules", org.json.JSONArray(App.prefs.linkModules.toList()))
                 .put("app", "watchlite").put("version", 1))
             "ping" -> send("pong")
+            "stats.request" -> sendStats()
+            "watch.locate" -> locate()
+            "find.watch" -> findWatch(true)
+            "find.watch.stop" -> findWatch(false)
+            "time.sync" -> Unit
             "notif.post", "notif.update" -> if (enabled("notif")) postPhoneNotification(p)
             "notif.remove" -> App.I.notifications.remove("phone:" + p.optString("key"))
             "battery.phone" -> if (enabled("battery")) { st.phoneBattery = p.optInt("level", -1); st.phoneCharging = p.optBoolean("charging") }
@@ -86,6 +91,67 @@ object LinkManager {
         }
         st.changed()
     }
+
+    /** Watch status for the phone app's dashboard. */
+    fun sendStats() {
+        val st = App.I.state
+        val p = App.prefs
+        send("watch.stats", JSONObject()
+            .put("battery", st.battery).put("charging", st.charging)
+            .put("steps", App.I.steps.today).put("goal", p.stepsGoal).put("stepsSource", App.I.steps.source())
+            .put("theme", App.I.themes.get(p.themeId)?.name() ?: p.themeId)
+            .put("aod", p.aodEnabled).put("chime", p.chimeEnabled)
+            .put("version", com.watchlite.launcher.BuildConfig.VERSION_NAME)
+            .put("model", android.os.Build.MODEL).put("android", android.os.Build.VERSION.RELEASE)
+            .put("uptimeMin", android.os.SystemClock.elapsedRealtime() / 60000))
+    }
+
+    /** Sends the watch position: last known fix right away, then a fresh GPS fix when it arrives. */
+    @android.annotation.SuppressLint("MissingPermission")
+    private fun locate() {
+        val lm = app.getSystemService(Context.LOCATION_SERVICE) as android.location.LocationManager
+        if (app.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            send("watch.location", JSONObject().put("error", "permission")); return
+        }
+        fun sendLoc(l: android.location.Location, fresh: Boolean) = send("watch.location", JSONObject()
+            .put("lat", l.latitude).put("lng", l.longitude).put("acc", l.accuracy.toDouble())
+            .put("time", l.time).put("fresh", fresh).put("provider", l.provider))
+        listOf(android.location.LocationManager.GPS_PROVIDER, android.location.LocationManager.NETWORK_PROVIDER)
+            .mapNotNull { try { lm.getLastKnownLocation(it) } catch (_: Throwable) { null } }
+            .maxByOrNull { it.time }?.let { sendLoc(it, false) }
+        com.watchlite.launcher.util.Bg.ui {
+            try {
+                @Suppress("DEPRECATION")
+                lm.requestSingleUpdate(android.location.LocationManager.GPS_PROVIDER, object : android.location.LocationListener {
+                    override fun onLocationChanged(l: android.location.Location) { com.watchlite.launcher.util.Bg.run { sendLoc(l, true) } }
+                    @Deprecated("old") override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {}
+                    override fun onProviderEnabled(provider: String) {}
+                    override fun onProviderDisabled(provider: String) { send("watch.location", JSONObject().put("error", "gps_off")) }
+                }, android.os.Looper.getMainLooper())
+            } catch (t: Throwable) { Log.w("Link", "locate", t) }
+        }
+    }
+
+    @Volatile private var finding = false
+
+    /** "Find my watch": rings and vibrates for up to 30 s (or until stopped). */
+    fun findWatch(on: Boolean) {
+        finding = on
+        if (!on) return
+        val h = android.os.Handler(android.os.Looper.getMainLooper())
+        val end = System.currentTimeMillis() + 30_000
+        val r = object : Runnable {
+            override fun run() {
+                if (!finding || System.currentTimeMillis() > end) { finding = false; return }
+                com.watchlite.launcher.chime.ChimeSounds.play(app, "res:chime_digital", 1f)
+                com.watchlite.launcher.util.Haptics.pattern(app, longArrayOf(0, 300, 150, 300))
+                h.postDelayed(this, 1500)
+            }
+        }
+        h.post(r)
+    }
+
+    fun isFinding() = finding
 
     private fun postPhoneNotification(p: JSONObject) {
         val icon = p.optString("icon").takeIf { it.isNotEmpty() }?.let {

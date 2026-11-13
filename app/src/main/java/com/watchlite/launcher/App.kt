@@ -45,6 +45,7 @@ class App : Application() {
         themes = ThemeRepository(this)
         apps = AppRepository(this)
         steps = StepTracker(this)
+        if (steps.source() != "sensor") steps.start()
         LinkManager.init(this)
         ChimeScheduler.schedule(this)
         com.watchlite.launcher.system.Permissions.autoEnable(this)

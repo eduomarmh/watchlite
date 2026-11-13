@@ -56,7 +56,14 @@ class NotificationStore {
     @Synchronized fun list(): List<NotificationItem> = items.values.sortedByDescending { it.time }
     @Synchronized fun count() = items.size
 
-    fun put(item: NotificationItem) { synchronized(this) { items[item.key] = item }; changed() }
+    /** Called (on the UI thread) for every newly posted notification: used for the on-face banner. */
+    var onNew: ((NotificationItem) -> Unit)? = null
+
+    fun put(item: NotificationItem) {
+        val isNew = synchronized(this) { val n = !items.containsKey(item.key); items[item.key] = item; n }
+        changed()
+        if (isNew) onNew?.let { cb -> Bg.ui { cb(item) } }
+    }
     fun remove(key: String) { synchronized(this) { items.remove(key) }; changed() }
     fun replaceLocal(list: List<NotificationItem>) {
         synchronized(this) {

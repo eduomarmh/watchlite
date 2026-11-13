@@ -92,6 +92,7 @@ class HomeActivity : Activity() {
         face.setOnTouchListener { _, ev -> faceTouch(ev) }
 
         App.I.apps.iconSize = (ui.sp.shortSide * 0.24f).toInt()
+        App.I.notifications.onNew = { showBanner(it) }
         App.I.themes.listen(themeListener)
         App.I.state.listen(stateListener)
         registerReceiver(batteryReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
@@ -190,8 +191,65 @@ class HomeActivity : Activity() {
             applyPowerState()
             if (changedCharging) applyTheme()
             if (!aod.policy.allowed && aod.active) { aod.exit(true); screenOff(force = true) }
+            val now = System.currentTimeMillis()
+            if (st.linkConnected && now - lastStatsSent > 120_000) { lastStatsSent = now; Bg.run { com.watchlite.launcher.link.LinkManager.sendStats() } }
             st.changed()
         }
+    }
+
+    private var lastStatsSent = 0L
+
+    // ------------------------------------------------------------------ notification banner
+    private var banner: View? = null
+    private val hideBanner = Runnable { dismissBanner() }
+
+    /** Heads-up card sliding from the top for new notifications (phone or watch). */
+    private fun showBanner(n: com.watchlite.launcher.notifications.NotificationItem) {
+        val p = App.prefs
+        if (p.theater || SystemActions.dndOn(this)) return
+        if (p.notifVibrate) Haptics.pattern(this, longArrayOf(0, 70, 80, 70))
+        if (p.notifWake) wakeScreen()
+        if (!p.notifBanner || !resumed || pages.any { it.isOpen && it.side == Page.FROM_TOP }) return
+        if (aod.active) aod.exit()
+        dismissBanner(immediate = true)
+        val c = ui.card()
+        c.background = ui.ripple(ui.rounded(Ui.CARD, 6f * ui.u))
+        val head = ui.hbox()
+        head.addView(android.widget.ImageView(this).apply {
+            if (n.icon != null) setImageBitmap(n.icon) else setImageResource(R.drawable.ic_notifications)
+        }, android.widget.LinearLayout.LayoutParams(ui.px(6f), ui.px(6f)))
+        head.addView(ui.text(n.appLabel + if (n.source == com.watchlite.launcher.notifications.NotificationItem.PHONE) "  ·  " + getString(R.string.phone) else "",
+            4.4f, Ui.TEXT2), ui.lp(0, start = 2f, weight = 1f))
+        c.addView(head)
+        if (n.title.isNotEmpty()) c.addView(ui.text(n.title, 5.6f, Ui.TEXT, 2, 1), ui.lp(top = 1f))
+        if (n.text.isNotEmpty()) c.addView(ui.text(n.text, 5f, Ui.BODY, 1, 2), ui.lp(top = 0.5f))
+        c.setOnClickListener { dismissBanner(true); openPage(Page.FROM_TOP) }
+        val lp = ui.frameLp(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.TOP).apply {
+            leftMargin = ui.sp.safe / 2 + ui.px(2f); rightMargin = leftMargin; topMargin = ui.px(if (ui.sp.isRound) 8f else 3f)
+        }
+        root.addView(c, lp)
+        banner = c
+        c.translationY = -ui.sp.height * 0.4f
+        c.animate().translationY(0f).setDuration(220).start()
+        root.removeCallbacks(hideBanner); root.postDelayed(hideBanner, 4500)
+    }
+
+    private fun dismissBanner(immediate: Boolean = false) {
+        val b = banner ?: return
+        banner = null
+        root.removeCallbacks(hideBanner)
+        if (immediate) root.removeView(b)
+        else b.animate().translationY(-b.height.toFloat() - ui.px(10f)).setDuration(180).withEndAction { root.removeView(b) }.start()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun wakeScreen() {
+        try {
+            val pm = getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+            if (pm.isInteractive) return
+            pm.newWakeLock(android.os.PowerManager.SCREEN_BRIGHT_WAKE_LOCK or android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP, "watchlite:notif")
+                .acquire(5000)
+        } catch (_: Throwable) { }
     }
 
     private val tickReceiver = object : BroadcastReceiver() {
@@ -347,6 +405,8 @@ class HomeActivity : Activity() {
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (ev.actionMasked == MotionEvent.ACTION_DOWN) resetIdle()
         curtain?.let { if (ev.actionMasked == MotionEvent.ACTION_DOWN) hideCurtain(); return true }
+        if (ev.actionMasked == MotionEvent.ACTION_DOWN && com.watchlite.launcher.link.LinkManager.isFinding())
+            com.watchlite.launcher.link.LinkManager.findWatch(false)
         if (aod.active) return aod.onTouch(ev)
         if (lockOverlay != null) return true
         return super.dispatchTouchEvent(ev)

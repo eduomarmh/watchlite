@@ -82,6 +82,8 @@ abstract class Page(val host: HomeActivity, val side: Int) : FrameLayout(host) {
     open fun onWheel(detents: Int): Boolean = false
     /** Whether the content can still scroll in the closing direction (then we don't intercept). */
     open fun contentCanScroll(direction: Int): Boolean = false
+    /** Horizontal panning content (bubble drawer): closing only once it reached its edge. */
+    open fun contentCanScrollH(direction: Int): Boolean = false
     /** For FROM_TOP pages: closing only starts from the bottom handle area unless content is at its end. */
     open fun closeStartAllowed(ev: MotionEvent): Boolean = true
 
@@ -109,8 +111,8 @@ abstract class Page(val host: HomeActivity, val side: Int) : FrameLayout(host) {
 
     /** Distance moved in the closing direction (positive) if that axis dominates. */
     private fun closingMove(dx: Float, dy: Float): Float = when (side) {
-        FROM_RIGHT -> if (dx > 0 && abs(dx) > abs(dy) * 1.3f) dx else 0f
-        FROM_LEFT -> if (dx < 0 && abs(dx) > abs(dy) * 1.3f) -dx else 0f
+        FROM_RIGHT -> if (dx > 0 && abs(dx) > abs(dy) * 1.3f && !contentCanScrollH(-1)) dx else 0f
+        FROM_LEFT -> if (dx < 0 && abs(dx) > abs(dy) * 1.3f && !contentCanScrollH(1)) -dx else 0f
         FROM_TOP -> if (dy < 0 && abs(dy) > abs(dx) * 1.3f && !contentCanScroll(1)) -dy else 0f
         else -> if (dy > 0 && abs(dy) > abs(dx) * 1.3f && !contentCanScroll(-1)) dy else 0f
     }
