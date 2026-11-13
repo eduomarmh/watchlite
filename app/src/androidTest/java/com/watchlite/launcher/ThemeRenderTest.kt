@@ -22,6 +22,24 @@ class ThemeRenderTest {
         App.prefs.sp.edit().putBoolean("onboarded", true).putString("theme_id", "flow").commit()
     }
 
+    @Test fun renderIconThemes() {
+        val ctx = InstrumentationRegistry.getInstrumentation().targetContext
+        val out = File(ctx.getExternalFilesDir(null), "shots").apply { mkdirs() }
+        val cats = com.watchlite.launcher.drawer.IconTheme.CATS.keys.toList() + listOf("", "")
+        val fallback = ctx.packageManager.getApplicationIcon("com.android.settings")
+        val size = 96; val gap = 12; val cols = 8
+        for (style in com.watchlite.launcher.drawer.IconTheme.STYLES) {
+            val rows = (cats.size + cols - 1) / cols
+            val sheet = Bitmap.createBitmap(cols * (size + gap) + gap, rows * (size + gap) + gap, Bitmap.Config.ARGB_8888)
+            val c = Canvas(sheet); c.drawColor(0xFF000000.toInt())
+            cats.forEachIndexed { i, cat ->
+                val b = com.watchlite.launcher.drawer.IconTheme.render(ctx, style, "x.unknown", fallback, size, 0xFFFF9F0A.toInt(), cat.ifEmpty { null })
+                c.drawBitmap(b, (gap + (i % cols) * (size + gap)).toFloat(), (gap + (i / cols) * (size + gap)).toFloat(), null)
+            }
+            File(out, "icons_$style.png").outputStream().use { sheet.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        }
+    }
+
     @Test fun renderAllThemes() {
         val ctx = InstrumentationRegistry.getInstrumentation().targetContext
         val out = File(ctx.getExternalFilesDir(null), "shots").apply { deleteRecursively(); mkdirs() }

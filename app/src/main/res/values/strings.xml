@@ -354,6 +354,9 @@
     <string name="gs_segments">Segments</string>
     <string name="gs_bar">Bar</string>
     <string name="gs_pill">Capsule</string>
+    <string name="is_wl_gradient">WatchLite Gradient</string>
+    <string name="is_wl_line">WatchLite Line</string>
+    <string name="is_wl_neon">WatchLite Neon</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

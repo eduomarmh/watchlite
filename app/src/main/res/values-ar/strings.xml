@@ -353,6 +353,9 @@
     <string name="gs_segments">نقاط</string>
     <string name="gs_bar">شريط</string>
     <string name="gs_pill">كبسولة</string>
+    <string name="is_wl_gradient">WatchLite تدرج</string>
+    <string name="is_wl_line">WatchLite خطوط</string>
+    <string name="is_wl_neon">WatchLite نيون</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

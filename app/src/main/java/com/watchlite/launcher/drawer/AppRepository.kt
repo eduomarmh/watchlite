@@ -84,12 +84,14 @@ class AppRepository(private val ctx: Context) {
                 if (packPkg != (pack?.pkg ?: "")) pack = if (packPkg.isEmpty()) null else IconPack(ctx, packPkg).takeIf { it.load() }
                 val style = App.prefs.iconStyle
                 val accent = App.prefs.accent
+                if (style in IconTheme.STYLES) IconTheme.detect(ctx)
                 for (e in list) {
                     if (e.icon != null) continue
                     try {
                         val packIcon = pack?.drawableFor(e.component)
                         val d = packIcon ?: la.resolveActivity(Intent(Intent.ACTION_MAIN).setComponent(e.component), e.user)?.getBadgedIcon(0) ?: continue
-                        e.icon = IconStyler.render(d, iconSize, style, accent, packIcon != null)
+                        e.icon = if (style in IconTheme.STYLES && packIcon == null) IconTheme.render(ctx, style, e.pkg, d, iconSize, accent)
+                            else IconStyler.render(d, iconSize, style, accent, packIcon != null)
                     } catch (t: Throwable) { Log.w("Apps", "icon ${e.key}", t) }
                 }
                 changed()

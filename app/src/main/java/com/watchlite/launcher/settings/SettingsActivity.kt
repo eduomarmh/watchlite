@@ -382,7 +382,8 @@ class SettingsActivity : Activity() {
         choice(s(R.string.drawer_layout), listOf("honeycomb" to s(R.string.drawer_honeycomb), "grid" to s(R.string.drawer_grid), "list" to s(R.string.drawer_list)),
             { p.drawerMode }) { p.drawerMode = it }
         slider(s(R.string.icon_size), 0, 4, { 4 - p.drawerZoom }, { p.drawerZoom = 4 - it }) { Digits.fmt(it + 1) }
-        choice(s(R.string.icon_style), listOf("circle" to s(R.string.is_circle), "squircle" to s(R.string.is_squircle),
+        choice(s(R.string.icon_style), listOf("wl_gradient" to s(R.string.is_wl_gradient), "wl_line" to s(R.string.is_wl_line),
+            "wl_neon" to s(R.string.is_wl_neon), "circle" to s(R.string.is_circle), "squircle" to s(R.string.is_squircle),
             "original" to s(R.string.is_original), "mono" to s(R.string.is_mono), "glass" to s(R.string.is_glass), "outline" to s(R.string.is_outline)),
             { p.iconStyle }) { p.iconStyle = it; App.I.apps.restyle() }
         val packs = com.watchlite.launcher.drawer.IconPack.installed(this)
