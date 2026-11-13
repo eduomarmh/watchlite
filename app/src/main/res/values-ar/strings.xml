@@ -399,6 +399,10 @@
     <string name="swipe_down_auto">تلقائي (إشعارات النظام لو الصلاحية مش متاحة)</string>
     <string name="swipe_down_launcher">إشعارات WatchLite</string>
     <string name="swipe_down_system">ستارة إشعارات النظام</string>
+    <string name="flash_mode">الكشاف</string>
+    <string name="flash_auto">لمبة الفلاش لو موجودة، وإلا الشاشة</string>
+    <string name="flash_screen">الشاشة دايمًا (أبيض بأعلى إضاءة)</string>
+    <string name="tap_to_turn_off">المس للإطفاء</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

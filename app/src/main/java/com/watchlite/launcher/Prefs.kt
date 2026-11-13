@@ -104,6 +104,7 @@ class Prefs(ctx: Context) {
     var saverAuto by bool("saver_auto", true)
     var saverThreshold by int("saver_threshold", 15)
     var theater by bool("theater", false)
+    var flashMode by str("flash_mode", "auto")         // auto (LED if present) | screen
 
     // ---- Steps
     var stepsGoal by int("steps_goal", 6000)

@@ -400,6 +400,10 @@
     <string name="swipe_down_auto">Automatic (system shade if access is unavailable)</string>
     <string name="swipe_down_launcher">WatchLite notifications</string>
     <string name="swipe_down_system">System notification shade</string>
+    <string name="flash_mode">Flashlight</string>
+    <string name="flash_auto">LED if available, else screen</string>
+    <string name="flash_screen">Always the screen (white, max brightness)</string>
+    <string name="tap_to_turn_off">Tap to turn off</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

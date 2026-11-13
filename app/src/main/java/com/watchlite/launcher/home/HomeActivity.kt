@@ -524,6 +524,7 @@ class HomeActivity : Activity() {
 
     fun resetIdle() {
         root.removeCallbacks(idle)
+        if (flash != null) return
         val d = idleDelay()
         if (App.prefs.aodEnabled && d > 0 && resumed && !aod.active && curtain == null) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -540,18 +541,36 @@ class HomeActivity : Activity() {
     }
 
     // ------------------------------------------------------------------ flashlight
+    /**
+     * LED torch when the watch has one; otherwise (or if it fails) the whole screen turns
+     * pure white at maximum brightness and stays on until you tap anywhere.
+     */
     fun toggleFlashlight() {
-        if (flash == null && SystemActions.hasTorch(this)) {
-            SystemActions.setTorch(this, !SystemActions.torchState()); return
-        }
         if (flash != null) {
             root.removeView(flash); flash = null
             val lp = window.attributes; lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE; window.attributes = lp
+            applyAodSetting()
+            if (resumed) face.resume()
             return
         }
-        flash = View(this).apply { setBackgroundColor(0xFFFFFFFF.toInt()); setOnClickListener { toggleFlashlight() } }
-        root.addView(flash, ui.frameLp())
+        if (App.prefs.flashMode != "screen" && (SystemActions.torchState() || SystemActions.hasTorch(this))) {
+            if (SystemActions.setTorch(this, !SystemActions.torchState())) return
+        }
+        goHome(false)
+        val v = FrameLayout(this).apply {
+            setBackgroundColor(0xFFFFFFFF.toInt())
+            isClickable = true
+            setOnClickListener { Haptics.tick(this@HomeActivity); toggleFlashlight() }
+        }
+        v.addView(ui.text(getString(R.string.tap_to_turn_off), 4.2f, 0xFFBDBDBD.toInt()).apply { gravity = Gravity.CENTER },
+            FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM).apply { bottomMargin = ui.px(6f) })
+        flash = v
+        root.addView(v, ui.frameLp())
+        face.pause()
         val lp = window.attributes; lp.screenBrightness = 1f; window.attributes = lp
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        cancelIdle()
+        Haptics.tick(this)
     }
 
     // ------------------------------------------------------------------ touch / water lock

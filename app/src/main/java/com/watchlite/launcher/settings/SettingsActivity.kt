@@ -529,6 +529,7 @@ class SettingsActivity : Activity() {
         switch(s(R.string.saver_auto), null, { p.saverAuto }) { p.saverAuto = it; refresh() }
         if (p.saverAuto) slider(s(R.string.saver_threshold), 5, 50, { p.saverThreshold }, { p.saverThreshold = it }) { Digits.fmt(it) + "%" }
         switch(s(R.string.tile_theater), s(R.string.theater_sum), { p.theater }) { p.theater = it }
+        choice(s(R.string.flash_mode), listOf("auto" to s(R.string.flash_auto), "screen" to s(R.string.flash_screen)), { p.flashMode }) { p.flashMode = it }
         action(s(R.string.lock_screen), if (SystemActions.isAdmin(this)) s(R.string.granted) else s(R.string.enable_admin_sum)) {
             if (!SystemActions.isAdmin(this)) com.watchlite.launcher.system.Permissions.help(this, com.watchlite.launcher.system.Permissions.Kind.ADMIN) { refresh() }
         }
@@ -577,7 +578,7 @@ class SettingsActivity : Activity() {
         row(s(R.string.perm_adb_status), status(P.hasSecure(this)) + " · " + s(R.string.perm_adb_status_sum))
         action(s(R.string.perm_adb), s(R.string.perm_adb_short)) { P.adbDialog(this) }
         header(s(R.string.st_permissions))
-        for (k in P.Kind.values()) action(P.title(this, k), status(P.granted(this, k))) { P.help(this, k) { refresh() } }
+        for (k in com.watchlite.launcher.system.Permissions.Kind.values()) action(P.title(this, k), status(P.granted(this, k))) { P.help(this, k) { refresh() } }
         action(s(R.string.location_perm), status(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
         }
