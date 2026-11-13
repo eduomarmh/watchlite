@@ -164,7 +164,7 @@
     <string name="no_notifications">No notifications</string>
     <string name="none">None</string>
     <string name="notif_access">Notification access</string>
-    <string name="notif_access_needed">Allow notification access to see your notifications here.</string>
+    <string name="notif_access_needed">This watch blocks the notification-access page. Open the system notifications directly, or enable access once from a computer.</string>
     <string name="notifications">Notifications</string>
     <string name="off">Off</string>
     <string name="on">On</string>
@@ -375,6 +375,31 @@
     <string name="accent_on_faces">Use my color on watch faces</string>
     <string name="accent_on_faces_sum">Seconds hand, highlights and complications follow your color</string>
     <string name="pastel">Soft tone</string>
+    <string name="perm_help_body">This watch hides some settings pages. Try opening it here (each press tries another way). If it still opens the wrong page, use the one-time computer setup.</string>
+    <string name="perm_try_open">Open</string>
+    <string name="perm_try_other">Try another way</string>
+    <string name="perm_adb">Computer setup (once)</string>
+    <string name="perm_adb_short">One command file: then the launcher enables everything itself</string>
+    <string name="perm_adb_body">Connect the watch to a computer with USB debugging on, then run these commands once (or run grant-permissions.bat from the project). After that the launcher turns on accessibility and notification access by itself.</string>
+    <string name="perm_no_page">No settings page found. Use the computer setup.</string>
+    <string name="perm_adb_status">Advanced permission</string>
+    <string name="perm_adb_status_sum">given once from a computer</string>
+    <string name="copy">Copy</string>
+    <string name="usage_access">Usage access (recent apps)</string>
+    <string name="close_all">Close all</string>
+    <string name="no_recents">No recent apps yet</string>
+    <string name="power_hint">Tip: hold the Home button for Restart / Power off.</string>
+    <string name="chime_stream">Play on</string>
+    <string name="stream_alarm">Alarm volume (recommended)</string>
+    <string name="stream_media">Media volume</string>
+    <string name="stream_notification">Notification volume</string>
+    <string name="stream_volume">Watch volume for this</string>
+    <string name="stream_volume_low">low, raise it</string>
+    <string name="open_system_notifs">Show system notifications</string>
+    <string name="swipe_down">Swipe down opens</string>
+    <string name="swipe_down_auto">Automatic (system shade if access is unavailable)</string>
+    <string name="swipe_down_launcher">WatchLite notifications</string>
+    <string name="swipe_down_system">System notification shade</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

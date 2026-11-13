@@ -120,6 +120,7 @@ class HomeActivity : Activity() {
         super.onResume()
         resumed = true
         CrashGuard.markHealthy()
+        com.watchlite.launcher.system.Permissions.autoEnable(this)
         refreshUiMode()
         if (!aod.active && !editor.isOpen && pages.none { it.isOpen }) face.resume()
         App.I.steps.start()
@@ -199,6 +200,8 @@ class HomeActivity : Activity() {
             else if (!face.isAnimatingFrames()) face.invalidate()
             if (i.action == Intent.ACTION_TIME_TICK) {
                 refreshUiMode()
+                // backup for firmwares that drop exact alarms
+                if (com.watchlite.launcher.chime.ChimeScheduler.dueNow()) com.watchlite.launcher.chime.ChimeScheduler.ring(this@HomeActivity)
                 val repo = App.I.themes
                 if (face.theme?.id != repo.effectiveId(App.I.state.charging)) applyTheme()
             } else {
@@ -290,6 +293,11 @@ class HomeActivity : Activity() {
                     face.removeCallbacks(longPress)
                     val side = if (abs(dx) > abs(dy)) (if (dx < 0) Page.FROM_RIGHT else Page.FROM_LEFT)
                     else (if (dy > 0) Page.FROM_TOP else Page.FROM_BOTTOM)
+                    if (side == Page.FROM_TOP && useSystemShade()) {
+                        gTracking = false
+                        if (SystemActions.expandSystemNotifications(this)) { Haptics.tick(this); return true }
+                        gTracking = true
+                    }
                     gPage = page(side).also { it.onOpening() }
                 }
                 gPage?.let { p ->
@@ -317,13 +325,20 @@ class HomeActivity : Activity() {
         return true
     }
 
+    /** Swipe down → the system notification shade when the launcher can't read notifications itself. */
+    fun useSystemShade(): Boolean = when (App.prefs.swipeDown) {
+        "system" -> true
+        "launcher" -> false
+        else -> !com.watchlite.launcher.notifications.NotifListener.hasAccess(this) && App.I.notifications.count() == 0
+    }
+
     /** Tapping a complication opens its details. */
     private fun onFaceTap(x: Float, y: Float) {
         val slot = face.renderer.hitTest(x, y) ?: return
         Haptics.tick(this)
         when (slot) {
             "battery" -> openPage(Page.FROM_LEFT)
-            "notif" -> openPage(Page.FROM_TOP)
+            "notif" -> if (useSystemShade() && SystemActions.expandSystemNotifications(this)) Unit else openPage(Page.FROM_TOP)
             else -> openPage(Page.FROM_BOTTOM) // steps, prayer, hijri, weather, phone → widgets
         }
     }
@@ -589,9 +604,19 @@ class HomeActivity : Activity() {
     // ------------------------------------------------------------------ helpers
     fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 
-    fun askAccessibility() {
-        AlertDialog.Builder(this, Ui.DIALOG).setTitle(R.string.a11y_label).setMessage(R.string.a11y_explain)
-            .setPositiveButton(R.string.open_settings) { _, _ -> startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
+    fun askAccessibility() = com.watchlite.launcher.system.Permissions.help(this, com.watchlite.launcher.system.Permissions.Kind.ACCESSIBILITY)
+
+    /** Power options that work without Accessibility. */
+    fun powerSheet() {
+        val items = ArrayList<Pair<String, () -> Unit>>()
+        items += getString(R.string.lock_screen) to { goHome(false); screenOff() }
+        if (App.prefs.rootFeatures) {
+            items += getString(R.string.reboot) to { if (!SystemActions.rootExec("reboot")) toast(getString(R.string.root_failed)) }
+            items += getString(R.string.power_off) to { if (!SystemActions.rootExec("reboot -p")) toast(getString(R.string.root_failed)) }
+        }
+        items += getString(R.string.a11y_label) to { askAccessibility() }
+        AlertDialog.Builder(this, Ui.DIALOG).setTitle(R.string.tile_power).setMessage(R.string.power_hint)
+            .setItems(items.map { it.first }.toTypedArray()) { _, i -> items[i].second() }
             .setNegativeButton(R.string.cancel, null).show()
     }
 

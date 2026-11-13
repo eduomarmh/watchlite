@@ -52,7 +52,10 @@ class NotificationsPage(host: HomeActivity) : Page(host, FROM_TOP) {
         if (!NotifListener.hasAccess(context)) {
             list.addView(ui.card().apply {
                 addView(ui.text(context.getString(R.string.notif_access_needed), 5.2f, Ui.TEXT, 1, 4))
-                addView(ui.pill(context.getString(R.string.grant), host.ui.accent, Ui.BG) { host.startActivity(NotifListener.settingsIntent()) }, ui.lp(top = 3f))
+                addView(ui.pill(context.getString(R.string.open_system_notifs), host.ui.accent, Ui.BG) {
+                    com.watchlite.launcher.system.SystemActions.expandSystemNotifications(context)
+                }, ui.lp(top = 3f))
+                addView(ui.pill(context.getString(R.string.grant)) { com.watchlite.launcher.system.Permissions.help(host, com.watchlite.launcher.system.Permissions.Kind.NOTIFICATIONS) }, ui.lp(top = 1.5f))
             }, ui.lp(bottom = 3f))
         }
         if (items.isEmpty()) {

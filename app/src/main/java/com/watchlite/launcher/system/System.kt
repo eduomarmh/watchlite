@@ -64,6 +64,14 @@ object SystemActions {
     fun recents(ctx: Context): Boolean =
         PowerAccessibilityService.instance?.performGlobalAction(AccessibilityService.GLOBAL_ACTION_RECENTS) ?: false
 
+    /** Opens the system notification shade (EXPAND_STATUS_BAR is a normal permission: works without Accessibility). */
+    fun expandSystemNotifications(ctx: Context): Boolean = try {
+        @android.annotation.SuppressLint("WrongConstant")
+        val sb = ctx.getSystemService("statusbar")
+        Class.forName("android.app.StatusBarManager").getMethod("expandNotificationsPanel").invoke(sb)
+        true
+    } catch (t: Throwable) { Log.w("Sys", "expand shade failed", t); false }
+
     fun notificationShade(): Boolean =
         PowerAccessibilityService.instance?.performGlobalAction(AccessibilityService.GLOBAL_ACTION_QUICK_SETTINGS) ?: false
 

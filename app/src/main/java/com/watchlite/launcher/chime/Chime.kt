@@ -64,13 +64,32 @@ object ChimeSounds {
     }
 
     /** Plays [count] times in a row. Calls [done] at the end. */
+    fun usage(): Int = when (App.prefs.chimeStream) {
+        "media" -> AudioAttributes.USAGE_MEDIA
+        "notification" -> AudioAttributes.USAGE_NOTIFICATION
+        else -> AudioAttributes.USAGE_ALARM
+    }
+
+    fun streamType(): Int = when (App.prefs.chimeStream) {
+        "media" -> android.media.AudioManager.STREAM_MUSIC
+        "notification" -> android.media.AudioManager.STREAM_NOTIFICATION
+        else -> android.media.AudioManager.STREAM_ALARM
+    }
+
+    /** Current system volume (0..100) of the stream the chime uses. */
+    fun streamPercent(ctx: Context): Int {
+        val am = ctx.getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
+        val max = am.getStreamMaxVolume(streamType()).coerceAtLeast(1)
+        return am.getStreamVolume(streamType()) * 100 / max
+    }
+
     fun play(ctx: Context, id: String, volume: Float, count: Int = 1, done: () -> Unit = {}) {
         val u = uri(ctx, id) ?: uri(ctx, "res:chime_soft_bell") ?: run { done(); return }
         var left = count
         fun once() {
             val mp = MediaPlayer()
             try {
-                mp.setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                mp.setAudioAttributes(AudioAttributes.Builder().setUsage(usage())
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
                 mp.setDataSource(ctx, u)
                 mp.setVolume(volume, volume)
@@ -101,13 +120,46 @@ object ChimeScheduler {
         return null
     }
 
+    private fun hourKey(t: Long) = t / 3_600_000L
+
+    /** True when the chime for the current hour is due and hasn't played yet (backup path from the minute tick). */
+    fun dueNow(now: Long = System.currentTimeMillis()): Boolean {
+        val p = App.prefs
+        if (!p.chimeEnabled || p.theater) return false
+        val c = Calendar.getInstance().apply { timeInMillis = now }
+        if (c.get(Calendar.MINUTE) > 1) return false
+        if (p.chimeLastHour == hourKey(now)) return false
+        val h = c.get(Calendar.HOUR_OF_DAY)
+        val dow = (c.get(Calendar.DAY_OF_WEEK) + 5) % 7
+        val hourOk = if (p.chimeFrom <= p.chimeTo) h in p.chimeFrom..p.chimeTo else h >= p.chimeFrom || h <= p.chimeTo
+        return hourOk && (p.chimeDays shr dow) and 1 == 1
+    }
+
+    /** Plays the hourly chime once per hour (shared by the alarm and the minute-tick backup). */
+    fun ring(ctx: Context, done: () -> Unit = {}) {
+        val p = App.prefs
+        val now = System.currentTimeMillis()
+        if (p.chimeLastHour == hourKey(now)) { done(); return }
+        if (p.chimeRespectDnd) {
+            val nm = ctx.getSystemService(NotificationManager::class.java)
+            if (nm.currentInterruptionFilter > NotificationManager.INTERRUPTION_FILTER_ALL) { done(); return }
+        }
+        p.chimeLastHour = hourKey(now)
+        val h = Calendar.getInstance().get(Calendar.HOUR)
+        val count = if (p.chimeMode == "strikes") (if (h == 0) 12 else h) else 1
+        if (p.chimeVibrate) Haptics.pattern(ctx, longArrayOf(0, 60, 90, 60))
+        ChimeSounds.play(ctx, p.chimeSound, p.chimeVolume, count, done)
+    }
+
     fun schedule(ctx: Context) {
         val am = ctx.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         am.cancel(pi(ctx))
         val p = App.prefs
         if (!p.chimeEnabled) return
         val t = nextTrigger(System.currentTimeMillis(), p.chimeFrom, p.chimeTo, p.chimeDays) ?: return
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi(ctx))
+        // setAlarmClock is the most reliable exact alarm on aggressive firmwares (never deferred by doze)
+        try { am.setAlarmClock(AlarmManager.AlarmClockInfo(t, null), pi(ctx)) }
+        catch (_: Throwable) { am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi(ctx)) }
     }
 }
 
@@ -116,21 +168,14 @@ class ChimeReceiver : BroadcastReceiver() {
         ChimeScheduler.schedule(ctx)
         val p = App.prefs
         if (!p.chimeEnabled || p.theater) return
-        if (p.chimeRespectDnd) {
-            val nm = ctx.getSystemService(NotificationManager::class.java)
-            if (nm.currentInterruptionFilter > NotificationManager.INTERRUPTION_FILTER_ALL) return
-        }
         val pending = goAsync()
         val wl = (ctx.getSystemService(Context.POWER_SERVICE) as PowerManager)
             .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "watchlite:chime").apply { acquire(20_000) }
-        val h = Calendar.getInstance().get(Calendar.HOUR)
-        val count = if (p.chimeMode == "strikes") (if (h == 0) 12 else h) else 1
-        if (p.chimeVibrate) Haptics.pattern(ctx, longArrayOf(0, 40, 90, 40))
         var finished = false
         val finish = {
             if (!finished) { finished = true; if (wl.isHeld) wl.release(); try { pending.finish() } catch (_: Throwable) { } }
         }
-        ChimeSounds.play(ctx, p.chimeSound, p.chimeVolume, count) { finish() }
+        ChimeScheduler.ring(ctx) { finish() }
         android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({ finish() }, 9_000)
     }
 }

@@ -46,7 +46,7 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
         brightness = SliderBar(ctx, R.drawable.ic_brightness_6, 20, { v ->
             SystemActions.setBrightness(ctx, (v * 255 / 20).coerceAtLeast(3))
         }).apply {
-            onLockedTap = { host.toast(ctx.getString(R.string.need_write_settings)); open(Settings.ACTION_MANAGE_WRITE_SETTINGS, true) }
+            onLockedTap = { com.watchlite.launcher.system.Permissions.help(host, com.watchlite.launcher.system.Permissions.Kind.WRITE_SETTINGS) }
         }
         volume = SliderBar(ctx, R.drawable.ic_volume_up, maxVol, { v ->
             am.setStreamVolume(android.media.AudioManager.STREAM_MUSIC, v, 0)
@@ -64,7 +64,7 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
             { open(Settings.ACTION_AIRPLANE_MODE_SETTINGS) })
         tiles += Tile(R.drawable.ic_do_not_disturb_on, R.string.tile_dnd, { SystemActions.dndOn(ctx) }, {
             if (!SystemActions.setDnd(ctx, !SystemActions.dndOn(ctx))) {
-                host.toast(ctx.getString(R.string.need_dnd_access)); open(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+                com.watchlite.launcher.system.Permissions.help(host, com.watchlite.launcher.system.Permissions.Kind.DND)
             }
         })
         tiles += Tile(R.drawable.ic_theaters, R.string.tile_theater, { App.prefs.theater }, {
@@ -78,7 +78,9 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
         })
         tiles += Tile(R.drawable.ic_lock, R.string.tile_touch_lock, { false }, { close { host.touchLock(false) } })
         tiles += Tile(R.drawable.ic_water_drop, R.string.tile_water_lock, { false }, { close { host.touchLock(true) } })
-        tiles += Tile(R.drawable.ic_location_on, R.string.tile_location, { SystemActions.locationOn(ctx) }, { open(Settings.ACTION_LOCATION_SOURCE_SETTINGS) })
+        tiles += Tile(R.drawable.ic_location_on, R.string.tile_location, { SystemActions.locationOn(ctx) }, {
+            if (!com.watchlite.launcher.system.Permissions.setLocation(ctx, !SystemActions.locationOn(ctx))) open(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        }, { open(Settings.ACTION_LOCATION_SOURCE_SETTINGS) })
         tiles += Tile(R.drawable.ic_battery_saver, R.string.tile_saver, { App.prefs.saverManual }, {
             App.prefs.saverManual = !App.prefs.saverManual; host.applyPowerState()
         })
@@ -89,10 +91,10 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
             if (!LinkManager.send("camera.remote")) host.toast(ctx.getString(R.string.phone_not_connected))
         })
         tiles += Tile(R.drawable.ic_history, R.string.tile_recents, { null }, {
-            if (!SystemActions.recents(ctx)) host.askAccessibility()
+            if (!SystemActions.recents(ctx)) com.watchlite.launcher.system.RecentApps.show(host, ui)
         })
         tiles += Tile(R.drawable.ic_power_settings_new, R.string.tile_power, { null }, {
-            if (!SystemActions.powerDialog(ctx)) host.askAccessibility()
+            if (!SystemActions.powerDialog(ctx)) host.powerSheet()
         })
         tiles += Tile(R.drawable.ic_settings, R.string.tile_settings, { null }, {
             ctx.startActivity(Intent(ctx, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

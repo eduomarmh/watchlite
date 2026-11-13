@@ -118,6 +118,7 @@ class AppRepository(private val ctx: Context) {
     fun trimIcons() { /* icons are small; kept so the drawer opens instantly */ }
 
     fun launch(e: AppEntry, opts: android.os.Bundle?) {
+        com.watchlite.launcher.system.RecentApps.record(ctx, e.pkg)
         try { la.startMainActivity(e.component, e.user, null, opts) }
         catch (t: Throwable) { Log.w("Apps", "launch failed ${e.key}", t) }
     }

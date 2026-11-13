@@ -47,6 +47,7 @@ class App : Application() {
         steps = StepTracker(this)
         LinkManager.init(this)
         ChimeScheduler.schedule(this)
+        com.watchlite.launcher.system.Permissions.autoEnable(this)
     }
 
     override fun onTrimMemory(level: Int) {

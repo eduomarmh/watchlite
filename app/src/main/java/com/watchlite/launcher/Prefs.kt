@@ -73,13 +73,16 @@ class Prefs(ctx: Context) {
     var chimeFrom by int("chime_from", 8)
     var chimeTo by int("chime_to", 23)
     var chimeDays by int("chime_days", 0x7F)            // bit0 = Monday
-    var chimeVolume by float("chime_volume", 0.8f)
+    var chimeVolume by float("chime_volume", 1.0f)
     var chimeVibrate by bool("chime_vibrate", true)
     var chimeRespectDnd by bool("chime_dnd", true)
+    var chimeStream by str("chime_stream", "alarm")      // alarm | media | notification
+    var chimeLastHour by long("chime_last", 0L)          // hour key of the last chime played
 
     // ---- Notifications
     var cannedReplies by str("canned_replies", "")
     var notifWake by bool("notif_wake", false)
+    var swipeDown by str("swipe_down", "auto")          // auto | launcher | system  (auto = system shade if no notification access)
     var blockedNotifApps by set("blocked_notif_apps")
 
     // ---- Prayer / calendar

@@ -163,7 +163,7 @@
     <string name="no_notifications">مفيش إشعارات</string>
     <string name="none">بدون</string>
     <string name="notif_access">صلاحية الإشعارات</string>
-    <string name="notif_access_needed">اسمح بصلاحية الإشعارات عشان تشوفها هنا.</string>
+    <string name="notif_access_needed">الساعة دي قافلة صفحة صلاحية الإشعارات. تقدر تشوف إشعارات النظام مباشرة، أو تفعّل الصلاحية مرة من الكمبيوتر.</string>
     <string name="notifications">الإشعارات</string>
     <string name="off">مقفول</string>
     <string name="on">شغال</string>
@@ -374,6 +374,31 @@
     <string name="accent_on_faces">طبّق لوني على الثيمات</string>
     <string name="accent_on_faces_sum">عقرب الثواني والعناصر المميزة بتاخد لونك</string>
     <string name="pastel">درجة هادية</string>
+    <string name="perm_help_body">الساعة دي مخبية بعض صفحات الإعدادات. جرّب تفتحها من هنا، وكل ضغطة بتجرب طريقة مختلفة. لو برضه فتحت صفحة غلط، استخدم الإعداد مرة واحدة من الكمبيوتر.</string>
+    <string name="perm_try_open">فتح</string>
+    <string name="perm_try_other">طريقة تانية</string>
+    <string name="perm_adb">إعداد من الكمبيوتر (مرة واحدة)</string>
+    <string name="perm_adb_short">ملف أوامر واحد، وبعدها اللانشر يفعّل كل حاجة بنفسه</string>
+    <string name="perm_adb_body">وصّل الساعة بالكمبيوتر وUSB debugging شغال، وشغّل الأوامر دي مرة واحدة (أو شغّل ملف grant-permissions.bat من المشروع). بعدها اللانشر هيفعّل إمكانية الوصول والإشعارات بنفسه.</string>
+    <string name="perm_no_page">مفيش صفحة إعدادات. استخدم إعداد الكمبيوتر.</string>
+    <string name="perm_adb_status">الصلاحية المتقدمة</string>
+    <string name="perm_adb_status_sum">بتتدّي مرة من الكمبيوتر</string>
+    <string name="copy">نسخ</string>
+    <string name="usage_access">الوصول للاستخدام (التطبيقات الأخيرة)</string>
+    <string name="close_all">إغلاق الكل</string>
+    <string name="no_recents">مفيش تطبيقات أخيرة لسه</string>
+    <string name="power_hint">نصيحة: اضغط مطولًا على زرار الهوم لإعادة التشغيل أو الإيقاف.</string>
+    <string name="chime_stream">يشتغل على</string>
+    <string name="stream_alarm">صوت المنبه (مستحسن)</string>
+    <string name="stream_media">صوت الوسائط</string>
+    <string name="stream_notification">صوت الإشعارات</string>
+    <string name="stream_volume">صوت الساعة للقناة دي</string>
+    <string name="stream_volume_low">واطي، علّيه</string>
+    <string name="open_system_notifs">عرض إشعارات النظام</string>
+    <string name="swipe_down">السحب لتحت بيفتح</string>
+    <string name="swipe_down_auto">تلقائي (إشعارات النظام لو الصلاحية مش متاحة)</string>
+    <string name="swipe_down_launcher">إشعارات WatchLite</string>
+    <string name="swipe_down_system">ستارة إشعارات النظام</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

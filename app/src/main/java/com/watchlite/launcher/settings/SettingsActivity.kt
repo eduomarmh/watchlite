@@ -346,7 +346,7 @@ class SettingsActivity : Activity() {
             choice(s(R.string.to), hours(), { p.aodNightTo }) { p.aodNightTo = it }
         }
         if (!SystemActions.isAdmin(this)) action(s(R.string.enable_admin), s(R.string.enable_admin_sum)) {
-            SystemActions.requestAdmin(this, s(R.string.enable_admin_sum))
+            com.watchlite.launcher.system.Permissions.help(this, com.watchlite.launcher.system.Permissions.Kind.ADMIN) { refresh() }
         }
     }
 
@@ -375,6 +375,10 @@ class SettingsActivity : Activity() {
         choice(s(R.string.from), hours(), { p.chimeFrom }) { p.chimeFrom = it; ChimeScheduler.schedule(this) }
         choice(s(R.string.to), hours(), { p.chimeTo }) { p.chimeTo = it; ChimeScheduler.schedule(this) }
         action(s(R.string.chime_days), daysLabel()) { daysDialog() }
+        choice(s(R.string.chime_stream), listOf("alarm" to s(R.string.stream_alarm), "media" to s(R.string.stream_media), "notification" to s(R.string.stream_notification)),
+            { p.chimeStream }) { p.chimeStream = it }
+        val sv = ChimeSounds.streamPercent(this)
+        row(s(R.string.stream_volume), Digits.fmt(sv) + "%" + if (sv < 30) "  ·  " + s(R.string.stream_volume_low) else "")
         slider(s(R.string.volume), 5, 100, { (p.chimeVolume * 100).toInt() }, { p.chimeVolume = it / 100f }) { Digits.fmt(it) + "%" }
         switch(s(R.string.vibrate), null, { p.chimeVibrate }) { p.chimeVibrate = it }
         switch(s(R.string.respect_dnd), null, { p.chimeRespectDnd }) { p.chimeRespectDnd = it }
@@ -458,7 +462,11 @@ class SettingsActivity : Activity() {
 
     private fun notifScreen() {
         val access = NotifListener.hasAccess(this)
-        action(s(R.string.notif_access), if (access) s(R.string.granted) else s(R.string.not_granted)) { startActivity(NotifListener.settingsIntent()) }
+        action(s(R.string.notif_access), if (access) s(R.string.granted) else s(R.string.not_granted)) {
+            com.watchlite.launcher.system.Permissions.help(this, com.watchlite.launcher.system.Permissions.Kind.NOTIFICATIONS) { refresh() }
+        }
+        choice(s(R.string.swipe_down), listOf("auto" to s(R.string.swipe_down_auto), "launcher" to s(R.string.swipe_down_launcher), "system" to s(R.string.swipe_down_system)),
+            { p.swipeDown }) { p.swipeDown = it }
         action(s(R.string.canned_replies), s(R.string.canned_replies_sum)) {
             val input = EditText(this).apply {
                 setText(p.cannedReplies.ifEmpty { resources.getStringArray(R.array.canned_replies).joinToString("\n") })
@@ -522,7 +530,7 @@ class SettingsActivity : Activity() {
         if (p.saverAuto) slider(s(R.string.saver_threshold), 5, 50, { p.saverThreshold }, { p.saverThreshold = it }) { Digits.fmt(it) + "%" }
         switch(s(R.string.tile_theater), s(R.string.theater_sum), { p.theater }) { p.theater = it }
         action(s(R.string.lock_screen), if (SystemActions.isAdmin(this)) s(R.string.granted) else s(R.string.enable_admin_sum)) {
-            if (!SystemActions.isAdmin(this)) SystemActions.requestAdmin(this, s(R.string.enable_admin_sum))
+            if (!SystemActions.isAdmin(this)) com.watchlite.launcher.system.Permissions.help(this, com.watchlite.launcher.system.Permissions.Kind.ADMIN) { refresh() }
         }
     }
 
@@ -564,14 +572,12 @@ class SettingsActivity : Activity() {
     }
 
     private fun permissionsScreen() {
+        val P = com.watchlite.launcher.system.Permissions
         fun status(ok: Boolean) = s(if (ok) R.string.granted else R.string.not_granted)
-        action(s(R.string.notif_access), status(NotifListener.hasAccess(this))) { startActivity(NotifListener.settingsIntent()) }
-        action(s(R.string.lock_screen), status(SystemActions.isAdmin(this))) { SystemActions.requestAdmin(this, s(R.string.enable_admin_sum)) }
-        action(s(R.string.a11y_label), status(SystemActions.isAccessibilityOn(this))) { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
-        action(s(R.string.dnd_access), status(SystemActions.hasDndAccess(this))) { startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)) }
-        action(s(R.string.write_settings), status(SystemActions.canWriteSettings(this))) {
-            startActivity(Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName")))
-        }
+        row(s(R.string.perm_adb_status), status(P.hasSecure(this)) + " · " + s(R.string.perm_adb_status_sum))
+        action(s(R.string.perm_adb), s(R.string.perm_adb_short)) { P.adbDialog(this) }
+        header(s(R.string.st_permissions))
+        for (k in P.Kind.values()) action(P.title(this, k), status(P.granted(this, k))) { P.help(this, k) { refresh() } }
         action(s(R.string.location_perm), status(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
         }
