@@ -192,7 +192,8 @@ class FaceRenderer(private val ctx: Context) {
             tp.color = col
         }
         // never let a wide font run off the screen
-        val maxW = w * 0.94f
+        val amShown = e.format == "auto" && !com.watchlite.launcher.util.TimeFmt.is24(ctx) && e.size >= 0.15f && !(secondsOverride ?: e.seconds)
+        val maxW = w * (if (amShown || (secondsOverride ?: e.seconds)) 0.8f else 0.94f)
         val tw = tp.measureText(s)
         if (tw > maxW) tp.textSize *= maxW / tw
         placeText(c, s, x, y, e.anchor, true, theme)

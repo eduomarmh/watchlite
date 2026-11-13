@@ -59,7 +59,14 @@ adb shell dumpsys gfxinfo $PKG > $OUT/gfxinfo.txt
 adb shell dumpsys meminfo $PKG > $OUT/meminfo.txt
 adb shell top -n 1 -b | head -20 > $OUT/top.txt || true
 
-# 3) Arabic
+# 3) Arabic + light mode
+adb shell am force-stop $PKG
+cat > /tmp/light.sh <<'X'
+f=/data/data/com.watchlite.launcher/shared_prefs/watchlite.xml
+grep -q ui_mode $f || sed -i 's#</map>#    <string name="ui_mode">light</string>\n</map>#' $f
+X
+adb push /tmp/light.sh /data/local/tmp/light.sh
+adb shell run-as $PKG sh /data/local/tmp/light.sh || true
 adb root || true
 sleep 3
 adb shell "setprop persist.sys.locale ar-EG; setprop ctl.restart zygote" || true
