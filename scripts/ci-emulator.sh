@@ -79,7 +79,7 @@ adb shell wm size 320x385; adb shell wm density 200
 run_flow ar
 
 # 4) AOD inside another app: enable AOD, open system Settings, press power, expect the AOD screen
-adb shell am start -S -W -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled; sleep 2
+adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled; sleep 4
 adb shell input keyevent KEYCODE_HOME; sleep 5
 adb shell am start -a android.settings.SETTINGS; sleep 4
 shot "x_10_settings_app" 1
