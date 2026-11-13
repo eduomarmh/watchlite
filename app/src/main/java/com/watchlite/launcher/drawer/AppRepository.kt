@@ -97,7 +97,7 @@ class AppRepository(private val ctx: Context) {
         }
     }
 
-    fun setIconSize(px: Int) {
+    fun requestIconSize(px: Int) {
         val target = px.coerceIn(48, 192)
         if (target <= iconSize) return
         iconSize = target

@@ -134,7 +134,7 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
                 contentHeight = h * 0.5f - rowH * 0.5f + row * rowH + h * 0.5f - rowH * 0.5f
             }
         }
-        App.I.apps.setIconSize((cellR * 2).toInt())
+        App.I.apps.requestIconSize((cellR * 2).toInt())
         scrollPos = scrollPos.coerceIn(0f, maxScroll())
     }
 
