@@ -92,13 +92,13 @@ object IconStyler {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
 
-    fun render(d: Drawable, size: Int, style: String, accent: Int, fromPack: Boolean): Bitmap {
+    fun render(d: Drawable, size: Int, iconStyle: String, accent: Int, fromPack: Boolean): Bitmap {
         val out = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val c = Canvas(out)
         val s = size.toFloat()
         // icon packs already ship a finished shape: keep them as they are unless a frame style is chosen
         val raw = raster(d, size)
-        when (if (fromPack && style in setOf("circle", "squircle", "original")) "original" else style) {
+        when (if (fromPack && iconStyle in setOf("circle", "squircle", "original")) "original" else iconStyle) {
             "original" -> c.drawBitmap(raw, 0f, 0f, paint)
             "circle" -> clip(c, raw, circlePath(s), 1.08f)
             "squircle" -> clip(c, raw, squirclePath(s), 1.08f)
