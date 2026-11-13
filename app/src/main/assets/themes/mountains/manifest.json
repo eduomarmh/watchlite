@@ -53,7 +53,7 @@
    "source": "steps",
    "cx": 0.25,
    "cy": 0.84,
-   "radius": 0.085,
+   "radius": 0.1,
    "color": "#FF30D158",
    "trackColor": "#40FFFFFF",
    "style": "bar"
@@ -63,7 +63,7 @@
    "source": "battery",
    "cx": 0.75,
    "cy": 0.84,
-   "radius": 0.085,
+   "radius": 0.1,
    "color": "#FF0A84FF",
    "trackColor": "#40FFFFFF",
    "style": "bar"
