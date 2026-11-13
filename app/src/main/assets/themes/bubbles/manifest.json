@@ -43,18 +43,20 @@
    "source": "steps",
    "cx": 0.27,
    "cy": 0.83,
-   "radius": 0.105,
+   "radius": 0.085,
    "color": "#FF30D158",
-   "trackColor": "#40FFFFFF"
+   "trackColor": "#40FFFFFF",
+   "style": "pill"
   },
   {
    "type": "gauge",
    "source": "battery",
    "cx": 0.73,
    "cy": 0.83,
-   "radius": 0.105,
+   "radius": 0.085,
    "color": "#FF0A84FF",
-   "trackColor": "#40FFFFFF"
+   "trackColor": "#40FFFFFF",
+   "style": "pill"
   }
  ]
 }

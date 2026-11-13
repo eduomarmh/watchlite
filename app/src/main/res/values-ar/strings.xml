@@ -330,6 +330,29 @@
     <string name="slot_notif">نقطة الإشعارات</string>
     <string name="slot_weather">الطقس</string>
     <string name="slot_phone">بطارية الموبايل</string>
+    <string name="icon_style">شكل الأيقونات</string>
+    <string name="is_circle">دائري</string>
+    <string name="is_squircle">مربع منحني (مودرن)</string>
+    <string name="is_original">الأصلي</string>
+    <string name="is_mono">أحادي اللون</string>
+    <string name="is_glass">زجاجي</string>
+    <string name="is_outline">بإطار ملون</string>
+    <string name="icon_pack">حزمة أيقونات</string>
+    <string name="get_icon_packs">تحميل حزم أيقونات</string>
+    <string name="get_icon_packs_sum">نزّل أي حزمة أيقونات من جوجل بلاي (فيه آلاف مجانية) واختارها من هنا. بتغيّر أيقونات واتساب ويوتيوب والتطبيقات المعروفة.</string>
+    <string name="st_drawer_sum">الشكل وشكل الأيقونات والحزم والتطبيقات المخفية</string>
+    <string name="st_steps">الخطوات والهدف</string>
+    <string name="steps_today">النهارده</string>
+    <string name="quick_goals">أهداف سريعة</string>
+    <string name="no_step_sensor">مفيش حساس خطوات على الجهاز ده.</string>
+    <string name="tap_set_goal">المس لتغيير الهدف</string>
+    <string name="cust_gauge_style">شكل العناصر</string>
+    <string name="gs_theme">حسب الثيم</string>
+    <string name="gs_arc">قوس</string>
+    <string name="gs_ring">دائرة</string>
+    <string name="gs_segments">نقاط</string>
+    <string name="gs_bar">شريط</string>
+    <string name="gs_pill">كبسولة</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

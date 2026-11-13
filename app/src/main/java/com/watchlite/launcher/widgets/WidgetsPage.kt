@@ -76,6 +76,10 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
             col.addView(ui.text(ctx.getString(R.string.steps_of, Digits.apply("$goal", ar)), 4.6f, Ui.TEXT2))
             row.addView(col, ui.lp(0, start = 4f, weight = 1f))
             c.addView(row)
+            c.addView(ui.text(ctx.getString(R.string.tap_set_goal), 4f, Ui.TEXT2), ui.lp(top = 1.2f))
+            c.isClickable = true
+            c.background = ui.ripple(ui.rounded(Ui.CARD, 6f * ui.u))
+            c.setOnClickListener { goalDialog() }
             box.addView(c, ui.lp(bottom = 2.5f))
         }
 
@@ -194,6 +198,15 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
                 .apply { gravity = Gravity.CENTER }, ui.lp(top = 2f))
         }
         updateClocks()
+    }
+
+    private fun goalDialog() {
+        val goals = intArrayOf(2000, 3000, 4000, 5000, 6000, 7000, 8000, 10000, 12000, 15000, 20000)
+        val labels = goals.map { Digits.fmt(it) }.toTypedArray()
+        android.app.AlertDialog.Builder(context, Ui.DIALOG).setTitle(R.string.steps_goal)
+            .setSingleChoiceItems(labels, goals.indexOf(App.prefs.stepsGoal)) { d, i ->
+                App.prefs.stepsGoal = goals[i]; d.dismiss(); build(); host.face.invalidate()
+            }.show()
     }
 
     private fun launch(i: Intent) {

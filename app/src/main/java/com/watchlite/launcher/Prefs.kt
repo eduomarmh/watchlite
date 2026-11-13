@@ -37,6 +37,8 @@ class Prefs(ctx: Context) {
     var hiddenApps by set("hidden_apps")
     var favoriteApps by set("favorite_apps")
     var renamedApps by str("renamed_apps", "{}")       // JSON {component: label}
+    var iconStyle by str("icon_style", "circle")       // circle | squircle | original | mono | glass | outline
+    var iconPack by str("icon_pack", "")               // package of an installed icon pack
 
     // ---- Input
     var wheelInvert by bool("wheel_invert", false)

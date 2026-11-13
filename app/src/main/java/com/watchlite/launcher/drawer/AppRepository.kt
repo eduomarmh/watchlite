@@ -79,17 +79,17 @@ class AppRepository(private val ctx: Context) {
                 }
                 all = list
                 changed()
-                // icons
+                // icons: icon pack first, then the app's own icon, rendered in the chosen style
+                val packPkg = App.prefs.iconPack
+                if (packPkg != (pack?.pkg ?: "")) pack = if (packPkg.isEmpty()) null else IconPack(ctx, packPkg).takeIf { it.load() }
+                val style = App.prefs.iconStyle
+                val accent = App.prefs.accent
                 for (e in list) {
                     if (e.icon != null) continue
                     try {
-                        val info = la.resolveActivity(Intent(Intent.ACTION_MAIN).setComponent(e.component), e.user) ?: continue
-                        val d = info.getBadgedIcon(0)
-                        val s = iconSize
-                        val b = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_8888)
-                        val c = Canvas(b)
-                        d.setBounds(0, 0, s, s); d.draw(c)
-                        e.icon = b
+                        val packIcon = pack?.drawableFor(e.component)
+                        val d = packIcon ?: la.resolveActivity(Intent(Intent.ACTION_MAIN).setComponent(e.component), e.user)?.getBadgedIcon(0) ?: continue
+                        e.icon = IconStyler.render(d, iconSize, style, accent, packIcon != null)
                     } catch (t: Throwable) { Log.w("Apps", "icon ${e.key}", t) }
                 }
                 changed()
@@ -102,6 +102,14 @@ class AppRepository(private val ctx: Context) {
         if (target <= iconSize) return
         iconSize = target
         all.forEach { it.icon?.recycle(); it.icon = null }
+        reload()
+    }
+
+    private var pack: IconPack? = null
+
+    /** Re-renders every icon (style or icon pack changed). */
+    fun restyle() {
+        all.forEach { it.icon = null }
         reload()
     }
 

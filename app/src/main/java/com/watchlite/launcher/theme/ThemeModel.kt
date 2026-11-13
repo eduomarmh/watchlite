@@ -179,16 +179,17 @@ class Theme(
 }
 
 /** Per-theme user customization (stored in prefs as JSON). */
-class ThemeCustom(val timeColor: Int?, val accent: Int?, val seconds: Boolean?, val hidden: Set<String>? = null) {
+class ThemeCustom(val timeColor: Int?, val accent: Int?, val seconds: Boolean?, val hidden: Set<String>? = null, val gaugeStyle: String? = null) {
     fun toJson(): String = JSONObject().apply {
         timeColor?.let { put("time", it) }
         accent?.let { put("accent", it) }
         seconds?.let { put("seconds", it) }
         hidden?.let { put("hidden", JSONArray(it.toList())) }
+        gaugeStyle?.let { put("gauge", it) }
     }.toString()
 
     fun copy(timeColor: Int? = this.timeColor, accent: Int? = this.accent, seconds: Boolean? = this.seconds,
-             hidden: Set<String>? = this.hidden) = ThemeCustom(timeColor, accent, seconds, hidden)
+             hidden: Set<String>? = this.hidden, gaugeStyle: String? = this.gaugeStyle) = ThemeCustom(timeColor, accent, seconds, hidden, gaugeStyle)
 
     companion object {
         fun parse(s: String): ThemeCustom = try {
@@ -197,7 +198,8 @@ class ThemeCustom(val timeColor: Int?, val accent: Int?, val seconds: Boolean?, 
                 if (o.has("time")) o.getInt("time") else null,
                 if (o.has("accent")) o.getInt("accent") else null,
                 if (o.has("seconds")) o.getBoolean("seconds") else null,
-                o.optJSONArray("hidden")?.let { a -> (0 until a.length()).map { a.getString(it) }.toSet() }
+                o.optJSONArray("hidden")?.let { a -> (0 until a.length()).map { a.getString(it) }.toSet() },
+                o.optString("gauge").ifEmpty { null }
             )
         } catch (_: Exception) { ThemeCustom(null, null, null) }
     }

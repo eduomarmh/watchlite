@@ -45,7 +45,8 @@
    "trackColor": "#22000000",
    "backdrop": "#00000000",
    "numeralColor": "#FF2B2620",
-   "defaultOff": true
+   "defaultOff": true,
+   "style": "arc"
   },
   {
    "type": "analog",

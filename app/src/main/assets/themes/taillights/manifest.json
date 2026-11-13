@@ -50,7 +50,8 @@
    "radius": 0.1,
    "color": "#FF30D158",
    "trackColor": "#40FFFFFF",
-   "defaultOff": true
+   "defaultOff": true,
+   "style": "ring"
   }
  ]
 }

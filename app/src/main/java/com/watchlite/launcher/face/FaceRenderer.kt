@@ -52,6 +52,7 @@ class FaceRenderer(private val ctx: Context) {
         alphaMul = if (aod) aodAlpha else 1f
         derivedAod = aod && theme.aod.isEmpty()
         aodColorOverride = if (aod) App.prefs.aodColor else 0
+        gaugeOverride = custom.gaugeStyle
         val list = if (!aod) theme.elements else theme.aod.ifEmpty { derivedAodFor(theme) }
         val short = min(w, h).toFloat()
         val hidden = theme.hiddenSlots(custom)
@@ -340,7 +341,12 @@ class FaceRenderer(private val ctx: Context) {
         if (hitCount >= hitSlots.size) return
         val r = hitRects[hitCount]
         when (e.type) {
-            "ring", "gauge" -> { val rr = e.radius * short + short * 0.03f; r.set(e.cx * w - rr, e.cy * h - rr, e.cx * w + rr, e.cy * h + rr) }
+            "ring", "gauge" -> {
+                val rr = e.radius * short + short * 0.03f
+                val wide = e.type == "gauge" && (gaugeOverride ?: e.style).let { it == "bar" || it == "pill" }
+                val rx = if (wide) rr * 1.45f else rr
+                r.set(e.cx * w - rx, e.cy * h - rr, e.cx * w + rx, e.cy * h + rr)
+            }
             "batteryChip" -> { anchorRect(e, w, h, short); r.set(rect) }
             else -> { // text / dot: generous box around the anchor point
                 val hh = maxOf(e.size * short, short * 0.08f); val ww = short * 0.32f
@@ -381,7 +387,9 @@ class FaceRenderer(private val ctx: Context) {
         }
     }
 
-    /** Circular 270° gauge with an icon and the value: the main interactive complication. */
+    private var gaugeOverride: String? = null
+
+    /** Interactive complication. Styles: arc (270°), ring (360°), segments, bar, pill. */
     private fun gauge(c: Canvas, e: El, w: Int, h: Int, short: Float) {
         val cx = e.cx * w; val cy = e.cy * h; val r = e.radius * short
         val (p, label) = gaugeValue(e.source)
@@ -390,35 +398,72 @@ class FaceRenderer(private val ctx: Context) {
             e.source == "battery" && App.I.state.battery <= 20 -> Color.argb((255 * alphaMul).toInt(), 255, 69, 58)
             else -> resolve(e.color, e)
         }
-        // soft backdrop keeps it readable on busy wallpapers
-        if (Color.alpha(e.backdrop) > 0) {
-            fp.reset(); fp.isAntiAlias = true
-            fp.color = (e.backdrop and 0x00FFFFFF) or ((Color.alpha(e.backdrop) * alphaMul).toInt() shl 24)
-            c.drawCircle(cx, cy, r * 1.02f, fp)
-        }
-        sp.reset(); sp.isAntiAlias = true; sp.style = Paint.Style.STROKE; sp.strokeCap = Paint.Cap.ROUND
-        sp.strokeWidth = maxOf(2f, r * 0.15f)
-        rect.set(cx - r * 0.86f, cy - r * 0.86f, cx + r * 0.86f, cy + r * 0.86f)
-        sp.color = (e.trackColor and 0x00FFFFFF) or ((Color.alpha(e.trackColor) * alphaMul).toInt() shl 24)
-        c.drawArc(rect, 135f, 270f, false, sp)
-        if (p > 0f) { sp.color = col; c.drawArc(rect, 135f, 270f * p, false, sp) }
+        val track = (e.trackColor and 0x00FFFFFF) or ((Color.alpha(e.trackColor) * alphaMul).toInt() shl 24)
+        val back = (e.backdrop and 0x00FFFFFF) or ((Color.alpha(e.backdrop) * alphaMul).toInt() shl 24)
         val res = when (e.source) {
             "steps" -> com.watchlite.launcher.R.drawable.ic_directions_walk
             "phone" -> com.watchlite.launcher.R.drawable.ic_phonelink_ring
             "day" -> com.watchlite.launcher.R.drawable.ic_watch
             else -> com.watchlite.launcher.R.drawable.ic_battery_full
         }
-        val d = icon(res)
-        d.setTint(col)
+        val style = gaugeOverride ?: e.style.let { if (it == "fill") "arc" else it }
+        fp.reset(); fp.isAntiAlias = true
+        sp.reset(); sp.isAntiAlias = true; sp.style = Paint.Style.STROKE; sp.strokeCap = Paint.Cap.ROUND
+        tp.reset(); tp.isAntiAlias = true
+        tp.typeface = Fonts.get(ctx, e.font ?: "tajawal_bold", null)
+        tp.color = resolve(e.numeralColor)
+        tp.textAlign = Paint.Align.CENTER
+        when (style) {
+            "bar", "pill" -> {
+                val bw = r * 2.7f; val bh = r * 0.95f
+                rect.set(cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2)
+                if (Color.alpha(back) > 0) { fp.color = back; c.drawRoundRect(rect, bh / 2, bh / 2, fp) }
+                if (style == "bar") {
+                    // progress fill inside the capsule
+                    c.save(); c.clipRect(rect.left, rect.top, rect.left + rect.width() * p, rect.bottom)
+                    fp.color = (col and 0x00FFFFFF) or 0x55000000; c.drawRoundRect(rect, bh / 2, bh / 2, fp); c.restore()
+                    sp.color = track; sp.strokeWidth = maxOf(1f, bh * 0.06f); c.drawRoundRect(rect, bh / 2, bh / 2, sp)
+                }
+                val isz = (bh * 0.62f).toInt()
+                val ix = (rect.left + bh * 0.28f).toInt()
+                val d = icon(res); d.setTint(col)
+                d.setBounds(ix, (cy - isz / 2).toInt(), ix + isz, (cy + isz / 2).toInt()); d.draw(c)
+                tp.textSize = bh * 0.56f
+                tp.textAlign = Paint.Align.LEFT
+                val avail = rect.right - bh * 0.3f - (ix + isz + bh * 0.15f)
+                val tw = tp.measureText(label); if (tw > avail) tp.textSize *= avail / tw
+                tp.getTextBounds("0", 0, 1, bounds)
+                c.drawText(label, ix + isz + bh * 0.15f, cy - bounds.exactCenterY(), tp)
+                return
+            }
+        }
+        if (Color.alpha(back) > 0) { fp.color = back; c.drawCircle(cx, cy, r * 1.02f, fp) }
+        rect.set(cx - r * 0.86f, cy - r * 0.86f, cx + r * 0.86f, cy + r * 0.86f)
+        sp.strokeWidth = maxOf(2f, r * 0.15f)
+        when (style) {
+            "ring" -> {
+                sp.color = track; c.drawArc(rect, 0f, 360f, false, sp)
+                if (p > 0f) { sp.color = col; c.drawArc(rect, -90f, 360f * p, false, sp) }
+            }
+            "segments" -> {
+                val n = 10; val gap = 9f; val seg = 360f / n
+                sp.strokeCap = Paint.Cap.BUTT
+                for (i in 0 until n) {
+                    sp.color = if (i < Math.round(p * n)) col else track
+                    c.drawArc(rect, -90f + i * seg + gap / 2, seg - gap, false, sp)
+                }
+            }
+            else -> { // arc
+                sp.color = track; c.drawArc(rect, 135f, 270f, false, sp)
+                if (p > 0f) { sp.color = col; c.drawArc(rect, 135f, 270f * p, false, sp) }
+            }
+        }
+        val d = icon(res); d.setTint(col)
         val isz = (r * 0.62f).toInt()
         d.setBounds((cx - isz / 2).toInt(), (cy - r * 0.62f).toInt(), (cx + isz / 2).toInt(), (cy - r * 0.62f + isz).toInt())
         d.draw(c)
-        tp.reset(); tp.isAntiAlias = true
-        tp.typeface = Fonts.get(ctx, e.font ?: "tajawal_bold", null)
         tp.textSize = r * 0.52f
         val tw = tp.measureText(label); if (tw > r * 1.4f) tp.textSize *= r * 1.4f / tw
-        tp.color = resolve(e.numeralColor)
-        tp.textAlign = Paint.Align.CENTER
         tp.getTextBounds("0", 0, 1, bounds)
         c.drawText(label, cx, cy + r * 0.42f - bounds.exactCenterY() * 0.2f, tp)
     }

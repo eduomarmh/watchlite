@@ -140,7 +140,8 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
         val items = arrayOf(
             context.getString(R.string.cust_time_color), context.getString(R.string.cust_accent),
             context.getString(if (c.seconds == true) R.string.cust_hide_seconds else R.string.cust_show_seconds),
-            context.getString(R.string.cust_digits), context.getString(R.string.cust_complications), context.getString(R.string.reset)
+            context.getString(R.string.cust_digits), context.getString(R.string.cust_complications),
+            context.getString(R.string.cust_gauge_style), context.getString(R.string.reset)
         )
         AlertDialog.Builder(context, Ui.DIALOG).setTitle(t.name()).setItems(items) { _, which ->
             when (which) {
@@ -155,7 +156,16 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
                     }.show()
                 }
                 4 -> complications(t, c)
-                5 -> save(t, ThemeCustom(null, null, null))
+                5 -> {
+                    val keys = arrayOf("", "arc", "ring", "segments", "bar", "pill")
+                    val labels = arrayOf(R.string.gs_theme, R.string.gs_arc, R.string.gs_ring, R.string.gs_segments, R.string.gs_bar, R.string.gs_pill)
+                        .map { context.getString(it) }.toTypedArray()
+                    AlertDialog.Builder(context, Ui.DIALOG).setTitle(R.string.cust_gauge_style)
+                        .setSingleChoiceItems(labels, keys.indexOf(c.gaugeStyle ?: "")) { dd, k ->
+                            dd.dismiss(); save(t, c.copy(gaugeStyle = keys[k].ifEmpty { null }))
+                        }.show()
+                }
+                6 -> save(t, ThemeCustom(null, null, null))
             }
         }.show()
     }

@@ -205,7 +205,8 @@ class SettingsActivity : Activity() {
         nav(s(R.string.st_aod), if (p.aodEnabled) s(R.string.on) else s(R.string.off), ::aodScreen)
         nav(s(R.string.st_chime), if (p.chimeEnabled) s(R.string.on) else s(R.string.off), ::chimeScreen)
         nav(s(R.string.st_gestures), s(R.string.st_gestures_sum), ::gestures)
-        nav(s(R.string.st_drawer), null, ::drawerScreen)
+        nav(s(R.string.st_drawer), s(R.string.st_drawer_sum), ::drawerScreen)
+        nav(s(R.string.st_steps), Digits.fmt(p.stepsGoal), ::stepsScreen)
         nav(s(R.string.st_notifications), null, ::notifScreen)
         nav(s(R.string.st_prayer), cityLabel(), ::prayerScreen)
         nav(s(R.string.st_power), null, ::powerScreen)
@@ -381,10 +382,36 @@ class SettingsActivity : Activity() {
         choice(s(R.string.drawer_layout), listOf("honeycomb" to s(R.string.drawer_honeycomb), "grid" to s(R.string.drawer_grid), "list" to s(R.string.drawer_list)),
             { p.drawerMode }) { p.drawerMode = it }
         slider(s(R.string.icon_size), 0, 4, { 4 - p.drawerZoom }, { p.drawerZoom = 4 - it }) { Digits.fmt(it + 1) }
+        choice(s(R.string.icon_style), listOf("circle" to s(R.string.is_circle), "squircle" to s(R.string.is_squircle),
+            "original" to s(R.string.is_original), "mono" to s(R.string.is_mono), "glass" to s(R.string.is_glass), "outline" to s(R.string.is_outline)),
+            { p.iconStyle }) { p.iconStyle = it; App.I.apps.restyle() }
+        val packs = com.watchlite.launcher.drawer.IconPack.installed(this)
+        choice(s(R.string.icon_pack), listOf("" to s(R.string.none)) + packs.map { it.key to it.value }, { p.iconPack }) {
+            p.iconPack = it; App.I.apps.restyle()
+        }
+        if (packs.isEmpty()) action(s(R.string.get_icon_packs), s(R.string.get_icon_packs_sum)) {
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=icon%20pack&c=apps")))
+            } catch (_: Exception) { toast(s(R.string.no_app)) }
+        }
         header(s(R.string.hidden_apps))
         val hidden = p.hiddenApps
         val apps = App.I.apps.everything().sortedBy { it.label }
         for (a in apps) switch(a.label, if (a.key in hidden) s(R.string.hidden) else null, { a.key !in p.hiddenApps }) { App.I.apps.toggleHidden(a.key) }
+    }
+
+    private fun stepsScreen() {
+        row(s(R.string.steps_today), Digits.fmt(App.I.steps.today) + " / " + Digits.fmt(p.stepsGoal))
+        slider(s(R.string.steps_goal), 10, 300, { p.stepsGoal / 100 }, { p.stepsGoal = it * 100 }) { Digits.fmt(it * 100) }
+        header(s(R.string.quick_goals))
+        val row = ui.hbox().apply { gravity = Gravity.CENTER }
+        for (g in intArrayOf(3000, 5000, 8000, 10000, 15000)) {
+            row.addView(ui.pill(Digits.fmt(g / 1000) + "k", if (g == p.stepsGoal) ui.accent else Ui.CARD2, if (g == p.stepsGoal) Ui.BG else Ui.TEXT) {
+                p.stepsGoal = g; refresh()
+            }, ui.lp(0, start = 0.5f, end = 0.5f, weight = 1f))
+        }
+        list.addView(row, ui.lp(bottom = 2f))
+        if (!App.I.steps.available) list.addView(ui.text(s(R.string.no_step_sensor), 4.4f, Ui.TEXT2, 1, 0), ui.lp(start = 2f))
     }
 
     private fun notifScreen() {
@@ -443,7 +470,6 @@ class SettingsActivity : Activity() {
         action(s(R.string.lock_screen), if (SystemActions.isAdmin(this)) s(R.string.granted) else s(R.string.enable_admin_sum)) {
             if (!SystemActions.isAdmin(this)) SystemActions.requestAdmin(this, s(R.string.enable_admin_sum))
         }
-        slider(s(R.string.steps_goal), 10, 300, { p.stepsGoal / 100 }, { p.stepsGoal = it * 100 }) { Digits.fmt(it * 100) }
     }
 
     private fun linkScreen() {

@@ -46,7 +46,8 @@
    "cy": 0.86,
    "radius": 0.105,
    "color": "#FF30D158",
-   "trackColor": "#40FFFFFF"
+   "trackColor": "#40FFFFFF",
+   "style": "ring"
   },
   {
    "type": "gauge",
@@ -55,7 +56,8 @@
    "cy": 0.86,
    "radius": 0.105,
    "color": "#FF0A84FF",
-   "trackColor": "#40FFFFFF"
+   "trackColor": "#40FFFFFF",
+   "style": "ring"
   }
  ],
  "aod": {

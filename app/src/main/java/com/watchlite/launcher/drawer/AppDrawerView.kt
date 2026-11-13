@@ -186,17 +186,9 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
     private fun drawIcon(c: Canvas, e: AppEntry, x: Float, y: Float, r: Float) {
         val b = e.icon
         if (b == null || b.isRecycled) { c.drawCircle(x, y, r, bgPaint); return }
-        // circular crop through a shader: uniform round icons like a watch
-        val sh = shaders.getOrPut(b) { BitmapShader(b, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP) }
-        val s = (r * 2.06f) / b.width
-        matrix.setScale(s, s)
-        matrix.postTranslate(x - b.width * s / 2, y - b.height * s / 2)
-        sh.setLocalMatrix(matrix)
-        c.drawCircle(x, y, r, bgPaint)
-        iconPaint.shader = sh
-        c.drawCircle(x, y, r, iconPaint)
-        iconPaint.shader = null
-        if (shaders.size > 300) shaders.clear()
+        // icons are pre-rendered in the chosen style by IconStyler
+        rect.set(x - r, y - r, x + r, y + r)
+        c.drawBitmap(b, null, rect, iconPaint)
     }
 
     private fun hit(x: Float, y: Float): Int {

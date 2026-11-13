@@ -331,6 +331,29 @@
     <string name="slot_notif">Notification dot</string>
     <string name="slot_weather">Weather</string>
     <string name="slot_phone">Phone battery</string>
+    <string name="icon_style">Icon style</string>
+    <string name="is_circle">Circle</string>
+    <string name="is_squircle">Squircle (modern)</string>
+    <string name="is_original">Original</string>
+    <string name="is_mono">Monochrome</string>
+    <string name="is_glass">Glass</string>
+    <string name="is_outline">Outline ring</string>
+    <string name="icon_pack">Icon pack</string>
+    <string name="get_icon_packs">Get icon packs</string>
+    <string name="get_icon_packs_sum">Install any icon pack from Google Play (thousands are free) and pick it here. It restyles WhatsApp, YouTube and other known apps.</string>
+    <string name="st_drawer_sum">Layout, icon style, icon packs, hidden apps</string>
+    <string name="st_steps">Steps &amp; goal</string>
+    <string name="steps_today">Today</string>
+    <string name="quick_goals">Quick goals</string>
+    <string name="no_step_sensor">No step sensor detected on this device.</string>
+    <string name="tap_set_goal">Tap to change goal</string>
+    <string name="cust_gauge_style">Complication shape</string>
+    <string name="gs_theme">Theme default</string>
+    <string name="gs_arc">Arc</string>
+    <string name="gs_ring">Ring</string>
+    <string name="gs_segments">Segments</string>
+    <string name="gs_bar">Bar</string>
+    <string name="gs_pill">Capsule</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

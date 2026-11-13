@@ -37,7 +37,8 @@
    "color": "#FF30D158",
    "trackColor": "#22000000",
    "backdrop": "#00000000",
-   "numeralColor": "#FF1C1C1E"
+   "numeralColor": "#FF1C1C1E",
+   "style": "arc"
   },
   {
    "type": "gauge",
@@ -48,7 +49,8 @@
    "color": "#FF0A84FF",
    "trackColor": "#22000000",
    "backdrop": "#00000000",
-   "numeralColor": "#FF1C1C1E"
+   "numeralColor": "#FF1C1C1E",
+   "style": "arc"
   }
  ],
  "accent": "#FFFF3B30"
