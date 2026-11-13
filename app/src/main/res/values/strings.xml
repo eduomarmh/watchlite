@@ -434,6 +434,9 @@
     <string name="dev_options">Try to open Developer options</string>
     <string name="dev_options_sum">Not needed for WatchLite; for experiments only</string>
     <string name="device_info">About the watch</string>
+    <string name="build_number_page">Open full “About” page (Build number)</string>
+    <string name="build_number_page_sum">Tap Build number 7 times to unlock Developer options. Each press here tries another way.</string>
+    <string name="attempt_n">Way %1$d of %2$d</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

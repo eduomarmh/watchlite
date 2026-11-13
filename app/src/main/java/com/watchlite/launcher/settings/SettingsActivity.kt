@@ -641,7 +641,14 @@ class SettingsActivity : Activity() {
             Intent().setClassName("com.android.settings", "com.android.settings.Settings\$DevelopmentSettingsActivity"),
             Intent().setClassName("com.android.settings", "com.android.settings.DevelopmentSettings"),
             Intent(Settings.ACTION_DEVICE_INFO_SETTINGS))) }
-        action(s(R.string.device_info)) { openHidden(listOf(Intent(Settings.ACTION_DEVICE_INFO_SETTINGS), Intent(Settings.ACTION_SETTINGS))) }
+        action(s(R.string.build_number_page), s(R.string.build_number_page_sum)) { openNext(listOf(
+            Intent().setClassName("com.android.settings", "com.android.settings.Settings\$DeviceInfoSettingsActivity"),
+            Intent().setClassName("com.android.settings", "com.android.settings.SubSettings")
+                .putExtra(":settings:show_fragment", "com.android.settings.DeviceInfoSettings"),
+            Intent().setClassName("com.android.settings", "com.android.settings.SubSettings")
+                .putExtra(":settings:show_fragment", "com.android.settings.deviceinfo.DeviceInfoSettings"),
+            Intent().setClassName("com.android.settings", "com.android.settings.Settings\$MyDeviceInfoActivity"),
+            Intent(Settings.ACTION_DEVICE_INFO_SETTINGS))) }
         action(s(R.string.show_log)) {
             val t = (CrashGuard.lastCrash(this)?.let { "LAST CRASH:\n$it\n\n" } ?: "") + Log.dump()
             AlertDialog.Builder(this, Ui.DIALOG).setMessage(t.takeLast(6000)).setPositiveButton(android.R.string.ok, null).show()
@@ -657,6 +664,23 @@ class SettingsActivity : Activity() {
             action(s(R.string.power_off)) { if (!SystemActions.rootExec("reboot -p")) toast(s(R.string.root_failed)) }
         }
         row(s(R.string.licenses), s(R.string.licenses_sum))
+    }
+
+    private var nextAttempt = 0
+
+    /** Each press tries the next way of opening the page (firmwares hide different entries). */
+    private fun openNext(list: List<Intent>) {
+        for (k in list.indices) {
+            val i = list[(nextAttempt + k) % list.size]
+            if (i.resolveActivity(packageManager) == null) continue
+            try {
+                startActivity(i)
+                toast(getString(R.string.attempt_n, nextAttempt % list.size + 1, list.size))
+                nextAttempt += k + 1
+                return
+            } catch (_: Throwable) { }
+        }
+        toast(s(R.string.perm_no_page))
     }
 
     private fun openHidden(list: List<Intent>) {
