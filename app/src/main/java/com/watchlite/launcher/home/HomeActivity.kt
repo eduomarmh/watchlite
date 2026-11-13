@@ -120,6 +120,7 @@ class HomeActivity : Activity() {
     override fun onResume() {
         super.onResume()
         resumed = true
+        com.watchlite.launcher.aod.AodGate.homeResumed = true
         CrashGuard.markHealthy()
         com.watchlite.launcher.system.Permissions.autoEnable(this)
         refreshUiMode()
@@ -131,6 +132,7 @@ class HomeActivity : Activity() {
 
     override fun onPause() {
         resumed = false
+        com.watchlite.launcher.aod.AodGate.homeResumed = false
         face.pause()
         App.I.steps.stop()
         cancelIdle()

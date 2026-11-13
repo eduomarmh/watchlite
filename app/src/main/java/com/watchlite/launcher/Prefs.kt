@@ -64,6 +64,7 @@ class Prefs(ctx: Context) {
     var aodWake by str("aod_wake", "double")           // double | single
     var aodRaise by bool("aod_raise", false)
     var aodPixelShift by bool("aod_shift", true)
+    var aodEverywhere by bool("aod_everywhere", true)  // also when the screen turns off inside other apps
     var aodColor by int("aod_color", 0)                 // 0 = theme colors
     var aodWidgets by set("aod_widgets", setOf("battery", "notif"))
 

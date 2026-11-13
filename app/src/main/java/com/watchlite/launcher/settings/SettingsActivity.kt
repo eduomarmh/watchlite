@@ -314,6 +314,7 @@ class SettingsActivity : Activity() {
         slider(s(R.string.aod_battery_min), 5, 90, { p.aodBatteryMin }, { p.aodBatteryMin = it }) { Digits.fmt(it) + "%" }
         switch(s(R.string.aod_charging), null, { p.aodWhileCharging }) { p.aodWhileCharging = it }
         choice(s(R.string.aod_wake), listOf("double" to s(R.string.aod_wake_double), "single" to s(R.string.aod_wake_single)), { p.aodWake }) { p.aodWake = it }
+        switch(s(R.string.aod_everywhere), s(R.string.aod_everywhere_sum), { p.aodEverywhere }) { p.aodEverywhere = it }
         switch(s(R.string.aod_raise), s(R.string.aod_raise_sum), { p.aodRaise }) { p.aodRaise = it }
         switch(s(R.string.aod_shift), s(R.string.aod_shift_sum), { p.aodPixelShift }) { p.aodPixelShift = it }
         header(s(R.string.aod_color))

@@ -76,7 +76,7 @@ class AodView(ctx: Context, private val renderer: FaceRenderer) : View(ctx) {
  */
 class AodController(private val host: HomeActivity) : SensorEventListener {
 
-    val policy = AodPolicy()
+    val policy get() = AodGate.policy
     var active = false
         private set
     private var anim: ValueAnimator? = null
@@ -91,21 +91,12 @@ class AodController(private val host: HomeActivity) : SensorEventListener {
     fun onTouch(ev: MotionEvent): Boolean { gestures.onTouchEvent(ev); return true }
 
     /** Whether AOD may start now (setting, battery, schedule, theater, saver). */
-    fun canEnter(): Boolean {
-        val p = App.prefs
-        val st = App.I.state
-        if (!p.aodEnabled || p.theater || host.powerSaving) return false
-        if (!policy.update(st.battery, st.charging, p.aodBatteryMin, p.aodWhileCharging)) return false
-        if (p.aodNightOff) {
-            val h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-            if (ThemeRepository.inRange(h, p.aodNightFrom, p.aodNightTo)) return false
-        }
-        return true
-    }
+    fun canEnter(): Boolean = AodGate.canEnter()
 
     fun enter() {
         if (active) return
         active = true
+        AodGate.homeAodActive = true
         Log.i("AOD", "enter")
         val win = host.window
         val start = currentBrightness()
@@ -138,6 +129,8 @@ class AodController(private val host: HomeActivity) : SensorEventListener {
     fun exit(screenGoingOff: Boolean = false) {
         if (!active) return
         active = false
+        AodGate.homeAodActive = false
+        AodGate.lastAodVisible = System.currentTimeMillis()
         anim?.cancel()
         unregisterRaise()
         Log.i("AOD", "exit")

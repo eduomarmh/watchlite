@@ -437,6 +437,8 @@
     <string name="build_number_page">Open full “About” page (Build number)</string>
     <string name="build_number_page_sum">Tap Build number 7 times to unlock Developer options. Each press here tries another way.</string>
     <string name="attempt_n">Way %1$d of %2$d</string>
+    <string name="aod_everywhere">Inside other apps too</string>
+    <string name="aod_everywhere_sum">When the screen turns off in any app, the always-on clock appears; double-tap returns to the app. Press power in it to turn fully off.</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>
