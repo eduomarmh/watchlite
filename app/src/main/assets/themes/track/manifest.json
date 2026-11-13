@@ -1,0 +1,55 @@
+{
+ "schema": 1,
+ "id": "track",
+ "name": {
+  "en": "Circuit",
+  "ar": "حلبة"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/track.webp",
+  "scrim": 0.1
+ },
+ "elements": [
+  {
+   "type": "ring",
+   "cx": 0.36,
+   "cy": 0.5,
+   "radius": 0.32,
+   "width": 0.03,
+   "source": "seconds",
+   "color": "#FFE10600",
+   "trackColor": "#33FFFFFF"
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.36,
+   "y": 0.47,
+   "size": 0.24,
+   "font": "bebas",
+   "color": "#FFFFFFFF",
+   "tracking": 0.02
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d}",
+   "x": 0.36,
+   "y": 0.62,
+   "size": 0.06,
+   "font": "bebas",
+   "color": "#FFE10600",
+   "upper": true
+  },
+  {
+   "type": "text",
+   "text": "{steps}",
+   "x": 0.36,
+   "y": 0.71,
+   "size": 0.05,
+   "font": "bebas",
+   "color": "#AAFFFFFF"
+  }
+ ],
+ "accent": "#FFE10600"
+}

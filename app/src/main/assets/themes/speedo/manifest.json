@@ -1,0 +1,59 @@
+{
+ "schema": 1,
+ "id": "speedo",
+ "name": {
+  "en": "Speedometer",
+  "ar": "عداد السرعة"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "speedo",
+  "colors": [
+   "#FFFF3B30"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.66,
+   "size": 0.15,
+   "font": "michroma",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d}",
+   "x": 0.5,
+   "y": 0.77,
+   "size": 0.045,
+   "font": "michroma",
+   "color": "#FF8E8E93",
+   "upper": true
+  },
+  {
+   "type": "text",
+   "text": "{battery}",
+   "x": 0.5,
+   "y": 0.36,
+   "size": 0.05,
+   "font": "michroma",
+   "color": "#FFFF3B30"
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.47,
+    "size": 0.18,
+    "font": "michroma",
+    "color": "#FFFF3B30"
+   }
+  ]
+ },
+ "accent": "#FFFF3B30"
+}

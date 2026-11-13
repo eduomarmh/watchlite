@@ -1,0 +1,75 @@
+{
+ "schema": 1,
+ "id": "nightdrive",
+ "name": {
+  "en": "Night Drive",
+  "ar": "طريق الليل"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "nightdrive",
+  "colors": [
+   "#FFFF2D55"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.13,
+   "size": 0.25,
+   "font": "michroma",
+   "color": "#FFFFFFFF",
+   "glow": false,
+   "shadow": {
+    "r": 0.03,
+    "dy": 0,
+    "color": "#FF000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.26,
+   "size": 0.05,
+   "font": "michroma",
+   "color": "#FFFF8FA8",
+   "upper": true
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.95,
+   "y": 0.05,
+   "anchor": "topRight",
+   "w": 0.26,
+   "h": 0.09
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.45,
+    "size": 0.22,
+    "font": "michroma",
+    "color": "#FFFF2D55",
+    "style": "outline"
+   },
+   {
+    "type": "text",
+    "text": "{date:EEE d}",
+    "x": 0.5,
+    "y": 0.6,
+    "size": 0.05,
+    "font": "michroma",
+    "color": "#FF666666",
+    "upper": true
+   }
+  ]
+ },
+ "accent": "#FFFF2D55"
+}

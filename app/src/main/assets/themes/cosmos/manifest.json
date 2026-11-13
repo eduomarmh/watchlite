@@ -1,0 +1,53 @@
+{
+ "schema": 1,
+ "id": "cosmos",
+ "name": {
+  "en": "Cosmos",
+  "ar": "الكون"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/nebula.webp",
+  "overlay": "twinkle",
+  "overlayColor": "#FFFFFFFF",
+  "speed": 0.6
+ },
+ "elements": [
+  {
+   "type": "ticks",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.47,
+   "count": 12,
+   "major": 3,
+   "color": "#66FFFFFF",
+   "majorColor": "#FFFFFFFF",
+   "majorLen": 0.05,
+   "minorLen": 0.025,
+   "majorW": 0.012,
+   "minorW": 0.008,
+   "style": "dot"
+  },
+  {
+   "type": "text",
+   "text": "{date:d MMM}",
+   "x": 0.5,
+   "y": 0.7,
+   "size": 0.06,
+   "font": "tajawal_bold",
+   "color": "#CCFFFFFF"
+  },
+  {
+   "type": "analog",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.46,
+   "style": "sword",
+   "hourW": 0.12,
+   "minuteW": 0.09,
+   "seconds": true,
+   "secondColor": "#FFFF5F8F"
+  }
+ ]
+}

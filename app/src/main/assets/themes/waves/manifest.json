@@ -1,0 +1,47 @@
+{
+ "schema": 1,
+ "id": "waves",
+ "name": {
+  "en": "Ocean",
+  "ar": "المحيط"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "waves",
+  "colors": [
+   "#FF001018",
+   "#FF003A52",
+   "#FF00A6C0",
+   "#FF7FF0FF"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.3,
+   "size": 0.3,
+   "font": "tajawal_light",
+   "color": "#FFE6FBFF"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.46,
+   "size": 0.06,
+   "font": "tajawal_medium",
+   "color": "#B3E6FBFF"
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  }
+ ]
+}

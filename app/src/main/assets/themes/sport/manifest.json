@@ -1,0 +1,62 @@
+{
+ "schema": 1,
+ "id": "sport",
+ "name": {
+  "en": "Sport",
+  "ar": "رياضي"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/carbon.webp"
+ },
+ "elements": [
+  {
+   "type": "ring",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.44,
+   "width": 0.045,
+   "source": "steps",
+   "color": "#FF30D158",
+   "trackColor": "#2230D158"
+  },
+  {
+   "type": "ring",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.37,
+   "width": 0.045,
+   "source": "battery",
+   "color": "#FF0A84FF",
+   "trackColor": "#220A84FF"
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.36,
+   "font": "bebas",
+   "tracking": 0.02
+  },
+  {
+   "type": "text",
+   "text": "{steps}",
+   "x": 0.5,
+   "y": 0.67,
+   "size": 0.075,
+   "font": "bebas",
+   "color": "#FF30D158"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d}",
+   "x": 0.5,
+   "y": 0.28,
+   "size": 0.06,
+   "font": "bebas",
+   "color": "#FFAAAAAA",
+   "upper": true
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+-keep class com.watchlite.launcher.** extends android.app.Service
+-keep class com.watchlite.launcher.** extends android.content.BroadcastReceiver
+-keep class com.watchlite.launcher.** extends android.app.Activity

@@ -1,0 +1,46 @@
+{
+ "schema": 1,
+ "id": "taillights",
+ "name": {
+  "en": "Tail Lights",
+  "ar": "أنوار خلفية"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/tail_lights.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.22,
+   "size": 0.3,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.36,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#CCFFFFFF"
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  }
+ ]
+}

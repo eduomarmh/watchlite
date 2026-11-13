@@ -1,0 +1,54 @@
+{
+ "schema": 1,
+ "id": "dunes",
+ "name": {
+  "en": "Dunes",
+  "ar": "الكثبان"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/dunes.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.19,
+   "size": 0.3,
+   "font": "bebas",
+   "color": "#FFFFF4E6",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   },
+   "tracking": 0.03
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.33,
+   "size": 0.06,
+   "font": "tajawal_medium",
+   "color": "#E6FFF4E6",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{battery}",
+   "x": 0.5,
+   "y": 0.94,
+   "size": 0.05,
+   "font": "tajawal_bold",
+   "color": "#99FFFFFF"
+  }
+ ]
+}

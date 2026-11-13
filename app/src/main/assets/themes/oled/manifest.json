@@ -1,0 +1,43 @@
+{
+ "schema": 1,
+ "id": "oled",
+ "name": {
+  "en": "Pure Black",
+  "ar": "أسود"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "solid",
+  "colors": [
+   "#FF000000"
+  ]
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.46,
+   "size": 0.3,
+   "font": "tajawal_medium",
+   "color": "#FFEDEDED"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.62,
+   "size": 0.065,
+   "font": "tajawal_medium",
+   "color": "#FF8E8E93"
+  },
+  {
+   "type": "text",
+   "text": "{battery}",
+   "x": 0.5,
+   "y": 0.9,
+   "size": 0.05,
+   "font": "tajawal_medium",
+   "color": "#FF5A5A5E"
+  }
+ ]
+}

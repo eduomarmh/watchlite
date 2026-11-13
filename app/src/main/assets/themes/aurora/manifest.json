@@ -1,0 +1,48 @@
+{
+ "schema": 1,
+ "id": "aurora",
+ "name": {
+  "en": "Aurora",
+  "ar": "الشفق"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/aurora.webp",
+  "overlay": "twinkle",
+  "overlayColor": "#FFFFFFFF",
+  "speed": 0.8
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.72,
+   "size": 0.27,
+   "font": "tajawal_medium",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.86,
+   "size": 0.06,
+   "font": "tajawal_medium",
+   "color": "#CCFFFFFF"
+  },
+  {
+   "type": "dot",
+   "text": "notif",
+   "x": 0.92,
+   "y": 0.08,
+   "size": 0.022,
+   "color": "@accent"
+  }
+ ]
+}

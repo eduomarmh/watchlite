@@ -1,0 +1,42 @@
+{
+ "schema": 1,
+ "id": "bubbles",
+ "name": {
+  "en": "Bubbles",
+  "ar": "فقاعات"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "bubbles",
+  "colors": [
+   "#FF7FE7F2"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.3,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.63,
+   "size": 0.065,
+   "font": "tajawal_medium",
+   "color": "#CCFFFFFF"
+  }
+ ]
+}

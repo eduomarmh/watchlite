@@ -1,0 +1,39 @@
+{
+ "schema": 1,
+ "id": "sunsetcar",
+ "name": {
+  "en": "Sunset Cruise",
+  "ar": "غروب"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/sunset_car.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.17,
+   "size": 0.26,
+   "font": "michroma",
+   "color": "#FFFFE9D6",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.3,
+   "size": 0.05,
+   "font": "michroma",
+   "color": "#CCFFE9D6",
+   "upper": true
+  }
+ ]
+}

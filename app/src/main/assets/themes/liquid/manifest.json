@@ -1,0 +1,64 @@
+{
+ "schema": 1,
+ "id": "liquid",
+ "name": {
+  "en": "Liquid",
+  "ar": "سائل"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "liquid",
+  "colors": [
+   "#2B4CFF",
+   "#A23BD9",
+   "#FF7A3D"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  },
+  {
+   "type": "dot",
+   "text": "notif",
+   "x": 0.92,
+   "y": 0.08,
+   "size": 0.022,
+   "color": "@accent"
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.33,
+   "font": "tajawal_light",
+   "shadow": {
+    "r": 0.03,
+    "dy": 0,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.64,
+   "size": 0.07,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+{
+ "schema": 1,
+ "id": "gold",
+ "name": {
+  "en": "Gold",
+  "ar": "ذهبي"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/silk.webp",
+  "scrim": 0.25
+ },
+ "elements": [
+  {
+   "type": "ticks",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.47,
+   "count": 60,
+   "major": 5,
+   "color": "#55E8C77A",
+   "majorColor": "#FFE8C77A",
+   "majorLen": 0.07,
+   "minorLen": 0.025,
+   "majorW": 0.014,
+   "minorW": 0.005
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d}",
+   "x": 0.5,
+   "y": 0.7,
+   "size": 0.05,
+   "font": "tajawal_bold",
+   "color": "#FFE8C77A",
+   "upper": true
+  },
+  {
+   "type": "analog",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.46,
+   "style": "sword",
+   "hourW": 0.11,
+   "minuteW": 0.085,
+   "hourColor": "#FFF3D99B",
+   "minuteColor": "#FFF3D99B",
+   "centerColor": "#FFF3D99B",
+   "seconds": false
+  }
+ ],
+ "accent": "#FFE8C77A"
+}

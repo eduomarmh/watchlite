@@ -1,0 +1,90 @@
+{
+ "schema": 1,
+ "id": "flow",
+ "name": {
+  "en": "Flow",
+  "ar": "تدفّق"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/flow.webp"
+ },
+ "elements": [
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  },
+  {
+   "type": "dot",
+   "text": "notif",
+   "x": 0.92,
+   "y": 0.08,
+   "size": 0.022,
+   "color": "@accent"
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.5,
+   "size": 0.31,
+   "font": "tajawal_extrabold",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.665,
+   "size": 0.07,
+   "font": "tajawal_medium",
+   "color": "#E6FFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{prayer.next} {prayer.nextTime}",
+   "x": 0.5,
+   "y": 0.9,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#B3FFFFFF"
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.48,
+    "size": 0.28,
+    "font": "tajawal_light",
+    "style": "outline",
+    "color": "#FFFFFFFF"
+   },
+   {
+    "type": "text",
+    "text": "{date:EEE d MMM}",
+    "x": 0.5,
+    "y": 0.64,
+    "size": 0.07,
+    "font": "tajawal_medium",
+    "color": "#FF8E8E93"
+   }
+  ]
+ }
+}

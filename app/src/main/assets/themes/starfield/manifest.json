@@ -1,0 +1,49 @@
+{
+ "schema": 1,
+ "id": "starfield",
+ "name": {
+  "en": "Warp",
+  "ar": "الفضاء"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "starfield",
+  "colors": [
+   "#FFDDE8FF"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.48,
+   "size": 0.22,
+   "font": "michroma",
+   "shadow": {
+    "r": 0.03,
+    "dy": 0,
+    "color": "#FF000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.63,
+   "size": 0.055,
+   "font": "michroma",
+   "color": "#FF8AB4FF",
+   "upper": true
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  }
+ ]
+}

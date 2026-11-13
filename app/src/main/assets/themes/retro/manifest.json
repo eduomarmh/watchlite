@@ -1,0 +1,69 @@
+{
+ "schema": 1,
+ "id": "retro",
+ "name": {
+  "en": "Retro LCD",
+  "ar": "شاشة قديمة"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "gradient",
+  "colors": [
+   "#FFA7B38F",
+   "#FF8E9B78"
+  ]
+ },
+ "elements": [
+  {
+   "type": "panel",
+   "x": 0.5,
+   "y": 0.5,
+   "w": 0.9,
+   "h": 0.5,
+   "color": "#14000000",
+   "corner": 0.08
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.32,
+   "font": "techmono",
+   "color": "#FF1E2614",
+   "ghost": "88:88",
+   "format": "HH:mm"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE dd.MM}",
+   "x": 0.5,
+   "y": 0.21,
+   "size": 0.075,
+   "font": "techmono",
+   "color": "#FF2A3420",
+   "upper": true
+  },
+  {
+   "type": "text",
+   "text": "BAT {battery}  STP {steps}",
+   "x": 0.5,
+   "y": 0.8,
+   "size": 0.055,
+   "font": "techmono",
+   "color": "#FF2A3420"
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.47,
+    "size": 0.3,
+    "font": "techmono",
+    "color": "#FF8E9B78",
+    "format": "HH:mm"
+   }
+  ]
+ }
+}

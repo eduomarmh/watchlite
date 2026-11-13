@@ -1,0 +1,48 @@
+{
+ "schema": 1,
+ "id": "ember",
+ "name": {
+  "en": "Ember",
+  "ar": "جمر"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/ember.webp",
+  "scrim": 0.15
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.32,
+   "font": "tajawal_extrabold",
+   "color": "#FFFFE2C2",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d}",
+   "x": 0.5,
+   "y": 0.64,
+   "size": 0.062,
+   "font": "tajawal_bold",
+   "color": "#FFFF9A5A"
+  },
+  {
+   "type": "text",
+   "text": "{prayer.next} {prayer.nextTime}",
+   "x": 0.5,
+   "y": 0.9,
+   "size": 0.052,
+   "font": "tajawal_medium",
+   "color": "#AAFFE2C2"
+  }
+ ]
+}

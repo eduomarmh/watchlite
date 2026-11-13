@@ -1,0 +1,52 @@
+{
+ "schema": 1,
+ "id": "mountains",
+ "name": {
+  "en": "Dawn Peaks",
+  "ar": "قمم الفجر"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/mountains.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.2,
+   "size": 0.27,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.32,
+   "size": 0.06,
+   "font": "tajawal_medium",
+   "color": "#E6FFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  }
+ ]
+}

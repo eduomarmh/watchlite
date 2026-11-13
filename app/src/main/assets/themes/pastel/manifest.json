@@ -1,0 +1,57 @@
+{
+ "schema": 1,
+ "id": "pastel",
+ "name": {
+  "en": "Pastel",
+  "ar": "باستيل"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/mesh.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.06,
+   "y": 0.42,
+   "size": 0.32,
+   "font": "tajawal_extrabold",
+   "anchor": "centerLeft",
+   "format": "auto",
+   "shadow": {
+    "r": 0.03,
+    "dy": 0.004,
+    "color": "#55000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE}",
+   "x": 0.07,
+   "y": 0.6,
+   "size": 0.07,
+   "font": "tajawal_bold",
+   "anchor": "centerLeft",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "text",
+   "text": "{date:d MMMM}",
+   "x": 0.07,
+   "y": 0.69,
+   "size": 0.06,
+   "font": "tajawal_medium",
+   "anchor": "centerLeft",
+   "color": "#CCFFFFFF"
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  }
+ ]
+}

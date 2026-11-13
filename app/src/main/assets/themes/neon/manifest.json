@@ -1,0 +1,54 @@
+{
+ "schema": 1,
+ "id": "neon",
+ "name": {
+  "en": "Neon Grid",
+  "ar": "نيون"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "neongrid",
+  "colors": [
+   "#FF0B0221",
+   "#FF3A0A4A",
+   "#FFFF3EA5",
+   "#FFFFB84D"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.22,
+   "size": 0.22,
+   "font": "michroma",
+   "color": "#FFFFE9F6",
+   "glow": true
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.36,
+   "size": 0.05,
+   "font": "michroma",
+   "color": "#FFFF3EA5",
+   "upper": true
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.45,
+    "size": 0.2,
+    "font": "michroma",
+    "color": "#FFFF3EA5",
+    "style": "outline"
+   }
+  ]
+ }
+}

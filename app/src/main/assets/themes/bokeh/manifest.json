@@ -1,0 +1,55 @@
+{
+ "schema": 1,
+ "id": "bokeh",
+ "name": {
+  "en": "City Lights",
+  "ar": "أضواء المدينة"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/bokeh.webp",
+  "overlay": "twinkle",
+  "overlayColor": "#FFFFE7B0",
+  "speed": 0.5
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.46,
+   "size": 0.32,
+   "font": "tajawal_light",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.63,
+   "size": 0.065,
+   "font": "tajawal_medium",
+   "color": "#E6FFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  }
+ ]
+}

@@ -1,0 +1,114 @@
+{
+ "schema": 1,
+ "id": "chrono",
+ "name": {
+  "en": "Pro Chrono",
+  "ar": "كرونو"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/carbon.webp"
+ },
+ "elements": [
+  {
+   "type": "ticks",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.48,
+   "count": 60,
+   "major": 5,
+   "color": "#55FFFFFF",
+   "majorColor": "#FFFFFFFF",
+   "majorLen": 0.06,
+   "minorLen": 0.025,
+   "majorW": 0.014,
+   "minorW": 0.005,
+   "numerals": "all",
+   "numeralSize": 0.075,
+   "numeralInset": 0.12,
+   "font": "tajawal_bold"
+  },
+  {
+   "type": "ring",
+   "cx": 0.5,
+   "cy": 0.3,
+   "radius": 0.085,
+   "width": 0.018,
+   "source": "battery",
+   "color": "#FF0A84FF",
+   "trackColor": "#330A84FF"
+  },
+  {
+   "type": "text",
+   "text": "{battery}",
+   "x": 0.5,
+   "y": 0.3,
+   "size": 0.045,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "ring",
+   "cx": 0.29,
+   "cy": 0.52,
+   "radius": 0.085,
+   "width": 0.018,
+   "source": "steps",
+   "color": "#FF30D158",
+   "trackColor": "#3330D158"
+  },
+  {
+   "type": "text",
+   "text": "{steps}",
+   "x": 0.29,
+   "y": 0.52,
+   "size": 0.04,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "ring",
+   "cx": 0.71,
+   "cy": 0.52,
+   "radius": 0.085,
+   "width": 0.018,
+   "source": "seconds",
+   "color": "@accent",
+   "trackColor": "#33FFFFFF",
+   "role": "accent"
+  },
+  {
+   "type": "text",
+   "text": "{date:d}",
+   "x": 0.71,
+   "y": 0.52,
+   "size": 0.05,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE}",
+   "x": 0.5,
+   "y": 0.72,
+   "size": 0.05,
+   "font": "tajawal_bold",
+   "color": "#FFAAAAAA",
+   "upper": true
+  },
+  {
+   "type": "analog",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.47,
+   "style": "baton",
+   "hourW": 0.075,
+   "minuteW": 0.06,
+   "seconds": true,
+   "secondColor": "@accent",
+   "smooth": true
+  }
+ ],
+ "accent": "#FFFF453A"
+}

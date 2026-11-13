@@ -1,0 +1,66 @@
+{
+ "schema": 1,
+ "id": "minimal",
+ "name": {
+  "en": "Minimal",
+  "ar": "بسيط"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/dusk.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.33,
+   "size": 0.34,
+   "font": "tajawal_light",
+   "format": "HH"
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.62,
+   "size": 0.34,
+   "font": "tajawal_light",
+   "format": "mm",
+   "color": "@accent",
+   "role": "accent"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d}",
+   "x": 0.5,
+   "y": 0.86,
+   "size": 0.065,
+   "font": "tajawal_medium",
+   "color": "#99FFFFFF",
+   "upper": true
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.33,
+    "size": 0.3,
+    "font": "tajawal_light",
+    "format": "HH",
+    "color": "#FFBBBBBB"
+   },
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.62,
+    "size": 0.3,
+    "font": "tajawal_light",
+    "format": "mm",
+    "color": "#FF777777"
+   }
+  ]
+ },
+ "accent": "#FFFF8A5B"
+}

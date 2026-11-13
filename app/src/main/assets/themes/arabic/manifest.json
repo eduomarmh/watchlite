@@ -1,0 +1,94 @@
+{
+ "schema": 1,
+ "id": "arabic",
+ "name": {
+  "en": "Arabesque",
+  "ar": "أرابيسك"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/geo.webp",
+  "scrim": 0.15
+ },
+ "elements": [
+  {
+   "type": "panel",
+   "x": 0.5,
+   "y": 0.5,
+   "w": 0.86,
+   "h": 0.62,
+   "color": "#B3021A14",
+   "corner": 0.18
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.42,
+   "size": 0.3,
+   "font": "ruqaa",
+   "color": "#FFE8C77A",
+   "digits": "arabicIndic",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{hijri}",
+   "x": 0.5,
+   "y": 0.6,
+   "size": 0.068,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF",
+   "digits": "arabicIndic"
+  },
+  {
+   "type": "text",
+   "text": "{prayer.next} • {prayer.nextTime}",
+   "x": 0.5,
+   "y": 0.71,
+   "size": 0.06,
+   "font": "tajawal_medium",
+   "color": "#FFC9A45C",
+   "digits": "arabicIndic"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.25,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#CCFFFFFF",
+   "digits": "arabicIndic"
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.45,
+    "size": 0.28,
+    "font": "ruqaa",
+    "color": "#FFC9A45C",
+    "digits": "arabicIndic"
+   },
+   {
+    "type": "text",
+    "text": "{hijriShort}",
+    "x": 0.5,
+    "y": 0.63,
+    "size": 0.065,
+    "font": "tajawal_medium",
+    "color": "#FF888888",
+    "digits": "arabicIndic"
+   }
+  ]
+ },
+ "accent": "#FFE8C77A"
+}

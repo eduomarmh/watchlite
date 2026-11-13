@@ -1,0 +1,85 @@
+{
+ "schema": 1,
+ "id": "classic",
+ "name": {
+  "en": "Classic",
+  "ar": "كلاسيك"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "gradient",
+  "colors": [
+   "#FF1C1C22",
+   "#FF050507"
+  ]
+ },
+ "elements": [
+  {
+   "type": "ticks",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.48,
+   "count": 60,
+   "major": 5,
+   "color": "#66FFFFFF",
+   "majorColor": "#FFFFFFFF",
+   "majorLen": 0.07,
+   "minorLen": 0.03,
+   "majorW": 0.012,
+   "minorW": 0.005,
+   "numerals": "quarters",
+   "numeralSize": 0.12,
+   "numeralInset": 0.15,
+   "font": "tajawal_medium"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d}",
+   "x": 0.5,
+   "y": 0.7,
+   "size": 0.055,
+   "font": "tajawal_bold",
+   "color": "#FFBBBBBB",
+   "upper": true
+  },
+  {
+   "type": "analog",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.47,
+   "style": "classic",
+   "hourW": 0.075,
+   "minuteW": 0.055,
+   "seconds": true,
+   "secondColor": "@accent"
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "ticks",
+    "cx": 0.5,
+    "cy": 0.5,
+    "radius": 0.48,
+    "count": 12,
+    "major": 3,
+    "color": "#66FFFFFF",
+    "majorColor": "#AAFFFFFF",
+    "majorLen": 0.06,
+    "minorLen": 0.03,
+    "majorW": 0.01,
+    "minorW": 0.006
+   },
+   {
+    "type": "analog",
+    "cx": 0.5,
+    "cy": 0.5,
+    "radius": 0.47,
+    "style": "line",
+    "hourColor": "#FFAAAAAA",
+    "minuteColor": "#FFDDDDDD"
+   }
+  ]
+ },
+ "accent": "#FFFF9F0A"
+}
