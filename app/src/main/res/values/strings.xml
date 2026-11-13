@@ -357,6 +357,18 @@
     <string name="is_wl_gradient">WatchLite Gradient</string>
     <string name="is_wl_line">WatchLite Line</string>
     <string name="is_wl_neon">WatchLite Neon</string>
+    <string name="aod_prayer_header">Prayer</string>
+    <string name="aod_prayer">Show next prayer</string>
+    <string name="aod_prayer_sum">A line under the clock, e.g. \"Asr 3:00\"</string>
+    <string name="aod_prayer_cd">Add countdown</string>
+    <string name="dst">Daylight saving time</string>
+    <string name="dst_auto">Automatic (watch setting)</string>
+    <string name="dst_on">On (+1 hour)</string>
+    <string name="dst_off">Off</string>
+    <string name="dst_now">Time used for prayers</string>
+    <string name="dst_active">summer time</string>
+    <string name="dst_inactive">standard time</string>
+    <string name="dst_watch_says">watch DST:</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

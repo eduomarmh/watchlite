@@ -356,6 +356,18 @@
     <string name="is_wl_gradient">WatchLite تدرج</string>
     <string name="is_wl_line">WatchLite خطوط</string>
     <string name="is_wl_neon">WatchLite نيون</string>
+    <string name="aod_prayer_header">الصلاة</string>
+    <string name="aod_prayer">إظهار الصلاة الجاية</string>
+    <string name="aod_prayer_sum">سطر تحت الساعة، مثلًا \"العصر 3:00\"</string>
+    <string name="aod_prayer_cd">إضافة العد التنازلي</string>
+    <string name="dst">التوقيت الصيفي</string>
+    <string name="dst_auto">تلقائي (حسب الساعة)</string>
+    <string name="dst_on">مفعّل (+1 ساعة)</string>
+    <string name="dst_off">مقفول</string>
+    <string name="dst_now">التوقيت المستخدم للصلاة</string>
+    <string name="dst_active">توقيت صيفي</string>
+    <string name="dst_inactive">توقيت شتوي</string>
+    <string name="dst_watch_says">الساعة:</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

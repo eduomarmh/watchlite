@@ -85,13 +85,28 @@ class FaceRenderer(private val ctx: Context) {
     /** Small always-on widgets row: battery, steps, next prayer, notifications, date. */
     fun drawAodWidgets(c: Canvas, w: Int, h: Int, cal: Calendar, alpha: Float) {
         val set = App.prefs.aodWidgets
-        if (set.isEmpty()) return
         data.refreshIfNeeded(cal)
+        val short0 = min(w, h).toFloat()
+        // prominent "next prayer" line under the clock (e.g. "العصر 3:00")
+        if (App.prefs.aodPrayer && App.prefs.prayerEnabled && data.nextPrayerName.isNotEmpty()) {
+            val pc = App.prefs.aodColor.takeIf { it != 0 } ?: App.prefs.accent
+            tp.reset(); tp.isAntiAlias = true
+            tp.typeface = Fonts.get(ctx, "tajawal_bold", null)
+            tp.textSize = short0 * 0.075f
+            tp.color = Color.argb((Color.alpha(pc) * alpha).toInt(), Color.red(pc), Color.green(pc), Color.blue(pc))
+            tp.textAlign = Paint.Align.CENTER
+            var line = "${data.nextPrayerName}  ${data.nextPrayerTime}"
+            if (App.prefs.aodPrayerCountdown) line += "  ·  " + ctx.getString(com.watchlite.launcher.R.string.in_time, data.nextPrayerIn)
+            val mw = w * 0.86f
+            if (tp.measureText(line) > mw) tp.textSize *= mw / tp.measureText(line)
+            c.drawText(line, w / 2f, h * 0.77f, tp)
+        }
+        if (set.isEmpty()) return
         val ar = Digits.useArabic()
         val parts = ArrayList<String>()
         if ("battery" in set) parts += Digits.apply("${App.I.state.battery}%", ar)
         if ("steps" in set && App.I.steps.available) parts += Digits.apply("${App.I.steps.today}", ar) + " ↑"
-        if ("prayer" in set && data.nextPrayerName.isNotEmpty()) parts += "${data.nextPrayerName} ${data.nextPrayerTime}"
+        if ("prayer" in set && !App.prefs.aodPrayer && data.nextPrayerName.isNotEmpty()) parts += "${data.nextPrayerName} ${data.nextPrayerTime}"
         if ("date" in set) parts += Digits.apply(data.formatDate("EEE d", cal), ar)
         if ("phone" in set && App.I.state.phoneBattery >= 0) parts += Digits.apply("📱${App.I.state.phoneBattery}%", ar)
         val short = min(w, h).toFloat()

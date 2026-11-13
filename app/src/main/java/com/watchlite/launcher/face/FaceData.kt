@@ -19,7 +19,7 @@ class FaceData(private val ctx: Context) {
 
     private var minuteKey = -1L
     private var prayers: IntArray? = null
-    private var prayerDay = -1
+    private var prayerDay = ""
     var hijri = ""; private set
     var hijriShort = ""; private set
     var nextPrayerName = ""; private set
@@ -38,10 +38,11 @@ class FaceData(private val ctx: Context) {
     )
 
     fun prayerTimesToday(cal: Calendar): IntArray {
-        val day = cal.get(Calendar.DAY_OF_YEAR)
+        val p = App.prefs
+        // recompute when the day or any prayer setting changes
+        val day = "${cal.get(Calendar.DAY_OF_YEAR)}|${p.latitude}|${p.longitude}|${p.prayerMethod}|${p.asrMethod}|${p.dstMode}"
         if (prayers == null || day != prayerDay) {
-            val p = App.prefs
-            prayers = PrayerTimes.today(cal, p.latitude.toDouble(), p.longitude.toDouble(), p.prayerMethod, p.asrMethod == "hanafi")
+            prayers = PrayerTimes.today(cal, p.latitude.toDouble(), p.longitude.toDouble(), p.prayerMethod, p.asrMethod == "hanafi", p.dstMode)
             prayerDay = day
         }
         return prayers!!

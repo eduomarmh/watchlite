@@ -100,8 +100,11 @@ object PrayerTimes {
     }
 
     /** Convenience for "today" in the device timezone. */
-    fun today(cal: Calendar, lat: Double, lng: Double, method: String, hanafi: Boolean): IntArray {
-        val tz = TimeZone.getDefault().getOffset(cal.timeInMillis) / 3_600_000.0
+    fun today(cal: Calendar, lat: Double, lng: Double, method: String, hanafi: Boolean, dst: String = "auto"): IntArray {
+        val zone = TimeZone.getDefault()
+        val inDst = when (dst) { "on" -> true; "off" -> false; else -> zone.inDaylightTime(cal.time) }
+        // raw offset + 1 h when daylight saving applies (old watches may have outdated DST rules: "on"/"off" override them)
+        val tz = (zone.rawOffset + if (inDst) maxOf(zone.dstSavings, 3_600_000) else 0) / 3_600_000.0
         val r = compute(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), lat, lng, tz, method, hanafi)
         return IntArray(6) { Math.round(r[it]).toInt() }
     }

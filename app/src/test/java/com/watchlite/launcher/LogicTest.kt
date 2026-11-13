@@ -30,6 +30,16 @@ class LogicTest {
         assertEquals(90.0, t[5] - t[4], 1.5)
     }
 
+    @Test fun daylightSavingSwitch() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Africa/Cairo"))
+        val cal = Calendar.getInstance().apply { set(2026, Calendar.JULY, 1, 12, 0) }
+        val on = PrayerTimes.today(cal, 30.0444, 31.2357, "egypt", false, "on")
+        val off = PrayerTimes.today(cal, 30.0444, 31.2357, "egypt", false, "off")
+        for (i in 0 until 6) assertEquals(60, on[i] - off[i])
+        // Cairo, 1 July, summer time: Maghrib ≈ 19:59
+        assertTrue("maghrib ${on[4]}", abs(on[4] - (19 * 60 + 59)) <= 6)
+    }
+
     @Test fun aodHysteresis() {
         val p = AodPolicy()
         assertTrue(p.update(50, false, 30, true))

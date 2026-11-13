@@ -292,6 +292,9 @@ class SettingsActivity : Activity() {
             }, ui.lp(ui.px(6.5f), ui.px(6.5f), start = 0.8f, end = 0.8f))
         }
         list.addView(colors, ui.lp(bottom = 2f))
+        header(s(R.string.aod_prayer_header))
+        switch(s(R.string.aod_prayer), s(R.string.aod_prayer_sum), { p.aodPrayer }) { p.aodPrayer = it; if (it && !p.prayerEnabled) p.prayerEnabled = true; refresh() }
+        if (p.aodPrayer) switch(s(R.string.aod_prayer_cd), null, { p.aodPrayerCountdown }) { p.aodPrayerCountdown = it }
         header(s(R.string.aod_widgets))
         val wl = listOf("battery" to R.string.aodw_battery, "notif" to R.string.aodw_notif, "date" to R.string.aodw_date,
             "steps" to R.string.aodw_steps, "prayer" to R.string.aodw_prayer, "phone" to R.string.aodw_phone)
@@ -450,7 +453,19 @@ class SettingsActivity : Activity() {
         action(s(R.string.use_gps), Digits.apply("%.3f, %.3f".format(java.util.Locale.US, p.latitude, p.longitude), Digits.useArabic())) { requestGps() }
         choice(s(R.string.calc_method), PrayerTimes.METHODS.keys.map { it to methodName(it) }, { p.prayerMethod }) { p.prayerMethod = it }
         choice(s(R.string.asr_method), listOf("shafii" to s(R.string.asr_standard), "hanafi" to s(R.string.asr_hanafi)), { p.asrMethod }) { p.asrMethod = it }
+        choice(s(R.string.dst), listOf("auto" to s(R.string.dst_auto), "on" to s(R.string.dst_on), "off" to s(R.string.dst_off)), { p.dstMode }) { p.dstMode = it }
+        row(s(R.string.dst_now), dstStatus())
         choice(s(R.string.hijri_adjust), (-2..2).map { it to Digits.apply(if (it > 0) "+$it" else "$it", Digits.useArabic()) }, { p.hijriAdjust }) { p.hijriAdjust = it }
+    }
+
+    private fun dstStatus(): String {
+        val z = java.util.TimeZone.getDefault()
+        val sys = z.inDaylightTime(java.util.Date())
+        val active = when (p.dstMode) { "on" -> true; "off" -> false; else -> sys }
+        val off = (z.rawOffset + if (active) 3_600_000 else 0) / 3_600_000.0
+        val gmt = "GMT" + (if (off >= 0) "+" else "") + (if (off % 1.0 == 0.0) off.toInt().toString() else off.toString())
+        return Digits.apply(gmt, Digits.useArabic()) + " · " + s(if (active) R.string.dst_active else R.string.dst_inactive) +
+            " · " + s(R.string.dst_watch_says) + " " + s(if (sys) R.string.on else R.string.off)
     }
 
     private fun cityLabel(): String {

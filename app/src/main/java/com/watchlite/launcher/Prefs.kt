@@ -91,6 +91,9 @@ class Prefs(ctx: Context) {
     var locationMode by str("loc_mode", "manual")       // manual | gps
     var hijriAdjust by int("hijri_adjust", 0)
     var prayerAlert by bool("prayer_alert", false)
+    var dstMode by str("dst_mode", "auto")             // auto | on | off  (prayer-time offset)
+    var aodPrayer by bool("aod_prayer", false)         // next prayer line on the always-on screen
+    var aodPrayerCountdown by bool("aod_prayer_cd", false)
 
     // ---- Power
     var saverManual by bool("saver_manual", false)

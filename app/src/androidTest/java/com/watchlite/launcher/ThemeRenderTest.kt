@@ -19,7 +19,8 @@ class ThemeRenderTest {
 
     /** Skip the first-run overlay so the CI gesture flow sees the watch face. */
     @Test fun markOnboarded() {
-        App.prefs.sp.edit().putBoolean("onboarded", true).putString("theme_id", "flow").commit()
+        App.prefs.sp.edit().putBoolean("onboarded", true).putString("theme_id", "flow")
+            .putBoolean("aod_prayer", true).putBoolean("aod_prayer_cd", true).commit()
     }
 
     @Test fun renderIconThemes() {
