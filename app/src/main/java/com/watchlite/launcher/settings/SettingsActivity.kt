@@ -555,7 +555,7 @@ class SettingsActivity : Activity() {
         switch(s(R.string.saver_auto), null, { p.saverAuto }) { p.saverAuto = it; refresh() }
         if (p.saverAuto) slider(s(R.string.saver_threshold), 5, 50, { p.saverThreshold }, { p.saverThreshold = it }) { Digits.fmt(it) + "%" }
         switch(s(R.string.tile_theater), s(R.string.theater_sum), { p.theater }) { p.theater = it }
-        choice(s(R.string.flash_mode), listOf("auto" to s(R.string.flash_auto), "screen" to s(R.string.flash_screen)), { p.flashMode }) { p.flashMode = it }
+        choice(s(R.string.flash_mode), listOf("screen" to s(R.string.flash_screen), "auto" to s(R.string.flash_auto)), { p.flashMode }) { p.flashMode = it }
         action(s(R.string.lock_screen), if (SystemActions.isAdmin(this)) s(R.string.granted) else s(R.string.enable_admin_sum)) {
             if (!SystemActions.isAdmin(this)) com.watchlite.launcher.system.Permissions.help(this, com.watchlite.launcher.system.Permissions.Kind.ADMIN) { refresh() }
         }
@@ -636,6 +636,12 @@ class SettingsActivity : Activity() {
         row(s(R.string.screen), "${ui.sp}")
         row(s(R.string.memory), memoryInfo())
         action(s(R.string.input_probe), s(R.string.input_probe_sum)) { startActivity(Intent(this, InputProbeActivity::class.java)) }
+        action(s(R.string.dev_options), s(R.string.dev_options_sum)) { openHidden(listOf(
+            Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS),
+            Intent().setClassName("com.android.settings", "com.android.settings.Settings\$DevelopmentSettingsActivity"),
+            Intent().setClassName("com.android.settings", "com.android.settings.DevelopmentSettings"),
+            Intent(Settings.ACTION_DEVICE_INFO_SETTINGS))) }
+        action(s(R.string.device_info)) { openHidden(listOf(Intent(Settings.ACTION_DEVICE_INFO_SETTINGS), Intent(Settings.ACTION_SETTINGS))) }
         action(s(R.string.show_log)) {
             val t = (CrashGuard.lastCrash(this)?.let { "LAST CRASH:\n$it\n\n" } ?: "") + Log.dump()
             AlertDialog.Builder(this, Ui.DIALOG).setMessage(t.takeLast(6000)).setPositiveButton(android.R.string.ok, null).show()
@@ -651,6 +657,14 @@ class SettingsActivity : Activity() {
             action(s(R.string.power_off)) { if (!SystemActions.rootExec("reboot -p")) toast(s(R.string.root_failed)) }
         }
         row(s(R.string.licenses), s(R.string.licenses_sum))
+    }
+
+    private fun openHidden(list: List<Intent>) {
+        for (i in list) {
+            if (i.resolveActivity(packageManager) == null) continue
+            try { startActivity(i); return } catch (_: Throwable) { }
+        }
+        toast(s(R.string.perm_no_page))
     }
 
     private fun memoryInfo(): String {

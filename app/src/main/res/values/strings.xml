@@ -401,8 +401,8 @@
     <string name="swipe_down_launcher">WatchLite notifications</string>
     <string name="swipe_down_system">System notification shade</string>
     <string name="flash_mode">Flashlight</string>
-    <string name="flash_auto">LED if available, else screen</string>
-    <string name="flash_screen">Always the screen (white, max brightness)</string>
+    <string name="flash_auto">LED flash if the watch has one</string>
+    <string name="flash_screen">Screen light (white, max brightness)</string>
     <string name="tap_to_turn_off">Tap to turn off</string>
     <string name="steps_counting">Counting steps</string>
     <string name="steps_source">Counting method</string>
@@ -431,6 +431,9 @@
     <string name="notif_wake">Wake screen</string>
     <string name="notif_wake_sum">Turn the screen on for new notifications</string>
     <string name="drawer_bubbles">Bubbles (Apple Watch style)</string>
+    <string name="dev_options">Try to open Developer options</string>
+    <string name="dev_options_sum">Not needed for WatchLite; for experiments only</string>
+    <string name="device_info">About the watch</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

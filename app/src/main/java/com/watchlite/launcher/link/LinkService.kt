@@ -59,7 +59,13 @@ class LinkService : Service() {
     private fun loop() {
         while (running) {
             val adapter = BluetoothAdapter.getDefaultAdapter()
-            if (adapter == null || !adapter.isEnabled) { sleep(5000); continue }
+            if (adapter == null) { sleep(10000); continue }
+            if (!adapter.isEnabled) {
+                // phone link is on: switch Bluetooth on by itself (allowed on Android 8 with BLUETOOTH_ADMIN)
+                @Suppress("DEPRECATION", "MissingPermission")
+                try { adapter.enable() } catch (_: Throwable) { }
+                sleep(5000); continue
+            }
             try {
                 val srv = adapter.listenUsingRfcommWithServiceRecord("WatchLite", SPP_UUID)
                 server = srv

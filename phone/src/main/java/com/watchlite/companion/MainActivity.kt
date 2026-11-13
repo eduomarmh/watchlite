@@ -79,6 +79,16 @@ class MainActivity : Activity() {
         map?.onResume()
         render()
         if (PhoneLinkService.connected) PhoneLinkService.send("stats.request")
+        askBluetoothOn()
+    }
+
+    /** The link needs Bluetooth on; ask once per app open when a watch is paired and Bluetooth is off. */
+    @SuppressLint("MissingPermission")
+    private fun askBluetoothOn() {
+        if (prefs.getString("watch_addr", "").isNullOrEmpty()) return
+        if (Build.VERSION.SDK_INT >= 31 && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) return
+        val a = BluetoothAdapter.getDefaultAdapter() ?: return
+        if (!a.isEnabled) try { startActivity(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)) } catch (_: Exception) { }
     }
 
     override fun onPause() {
