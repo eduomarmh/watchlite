@@ -49,6 +49,26 @@
    "size": 0.05,
    "font": "tajawal_bold",
    "color": "#99FFFFFF"
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.25,
+   "cy": 0.8,
+   "radius": 0.105,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.75,
+   "cy": 0.8,
+   "radius": 0.105,
+   "color": "#FF0A84FF",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true
   }
  ]
 }

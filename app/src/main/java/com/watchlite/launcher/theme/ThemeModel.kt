@@ -110,10 +110,30 @@ class El(o: JSONObject) {
     val trackColor = safeColor(o.optString("trackColor"), 0x33FFFFFF)
     val start = o.optDouble("start", -90.0).toFloat()
 
+    /** Optional complication id (steps, battery, prayer, …). Users can hide/show it and tap it. */
+    val slot: String? = o.optString("slot").ifEmpty { null } ?: inferSlot()
+    val defaultOff = o.optBoolean("defaultOff", false)
+
+    private fun inferSlot(): String? = when (type) {
+        "batteryChip" -> "battery"
+        "dot" -> "notif"
+        "ring", "gauge" -> when (source) { "steps" -> "steps"; "battery" -> "battery"; "phone" -> "phone"; else -> null }
+        "text" -> when {
+            text.contains("{steps") -> "steps"
+            text.contains("{battery") -> "battery"
+            text.contains("{prayer") -> "prayer"
+            text.contains("{hijri") -> "hijri"
+            text.contains("{weather") -> "weather"
+            text.contains("{phone") -> "phone"
+            else -> null
+        }
+        else -> null
+    }
+
     val known get() = type in TYPES
 
     companion object {
-        val TYPES = setOf("digitalTime", "text", "analog", "ticks", "ring", "batteryChip", "panel", "dot")
+        val TYPES = setOf("digitalTime", "text", "analog", "ticks", "ring", "batteryChip", "panel", "dot", "gauge")
         fun safeColor(s: String?, def: Int) = try { if (s.isNullOrEmpty()) def else Color.parseColor(s) } catch (_: Exception) { def }
     }
 }
@@ -146,18 +166,28 @@ class Theme(
     fun name(locale: Locale = Locale.getDefault()): String =
         names[locale.language] ?: names["en"] ?: names.values.firstOrNull() ?: id
 
+    /** Complications present in this theme, in order. */
+    val slots: List<String> get() = elements.mapNotNull { it.slot }.distinct()
+
+    /** Hidden complications: the user's choice, or the theme's defaultOff ones. */
+    fun hiddenSlots(c: ThemeCustom): Set<String> = c.hidden ?: elements.filter { it.defaultOff }.mapNotNull { it.slot }.toSet()
+
     val hasSeconds get() = elements.any { (it.type == "analog" || it.type == "digitalTime") && it.seconds } ||
         elements.any { it.type == "text" && it.text.contains("{second}") } ||
         elements.any { it.type == "ring" && it.source == "seconds" }
 }
 
 /** Per-theme user customization (stored in prefs as JSON). */
-class ThemeCustom(val timeColor: Int?, val accent: Int?, val seconds: Boolean?) {
+class ThemeCustom(val timeColor: Int?, val accent: Int?, val seconds: Boolean?, val hidden: Set<String>? = null) {
     fun toJson(): String = JSONObject().apply {
         timeColor?.let { put("time", it) }
         accent?.let { put("accent", it) }
         seconds?.let { put("seconds", it) }
+        hidden?.let { put("hidden", JSONArray(it.toList())) }
     }.toString()
+
+    fun copy(timeColor: Int? = this.timeColor, accent: Int? = this.accent, seconds: Boolean? = this.seconds,
+             hidden: Set<String>? = this.hidden) = ThemeCustom(timeColor, accent, seconds, hidden)
 
     companion object {
         fun parse(s: String): ThemeCustom = try {
@@ -165,7 +195,8 @@ class ThemeCustom(val timeColor: Int?, val accent: Int?, val seconds: Boolean?) 
             ThemeCustom(
                 if (o.has("time")) o.getInt("time") else null,
                 if (o.has("accent")) o.getInt("accent") else null,
-                if (o.has("seconds")) o.getBoolean("seconds") else null
+                if (o.has("seconds")) o.getBoolean("seconds") else null,
+                o.optJSONArray("hidden")?.let { a -> (0 until a.length()).map { a.getString(it) }.toSet() }
             )
         } catch (_: Exception) { ThemeCustom(null, null, null) }
     }

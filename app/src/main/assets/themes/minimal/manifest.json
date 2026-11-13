@@ -33,11 +33,29 @@
    "type": "text",
    "text": "{date:EEE d}",
    "x": 0.5,
-   "y": 0.86,
-   "size": 0.065,
+   "y": 0.87,
+   "size": 0.055,
    "font": "tajawal_medium",
    "color": "#99FFFFFF",
    "upper": true
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.17,
+   "cy": 0.86,
+   "radius": 0.105,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.83,
+   "cy": 0.86,
+   "radius": 0.105,
+   "color": "#FF0A84FF",
+   "trackColor": "#40FFFFFF"
   }
  ],
  "aod": {

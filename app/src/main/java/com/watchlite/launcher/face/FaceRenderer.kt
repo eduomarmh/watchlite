@@ -54,7 +54,10 @@ class FaceRenderer(private val ctx: Context) {
         aodColorOverride = if (aod) App.prefs.aodColor else 0
         val list = if (!aod) theme.elements else theme.aod.ifEmpty { derivedAodFor(theme) }
         val short = min(w, h).toFloat()
+        val hidden = theme.hiddenSlots(custom)
+        if (!aod) hitCount = 0
         for (e in list) {
+            if (e.slot != null && e.slot in hidden) continue
             try {
                 when (e.type) {
                     "digitalTime" -> digital(c, e, w, h, short, cal, theme)
@@ -65,7 +68,9 @@ class FaceRenderer(private val ctx: Context) {
                     "batteryChip" -> batteryChip(c, e, w, h, short, theme)
                     "panel" -> panel(c, e, w, h, short)
                     "dot" -> dot(c, e, w, h, short)
+                    "gauge" -> gauge(c, e, w, h, short)
                 }
+                if (!aod && e.slot != null && e.type != "panel") recordHit(e, w, h, short)
             } catch (t: Throwable) {
                 com.watchlite.launcher.util.Log.w("Render", "element ${e.type} failed", t)
             }
@@ -326,6 +331,95 @@ class FaceRenderer(private val ctx: Context) {
         }
     }
 
+    // ------------------------------------------------------------ complication hit testing
+    private val hitSlots = arrayOfNulls<String>(24)
+    private val hitRects = Array(24) { RectF() }
+    private var hitCount = 0
+
+    private fun recordHit(e: El, w: Int, h: Int, short: Float) {
+        if (hitCount >= hitSlots.size) return
+        val r = hitRects[hitCount]
+        when (e.type) {
+            "ring", "gauge" -> { val rr = e.radius * short + short * 0.03f; r.set(e.cx * w - rr, e.cy * h - rr, e.cx * w + rr, e.cy * h + rr) }
+            "batteryChip" -> { anchorRect(e, w, h, short); r.set(rect) }
+            else -> { // text / dot: generous box around the anchor point
+                val hh = maxOf(e.size * short, short * 0.08f); val ww = short * 0.32f
+                r.set(e.x * w - ww, e.y * h - hh, e.x * w + ww, e.y * h + hh)
+                if (e.anchor.endsWith("Left", true)) r.offset(ww, 0f) else if (e.anchor.endsWith("Right", true)) r.offset(-ww, 0f)
+            }
+        }
+        hitSlots[hitCount++] = e.slot
+    }
+
+    /** Which complication (if any) is under a tap. Smallest matching area wins. */
+    fun hitTest(x: Float, y: Float): String? {
+        var best: String? = null; var area = Float.MAX_VALUE
+        for (i in 0 until hitCount) {
+            val r = hitRects[i]
+            if (r.contains(x, y) && r.width() * r.height() < area) { area = r.width() * r.height(); best = hitSlots[i] }
+        }
+        return best
+    }
+
+    // ------------------------------------------------------------ gauge complication
+    private val icons = HashMap<Int, android.graphics.drawable.Drawable>()
+
+    private fun icon(res: Int): android.graphics.drawable.Drawable =
+        icons.getOrPut(res) { ctx.getDrawable(res)!!.mutate() }
+
+    private fun gaugeValue(source: String): Pair<Float, String> {
+        val st = App.I.state
+        val ar = Digits.useArabic()
+        return when (source) {
+            "steps" -> {
+                val s = App.I.steps.today
+                (s / maxOf(1f, App.prefs.stepsGoal.toFloat())).coerceIn(0f, 1f) to Digits.apply(if (s >= 10000) "${s / 1000}k" else "$s", ar)
+            }
+            "phone" -> (maxOf(0, st.phoneBattery) / 100f) to (if (st.phoneBattery >= 0) Digits.apply("${st.phoneBattery}", ar) else "--")
+            "day" -> progressOf("day", java.util.Calendar.getInstance()) to Digits.apply(java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH).toString(), ar)
+            else -> st.battery / 100f to Digits.apply("${st.battery}", ar)
+        }
+    }
+
+    /** Circular 270° gauge with an icon and the value: the main interactive complication. */
+    private fun gauge(c: Canvas, e: El, w: Int, h: Int, short: Float) {
+        val cx = e.cx * w; val cy = e.cy * h; val r = e.radius * short
+        val (p, label) = gaugeValue(e.source)
+        val col = when {
+            e.source == "battery" && App.I.state.charging -> Color.argb((255 * alphaMul).toInt(), 48, 209, 88)
+            e.source == "battery" && App.I.state.battery <= 20 -> Color.argb((255 * alphaMul).toInt(), 255, 69, 58)
+            else -> resolve(e.color, e)
+        }
+        // soft backdrop keeps it readable on busy wallpapers
+        fp.reset(); fp.isAntiAlias = true; fp.color = Color.argb((90 * alphaMul).toInt(), 0, 0, 0)
+        c.drawCircle(cx, cy, r * 1.02f, fp)
+        sp.reset(); sp.isAntiAlias = true; sp.style = Paint.Style.STROKE; sp.strokeCap = Paint.Cap.ROUND
+        sp.strokeWidth = maxOf(2f, r * 0.15f)
+        rect.set(cx - r * 0.86f, cy - r * 0.86f, cx + r * 0.86f, cy + r * 0.86f)
+        sp.color = (e.trackColor and 0x00FFFFFF) or ((Color.alpha(e.trackColor) * alphaMul).toInt() shl 24)
+        c.drawArc(rect, 135f, 270f, false, sp)
+        if (p > 0f) { sp.color = col; c.drawArc(rect, 135f, 270f * p, false, sp) }
+        val res = when (e.source) {
+            "steps" -> com.watchlite.launcher.R.drawable.ic_directions_walk
+            "phone" -> com.watchlite.launcher.R.drawable.ic_phonelink_ring
+            "day" -> com.watchlite.launcher.R.drawable.ic_watch
+            else -> com.watchlite.launcher.R.drawable.ic_battery_full
+        }
+        val d = icon(res)
+        d.setTint(col)
+        val isz = (r * 0.62f).toInt()
+        d.setBounds((cx - isz / 2).toInt(), (cy - r * 0.62f).toInt(), (cx + isz / 2).toInt(), (cy - r * 0.62f + isz).toInt())
+        d.draw(c)
+        tp.reset(); tp.isAntiAlias = true
+        tp.typeface = Fonts.get(ctx, e.font ?: "tajawal_bold", null)
+        tp.textSize = r * 0.52f
+        val tw = tp.measureText(label); if (tw > r * 1.4f) tp.textSize *= r * 1.4f / tw
+        tp.color = Color.argb((255 * alphaMul).toInt(), 255, 255, 255)
+        tp.textAlign = Paint.Align.CENTER
+        tp.getTextBounds("0", 0, 1, bounds)
+        c.drawText(label, cx, cy + r * 0.42f - bounds.exactCenterY() * 0.2f, tp)
+    }
+
     private fun progressOf(source: String, cal: Calendar): Float = when (source) {
         "steps" -> (App.I.steps.today / maxOf(1f, App.prefs.stepsGoal.toFloat())).coerceIn(0f, 1f)
         "battery" -> App.I.state.battery / 100f
@@ -386,9 +480,18 @@ class FaceRenderer(private val ctx: Context) {
         tp.typeface = Fonts.get(ctx, e.font ?: "tajawal_bold", theme.fileDir)
         tp.textSize = rect.height() * 0.52f
         tp.color = Color.argb((255 * alphaMul).toInt(), 255, 255, 255)
-        val s = Digits.apply("$level%", Digits.forElement(e.digits)) + if (charging) " ⚡" else ""
+        val s = Digits.apply("$level%", Digits.forElement(e.digits))
         tp.getTextBounds("0", 0, 1, bounds)
-        c.drawText(s, rect.left + rect.height() * 0.38f, rect.centerY() - bounds.exactCenterY(), tp)
+        val tx = rect.left + rect.height() * 0.38f
+        c.drawText(s, tx, rect.centerY() - bounds.exactCenterY(), tp)
+        if (charging) { // drawn bolt instead of an emoji: crisp at any size
+            val bh = rect.height() * 0.5f; val bx = tx + tp.measureText(s) + rect.height() * 0.18f; val by = rect.centerY() - bh / 2
+            path.reset()
+            path.moveTo(bx + bh * 0.35f, by); path.lineTo(bx, by + bh * 0.58f); path.lineTo(bx + bh * 0.26f, by + bh * 0.58f)
+            path.lineTo(bx + bh * 0.16f, by + bh); path.lineTo(bx + bh * 0.52f, by + bh * 0.4f); path.lineTo(bx + bh * 0.26f, by + bh * 0.4f); path.close()
+            fp.color = Color.argb((255 * alphaMul).toInt(), 255, 214, 10)
+            c.drawPath(path, fp)
+        }
     }
 
     private fun panel(c: Canvas, e: El, w: Int, h: Int, short: Float) {

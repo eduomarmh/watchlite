@@ -41,6 +41,13 @@ class ThemeRenderTest {
                 r.draw(c, t, w, h, cal, cal.timeInMillis, ThemeCustom(null, null, null))
                 val ms = (System.nanoTime() - start) / 1_000_000
                 File(out, "${w}x${h}_${t.id}.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
+                if (w == 320 && t.elements.any { it.defaultOff }) { // same theme with every complication switched on
+                    val all = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888); val ca = Canvas(all)
+                    layers.forEach { it.draw(ca, w, h, 4_000L) }
+                    r.draw(ca, t, w, h, cal, cal.timeInMillis, ThemeCustom(null, null, null, emptySet()))
+                    File(out, "${w}x${h}_${t.id}_all.png").outputStream().use { all.compress(Bitmap.CompressFormat.PNG, 100, it) }
+                    all.recycle()
+                }
                 // AOD
                 val a = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
                 val ac = Canvas(a); ac.drawColor(0xFF000000.toInt())

@@ -307,12 +307,25 @@ class HomeActivity : Activity() {
                         Page.FROM_TOP -> vt?.yVelocity ?: 0f; else -> -(vt?.yVelocity ?: 0f)
                     }
                     if (p.progress > 0.3f || v > minFling) { p.animateTo(1f); Haptics.tick(this) } else p.animateTo(0f)
+                } ?: run {
+                    if (gTracking && ev.actionMasked == MotionEvent.ACTION_UP) onFaceTap(ev.x, ev.y)
                 }
                 gPage = null; gTracking = false
                 vt?.recycle(); vt = null
             }
         }
         return true
+    }
+
+    /** Tapping a complication opens its details. */
+    private fun onFaceTap(x: Float, y: Float) {
+        val slot = face.renderer.hitTest(x, y) ?: return
+        Haptics.tick(this)
+        when (slot) {
+            "battery" -> openPage(Page.FROM_LEFT)
+            "notif" -> openPage(Page.FROM_TOP)
+            else -> openPage(Page.FROM_BOTTOM) // steps, prayer, hijri, weather, phone → widgets
+        }
     }
 
     // ------------------------------------------------------------------ touch routing

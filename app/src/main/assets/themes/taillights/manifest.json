@@ -41,6 +41,16 @@
    "anchor": "topLeft",
    "w": 0.3,
    "h": 0.11
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.75,
+   "cy": 0.13,
+   "radius": 0.1,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true
   }
  ]
 }

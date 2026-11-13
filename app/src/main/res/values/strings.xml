@@ -322,6 +322,15 @@
     <string name="aodw_steps">Steps</string>
     <string name="aodw_prayer">Next prayer</string>
     <string name="aodw_phone">Phone battery</string>
+    <string name="cust_complications">Complications (steps, battery…)</string>
+    <string name="no_complications">This theme has no complications</string>
+    <string name="slot_steps">Steps</string>
+    <string name="slot_battery">Battery</string>
+    <string name="slot_prayer">Prayer time</string>
+    <string name="slot_hijri">Hijri date</string>
+    <string name="slot_notif">Notification dot</string>
+    <string name="slot_weather">Weather</string>
+    <string name="slot_phone">Phone battery</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

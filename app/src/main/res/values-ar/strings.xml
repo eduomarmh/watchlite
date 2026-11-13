@@ -321,6 +321,15 @@
     <string name="aodw_steps">الخطوات</string>
     <string name="aodw_prayer">الصلاة الجاية</string>
     <string name="aodw_phone">بطارية الموبايل</string>
+    <string name="cust_complications">العناصر (خطوات، بطارية…)</string>
+    <string name="no_complications">الثيم ده مفيهوش عناصر</string>
+    <string name="slot_steps">الخطوات</string>
+    <string name="slot_battery">البطارية</string>
+    <string name="slot_prayer">مواعيد الصلاة</string>
+    <string name="slot_hijri">التاريخ الهجري</string>
+    <string name="slot_notif">نقطة الإشعارات</string>
+    <string name="slot_weather">الطقس</string>
+    <string name="slot_phone">بطارية الموبايل</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

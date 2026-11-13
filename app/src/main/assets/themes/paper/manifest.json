@@ -29,13 +29,22 @@
    "color": "#FF6C6C70"
   },
   {
-   "type": "text",
-   "text": "{battery}  ·  {steps}",
-   "x": 0.5,
-   "y": 0.86,
-   "size": 0.05,
-   "font": "tajawal_medium",
-   "color": "#FF8E8E93"
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.25,
+   "cy": 0.84,
+   "radius": 0.105,
+   "color": "#FF30D158",
+   "trackColor": "#22000000"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.75,
+   "cy": 0.84,
+   "radius": 0.105,
+   "color": "#FF0A84FF",
+   "trackColor": "#22000000"
   }
  ],
  "accent": "#FFFF3B30"

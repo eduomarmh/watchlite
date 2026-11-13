@@ -140,13 +140,13 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
         val items = arrayOf(
             context.getString(R.string.cust_time_color), context.getString(R.string.cust_accent),
             context.getString(if (c.seconds == true) R.string.cust_hide_seconds else R.string.cust_show_seconds),
-            context.getString(R.string.cust_digits), context.getString(R.string.reset)
+            context.getString(R.string.cust_digits), context.getString(R.string.cust_complications), context.getString(R.string.reset)
         )
         AlertDialog.Builder(context, Ui.DIALOG).setTitle(t.name()).setItems(items) { _, which ->
             when (which) {
-                0 -> pickColor { col -> save(t, ThemeCustom(col, c.accent, c.seconds)) }
-                1 -> pickColor { col -> save(t, ThemeCustom(c.timeColor, col, c.seconds)) }
-                2 -> save(t, ThemeCustom(c.timeColor, c.accent, !(c.seconds ?: t.hasSeconds)))
+                0 -> pickColor { col -> save(t, c.copy(timeColor = col)) }
+                1 -> pickColor { col -> save(t, c.copy(accent = col)) }
+                2 -> save(t, c.copy(seconds = !(c.seconds ?: t.hasSeconds)))
                 3 -> {
                     val modes = arrayOf("latin", "arabic", "auto")
                     val labels = arrayOf(context.getString(R.string.digits_latin), context.getString(R.string.digits_arabic), context.getString(R.string.auto))
@@ -154,10 +154,29 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
                         App.prefs.digits = modes[k]; previews.clear(); renderPreviews(); host.applyTheme()
                     }.show()
                 }
-                4 -> save(t, ThemeCustom(null, null, null))
+                4 -> complications(t, c)
+                5 -> save(t, ThemeCustom(null, null, null))
             }
         }.show()
     }
+
+    /** Turn the theme's interactive complications (steps, battery, …) on or off. */
+    private fun complications(t: Theme, c: ThemeCustom) {
+        val slots = t.slots
+        if (slots.isEmpty()) { host.toast(context.getString(R.string.no_complications)); return }
+        val hidden = t.hiddenSlots(c).toMutableSet()
+        val labels = slots.map { slotLabel(it) }.toTypedArray()
+        val checked = BooleanArray(slots.size) { slots[it] !in hidden }
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(R.string.cust_complications)
+            .setMultiChoiceItems(labels, checked) { _, i, on -> if (on) hidden.remove(slots[i]) else hidden.add(slots[i]) }
+            .setPositiveButton(android.R.string.ok) { _, _ -> save(t, c.copy(hidden = hidden.toSet())) }.show()
+    }
+
+    private fun slotLabel(s: String) = context.getString(when (s) {
+        "steps" -> R.string.slot_steps; "battery" -> R.string.slot_battery; "prayer" -> R.string.slot_prayer
+        "hijri" -> R.string.slot_hijri; "notif" -> R.string.slot_notif; "weather" -> R.string.slot_weather
+        else -> R.string.slot_phone
+    })
 
     private fun save(t: Theme, c: ThemeCustom) {
         App.I.themes.setCustom(t.id, c)

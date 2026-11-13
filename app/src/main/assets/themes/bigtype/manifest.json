@@ -64,6 +64,16 @@
    "font": "bebas",
    "anchor": "centerRight",
    "color": "#FF8E8E93"
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.86,
+   "cy": 0.55,
+   "radius": 0.1,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true
   }
  ],
  "accent": "#FFFF9F0A"
