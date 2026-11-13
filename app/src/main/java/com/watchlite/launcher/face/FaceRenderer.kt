@@ -53,6 +53,7 @@ class FaceRenderer(private val ctx: Context) {
         derivedAod = aod && theme.aod.isEmpty()
         aodColorOverride = if (aod) App.prefs.aodColor else 0
         gaugeOverride = custom.gaugeStyle
+        if (aod) aodAnalog = list.any { it.type == "analog" }
         val list = if (!aod) theme.elements else theme.aod.ifEmpty { derivedAodFor(theme) }
         val short = min(w, h).toFloat()
         val hidden = theme.hiddenSlots(custom)
@@ -81,6 +82,8 @@ class FaceRenderer(private val ctx: Context) {
     /** AOD built from the theme's own clock (same font/position), dim and on black. */
     private var derivedAod = false
     private var aodColorOverride = 0
+    /** On analog AOD faces the info lines sit inside the dial, above the 6 o'clock marker. */
+    private var aodAnalog = false
 
     /** Small always-on widgets row: battery, steps, next prayer, notifications, date. */
     fun drawAodWidgets(c: Canvas, w: Int, h: Int, cal: Calendar, alpha: Float) {
@@ -99,7 +102,7 @@ class FaceRenderer(private val ctx: Context) {
             if (App.prefs.aodPrayerCountdown) line += "  ·  " + ctx.getString(com.watchlite.launcher.R.string.in_time, data.nextPrayerIn)
             val mw = w * 0.86f
             if (tp.measureText(line) > mw) tp.textSize *= mw / tp.measureText(line)
-            c.drawText(line, w / 2f, h * 0.77f, tp)
+            c.drawText(line, w / 2f, h * (if (aodAnalog) 0.66f else 0.77f), tp)
         }
         if (set.isEmpty()) return
         val ar = Digits.useArabic()
@@ -121,7 +124,7 @@ class FaceRenderer(private val ctx: Context) {
             var s = parts.joinToString("  ·  ")
             val mw = w * 0.86f
             if (tp.measureText(s) > mw) tp.textSize *= mw / tp.measureText(s)
-            c.drawText(s, w / 2f, h * 0.88f, tp)
+            c.drawText(s, w / 2f, h * (if (aodAnalog) 0.73f else 0.88f), tp)
         }
         if ("notif" in set && App.I.notifications.count() > 0) {
             fp.reset(); fp.isAntiAlias = true
@@ -214,7 +217,7 @@ class FaceRenderer(private val ctx: Context) {
         }
         // never let a wide font run off the screen
         val amShown = e.format == "auto" && !com.watchlite.launcher.util.TimeFmt.is24(ctx) && e.size >= 0.15f && !(secondsOverride ?: e.seconds)
-        val maxW = w * (if (amShown || (secondsOverride ?: e.seconds)) 0.8f else 0.94f)
+        val maxW = w * (if (amShown || (secondsOverride ?: e.seconds)) 0.74f else 0.94f)
         val tw = tp.measureText(s)
         if (tw > maxW) tp.textSize *= maxW / tw
         placeText(c, s, x, y, e.anchor, true, theme)

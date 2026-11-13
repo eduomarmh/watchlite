@@ -44,6 +44,7 @@ class ThemeRenderTest {
     @Test fun renderAllThemes() {
         val ctx = InstrumentationRegistry.getInstrumentation().targetContext
         val out = File(ctx.getExternalFilesDir(null), "shots").apply { deleteRecursively(); mkdirs() }
+        App.prefs.aodPrayer = true; App.prefs.aodPrayerCountdown = true
         val themes = App.I.themes.all()
         assertTrue("themes loaded: ${themes.size}", themes.size >= 20)
         val cal = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 10); set(Calendar.MINUTE, 9); set(Calendar.SECOND, 36) }
