@@ -145,6 +145,15 @@ object SystemActions {
         return next * 100 / 255
     }
 
+    /** Sets system brightness (0..255) from the Control Center slider; only on explicit user action. */
+    fun setBrightness(ctx: Context, v: Int) {
+        if (!canWriteSettings(ctx)) return
+        try {
+            Settings.System.putInt(ctx.contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL)
+            Settings.System.putInt(ctx.contentResolver, Settings.System.SCREEN_BRIGHTNESS, v.coerceIn(1, 255))
+        } catch (_: Throwable) { }
+    }
+
     fun showVolume(ctx: Context) {
         (ctx.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
             .adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI)

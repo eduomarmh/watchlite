@@ -68,6 +68,9 @@ object Backgrounds {
             "snow" -> SnowLayer(cols.first(), bg.speed)
             "radar" -> RadarLayer(cols, bg.speed)
             "orbit" -> OrbitLayer(bg.speed)
+            "circuit" -> CircuitLayer(cols.first(), bg.speed, !overlay)
+            "hud" -> HudLayer(cols, bg.speed)
+            "hexgrid" -> HexGridLayer(cols, bg.speed)
             "gradient" -> GradientLayer(cols)
             else -> SolidLayer(cols.firstOrNull() ?: Color.BLACK)
         }

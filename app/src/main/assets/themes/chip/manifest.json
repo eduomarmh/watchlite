@@ -1,0 +1,43 @@
+{
+ "schema": 1,
+ "id": "chip",
+ "name": {
+  "en": "Processor",
+  "ar": "المعالج"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/chip.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.17,
+   "font": "techmono",
+   "color": "#FFE8F1FF",
+   "format": "HH:mm"
+  },
+  {
+   "type": "text",
+   "text": "{date:dd.MM}",
+   "x": 0.5,
+   "y": 0.56,
+   "size": 0.045,
+   "font": "techmono",
+   "color": "#FF4FA3FF"
+  },
+  {
+   "type": "text",
+   "text": "{battery}",
+   "x": 0.5,
+   "y": 0.39,
+   "size": 0.04,
+   "font": "techmono",
+   "color": "#FFC8AA5A"
+  }
+ ],
+ "accent": "#FF4FA3FF"
+}

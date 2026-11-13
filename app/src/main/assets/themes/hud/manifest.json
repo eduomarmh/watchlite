@@ -1,0 +1,66 @@
+{
+ "schema": 1,
+ "id": "hud",
+ "name": {
+  "en": "HUD",
+  "ar": "واجهة HUD"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "hud",
+  "colors": [
+   "#FF00E5FF"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.2,
+   "font": "michroma",
+   "color": "#FFE0FCFF",
+   "format": "HH:mm",
+   "shadow": {
+    "r": 0.03,
+    "dy": 0,
+    "color": "#FF000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE dd MMM}",
+   "x": 0.5,
+   "y": 0.58,
+   "size": 0.042,
+   "font": "michroma",
+   "color": "#FF00E5FF",
+   "upper": true
+  },
+  {
+   "type": "text",
+   "text": "PWR {battery}",
+   "x": 0.5,
+   "y": 0.37,
+   "size": 0.04,
+   "font": "techmono",
+   "color": "#AA00E5FF"
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.47,
+    "size": 0.2,
+    "font": "michroma",
+    "color": "#FF00A5BB",
+    "format": "HH:mm"
+   }
+  ]
+ },
+ "accent": "#FF00E5FF"
+}

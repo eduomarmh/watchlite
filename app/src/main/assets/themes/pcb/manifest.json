@@ -1,0 +1,47 @@
+{
+ "schema": 1,
+ "id": "pcb",
+ "name": {
+  "en": "Motherboard",
+  "ar": "اللوحة الأم"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/pcb.webp",
+  "overlay": "circuit",
+  "overlayColor": "#FFFFE08A",
+  "speed": 0.8
+ },
+ "elements": [
+  {
+   "type": "panel",
+   "x": 0.5,
+   "y": 0.5,
+   "w": 0.8,
+   "h": 0.3,
+   "color": "#E0061C14",
+   "corner": 0.15
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.48,
+   "size": 0.26,
+   "font": "bebas",
+   "color": "#FFFFE08A",
+   "tracking": 0.04
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.6,
+   "size": 0.05,
+   "font": "bebas",
+   "color": "#FF7FE0B0",
+   "upper": true
+  }
+ ],
+ "accent": "#FFFFE08A"
+}

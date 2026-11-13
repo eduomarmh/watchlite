@@ -1,0 +1,58 @@
+{
+ "schema": 1,
+ "id": "techwaves",
+ "name": {
+  "en": "Data Waves",
+  "ar": "موجات البيانات"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/techwaves.webp",
+  "overlay": "twinkle",
+  "overlayColor": "#FF9BE7FF",
+  "speed": 0.7
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.16,
+   "size": 0.26,
+   "font": "michroma",
+   "color": "#FFFFFFFF",
+   "format": "HH:mm"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.27,
+   "size": 0.045,
+   "font": "michroma",
+   "color": "#FF7CC8FF",
+   "upper": true
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.27,
+   "cy": 0.86,
+   "radius": 0.1,
+   "style": "ring",
+   "color": "#FF00E5FF",
+   "trackColor": "#33FFFFFF"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.73,
+   "cy": 0.86,
+   "radius": 0.1,
+   "style": "ring",
+   "color": "#FF7C4DFF",
+   "trackColor": "#33FFFFFF"
+  }
+ ],
+ "accent": "#FF00E5FF"
+}

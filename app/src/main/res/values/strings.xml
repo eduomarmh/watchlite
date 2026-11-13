@@ -369,6 +369,7 @@
     <string name="dst_active">summer time</string>
     <string name="dst_inactive">standard time</string>
     <string name="dst_watch_says">watch DST:</string>
+    <string name="tile_sound_settings">Sound settings</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

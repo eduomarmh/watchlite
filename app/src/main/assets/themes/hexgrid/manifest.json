@@ -1,0 +1,68 @@
+{
+ "schema": 1,
+ "id": "hexgrid",
+ "name": {
+  "en": "Hex Grid",
+  "ar": "شبكة سداسية"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "hexgrid",
+  "colors": [
+   "#FF8C5BFF"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "panel",
+   "x": 0.5,
+   "y": 0.47,
+   "w": 0.84,
+   "h": 0.3,
+   "color": "#D907060F",
+   "corner": 0.2
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.45,
+   "size": 0.27,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMM}",
+   "x": 0.5,
+   "y": 0.58,
+   "size": 0.052,
+   "font": "tajawal_medium",
+   "color": "#FFB89BFF"
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.27,
+   "cy": 0.84,
+   "radius": 0.1,
+   "style": "pill",
+   "color": "#FFB89BFF",
+   "trackColor": "#33FFFFFF",
+   "defaultOff": true
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.73,
+   "cy": 0.84,
+   "radius": 0.1,
+   "style": "pill",
+   "color": "#FFB89BFF",
+   "trackColor": "#33FFFFFF",
+   "defaultOff": true
+  }
+ ],
+ "accent": "#FF8C5BFF"
+}

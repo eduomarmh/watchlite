@@ -41,3 +41,10 @@ bigtype
 beach
 mosque
 forest
+circuit
+hud
+hexgrid
+chip
+pcb
+techwaves
+cyber

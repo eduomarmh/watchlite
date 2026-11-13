@@ -1,0 +1,69 @@
+{
+ "schema": 1,
+ "id": "circuit",
+ "name": {
+  "en": "Circuit Pulse",
+  "ar": "نبض الدوائر"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "circuit",
+  "colors": [
+   "#FF3DFFA0"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "panel",
+   "x": 0.5,
+   "y": 0.46,
+   "w": 0.8,
+   "h": 0.34,
+   "color": "#CC02100A",
+   "corner": 0.15
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.43,
+   "size": 0.27,
+   "font": "techmono",
+   "color": "#FFB9FFDA",
+   "format": "HH:mm",
+   "glow": true
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE dd MMM}",
+   "x": 0.5,
+   "y": 0.57,
+   "size": 0.05,
+   "font": "techmono",
+   "color": "#FF3DFFA0",
+   "upper": true
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.27,
+   "cy": 0.84,
+   "radius": 0.1,
+   "style": "segments",
+   "color": "#FF3DFFA0",
+   "trackColor": "#33FFFFFF"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.73,
+   "cy": 0.84,
+   "radius": 0.1,
+   "style": "segments",
+   "color": "#FF3DFFA0",
+   "trackColor": "#33FFFFFF"
+  }
+ ],
+ "accent": "#FF3DFFA0"
+}

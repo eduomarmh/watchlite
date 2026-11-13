@@ -31,6 +31,8 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
     private val header: TextView
     private val tiles = ArrayList<Tile>()
     private val stateListener = { refresh() }
+    private lateinit var brightness: SliderBar
+    private lateinit var volume: SliderBar
 
     init {
         val box = ui.vbox()
@@ -38,6 +40,20 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
         header = ui.text("", 5.6f, Ui.TEXT2, 2).apply { gravity = Gravity.CENTER }
         box.addView(header, ui.lp(bottom = 3f))
         val ctx = host
+        // brightness & volume sliders (professional, one-view each)
+        val am = ctx.getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
+        val maxVol = am.getStreamMaxVolume(android.media.AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+        brightness = SliderBar(ctx, R.drawable.ic_brightness_6, 20, { v ->
+            SystemActions.setBrightness(ctx, (v * 255 / 20).coerceAtLeast(3))
+        }).apply {
+            onLockedTap = { host.toast(ctx.getString(R.string.need_write_settings)); open(Settings.ACTION_MANAGE_WRITE_SETTINGS, true) }
+        }
+        volume = SliderBar(ctx, R.drawable.ic_volume_up, maxVol, { v ->
+            am.setStreamVolume(android.media.AudioManager.STREAM_MUSIC, v, 0)
+        })
+        val bh = ui.px(12f)
+        box.addView(brightness, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, bh).apply { bottomMargin = ui.px(2f) })
+        box.addView(volume, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, bh).apply { bottomMargin = ui.px(3.5f) })
         tiles += Tile(R.drawable.ic_wifi, R.string.tile_wifi, { SystemActions.wifiOn(ctx) },
             { if (!SystemActions.setWifi(ctx, !SystemActions.wifiOn(ctx))) open(Settings.ACTION_WIFI_SETTINGS) }, { open(Settings.ACTION_WIFI_SETTINGS) })
         tiles += Tile(R.drawable.ic_bluetooth, R.string.tile_bluetooth, { SystemActions.btOn() },
@@ -56,11 +72,7 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
             if (App.prefs.theater) { host.toast(ctx.getString(R.string.theater_on)); host.goHome(); host.screenOff() }
         })
         tiles += Tile(R.drawable.ic_flashlight_on, R.string.tile_flashlight, { SystemActions.torchState() }, { host.toggleFlashlight() })
-        tiles += Tile(R.drawable.ic_volume_up, R.string.tile_volume, { null }, { SystemActions.showVolume(ctx) }, { open(Settings.ACTION_SOUND_SETTINGS) })
-        tiles += Tile(R.drawable.ic_brightness_6, R.string.tile_brightness, { null }, {
-            if (SystemActions.canWriteSettings(ctx)) host.toast(Digits.fmt(SystemActions.cycleBrightness(ctx)) + "%")
-            else { host.toast(ctx.getString(R.string.need_write_settings)); open(Settings.ACTION_MANAGE_WRITE_SETTINGS, true) }
-        }, { open(Settings.ACTION_DISPLAY_SETTINGS) })
+        tiles += Tile(R.drawable.ic_volume_up, R.string.tile_sound_settings, { null }, { open(Settings.ACTION_SOUND_SETTINGS) })
         tiles += Tile(R.drawable.ic_watch, R.string.tile_aod, { App.prefs.aodEnabled }, {
             App.prefs.aodEnabled = !App.prefs.aodEnabled; host.applyAodSetting()
         })
@@ -116,6 +128,12 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
         header.text = Digits.apply("${st.battery}%", Digits.useArabic()) +
             (if (st.charging) " · " + context.getString(R.string.charging) else "") +
             (if (st.phoneBattery >= 0) " · " + context.getString(R.string.phone) + " " + Digits.apply("${st.phoneBattery}%", Digits.useArabic()) else "")
+        val ctx = context
+        brightness.locked = !SystemActions.canWriteSettings(ctx)
+        brightness.value = SystemActions.systemBrightness(ctx) * 20 / 255
+        val am = ctx.getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
+        volume.value = am.getStreamVolume(android.media.AudioManager.STREAM_MUSIC)
+        brightness.invalidate(); volume.invalidate()
         for (t in tiles) {
             val on = t.state()
             val bg = when (on) { true -> ui.accent; else -> Ui.CARD2 }

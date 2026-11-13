@@ -368,6 +368,7 @@
     <string name="dst_active">توقيت صيفي</string>
     <string name="dst_inactive">توقيت شتوي</string>
     <string name="dst_watch_says">الساعة:</string>
+    <string name="tile_sound_settings">إعدادات الصوت</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>
