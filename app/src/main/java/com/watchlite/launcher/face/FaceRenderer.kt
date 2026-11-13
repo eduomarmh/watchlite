@@ -53,8 +53,8 @@ class FaceRenderer(private val ctx: Context) {
         derivedAod = aod && theme.aod.isEmpty()
         aodColorOverride = if (aod) App.prefs.aodColor else 0
         gaugeOverride = custom.gaugeStyle
-        if (aod) aodAnalog = list.any { it.type == "analog" }
         val list = if (!aod) theme.elements else theme.aod.ifEmpty { derivedAodFor(theme) }
+        if (aod) aodAnalog = list.any { it.type == "analog" }
         val short = min(w, h).toFloat()
         val hidden = theme.hiddenSlots(custom)
         if (!aod) hitCount = 0
