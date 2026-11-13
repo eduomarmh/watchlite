@@ -424,7 +424,7 @@
     <string name="steps_sensitivity">Sensitivity</string>
     <string name="stride">Step length</string>
     <string name="refresh">Refresh</string>
-    <string name="reset_today">Reset today's steps</string>
+    <string name="reset_today">Reset today\'s steps</string>
     <string name="notif_banner">Pop-up banner</string>
     <string name="notif_banner_sum">Shows new notifications at the top of the watch face</string>
     <string name="notif_vibrate">Vibrate on notification</string>

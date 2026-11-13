@@ -1,0 +1,4 @@
+-keep class org.osmdroid.** { *; }
+-dontwarn org.osmdroid.**
+-keep class com.watchlite.companion.** extends android.app.Service
+-keep class com.watchlite.companion.** extends android.content.BroadcastReceiver

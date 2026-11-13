@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WatchLite Companion</string>
+    <string name="link_channel">الاتصال بالساعة</string>
+    <string name="connected">متصل</string>
+    <string name="not_connected">غير متصل</string>
+    <string name="connecting">بيتصل…</string>
+    <string name="wrong_code">كود الربط غلط</string>
+    <string name="sec_watch">الساعة</string>
+    <string name="battery">البطارية</string>
+    <string name="steps">الخطوات</string>
+    <string name="refresh">تحديث</string>
+    <string name="find_watch">دوّر على ساعتي</string>
+    <string name="sec_location">مكان الساعة</string>
+    <string name="locate_watch">حدد مكان الساعة</string>
+    <string name="locating">بيطلب من الساعة مكانها بالـ GPS…</string>
+    <string name="open_maps">فتح في الخرايط</string>
+    <string name="sec_pairing">الربط</string>
+    <string name="no_watch">مفيش ساعة متختارة</string>
+    <string name="pair_help">١) اعمل pair للساعة من إعدادات البلوتوث في الموبايل.  ٢) على الساعة: الإعدادات ← ربط الموبايل ← شغّله، وشوف الكود (6 أرقام).  ٣) اكتب الكود هنا واضغط اتصال.</string>
+    <string name="code_hint">كود الربط</string>
+    <string name="choose_watch">اختار الساعة</string>
+    <string name="connect">اتصال</string>
+    <string name="sec_features">المميزات</string>
+    <string name="f_notif">إرسال الإشعارات للساعة</string>
+    <string name="f_notif_sum">ترد وتمسح من الساعة</string>
+    <string name="f_battery">بطارية الموبايل على الساعة</string>
+    <string name="f_find">دوّر على موبايلي</string>
+    <string name="f_find_sum">الساعة تقدر ترنّ الموبايل حتى لو صامت</string>
+    <string name="muted_apps">اختار التطبيقات اللي تتبعت</string>
+    <string name="sec_permissions">الصلاحيات</string>
+    <string name="perm_notif">السماح بقراءة الإشعارات</string>
+    <string name="perm_battery">إيقاف توفير البطارية (عشان الاتصال يفضل)</string>
+    <string name="perm_app_settings">إعدادات التطبيق</string>
+    <string name="huawei_tip">هواوي: الإعدادات ← البطارية ← تشغيل التطبيقات ← WatchLite Companion ← إدارة يدوية، وفعّل التشغيل التلقائي والتشغيل الثانوي والتشغيل في الخلفية. غير كده النظام بيقطع الاتصال.</string>
+    <string name="developed_by">تطوير م. عمر محمود</string>
+    <string name="stats_details">الهدف %1$s · الثيم: %2$s\n%3$s · أندرويد %4$s · آخر تحديث %5$s</string>
+    <string name="loc_details">%1$s · ±%2$d م · %3$s</string>
+    <string name="loc_no_permission">الساعة محتاجة صلاحية الموقع (على الساعة: الإعدادات ← الصلاحيات ← الموقع).</string>
+    <string name="loc_gps_off">الـ GPS مقفول على الساعة.</string>
+    <string name="loc_none">لسه مفيش موقع. اضغط \"حدد مكان الساعة\".</string>
+    <string name="no_bt">البلوتوث مش متاح</string>
+    <string name="pair_first">اعمل pair للساعة من إعدادات البلوتوث الأول.</string>
+    <string name="open_bt">إعدادات البلوتوث</string>
+    <string name="done">تم</string>
+    <string name="no_apps_yet">التطبيقات هتظهر هنا بعد ما تبعت إشعار.</string>
+</resources>

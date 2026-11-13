@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WatchLite Companion</string>
+    <string name="link_channel">Watch connection</string>
+    <string name="connected">Connected</string>
+    <string name="not_connected">Not connected</string>
+    <string name="connecting">Connecting…</string>
+    <string name="wrong_code">Wrong pairing code</string>
+    <string name="sec_watch">WATCH</string>
+    <string name="battery">Battery</string>
+    <string name="steps">Steps</string>
+    <string name="refresh">Refresh</string>
+    <string name="find_watch">Find my watch</string>
+    <string name="sec_location">WATCH LOCATION</string>
+    <string name="locate_watch">Locate watch</string>
+    <string name="locating">Asking the watch for its GPS position…</string>
+    <string name="open_maps">Open in maps</string>
+    <string name="sec_pairing">PAIRING</string>
+    <string name="no_watch">No watch selected</string>
+    <string name="pair_help">1) Pair the watch in the phone\'s Bluetooth settings.  2) On the watch: Settings → Phone link → turn on, read the 6-digit code.  3) Type the code here and connect.</string>
+    <string name="code_hint">Pairing code</string>
+    <string name="choose_watch">Choose watch</string>
+    <string name="connect">Connect</string>
+    <string name="sec_features">FEATURES</string>
+    <string name="f_notif">Send notifications to the watch</string>
+    <string name="f_notif_sum">Reply and dismiss from the watch</string>
+    <string name="f_battery">Phone battery on the watch</string>
+    <string name="f_find">Find my phone</string>
+    <string name="f_find_sum">The watch can ring this phone, even on silent</string>
+    <string name="muted_apps">Choose apps to forward</string>
+    <string name="sec_permissions">PERMISSIONS</string>
+    <string name="perm_notif">Allow notification access</string>
+    <string name="perm_battery">Don\'t optimize battery (keeps connection)</string>
+    <string name="perm_app_settings">App settings</string>
+    <string name="huawei_tip">Huawei: Settings → Battery → App launch → WatchLite Companion → Manage manually and enable Auto-launch, Secondary launch and Run in background. Otherwise EMUI stops the connection.</string>
+    <string name="developed_by">Developed by Eng. Omar Mahmoud</string>
+    <string name="stats_details">Goal %1$s · Theme: %2$s\n%3$s · Android %4$s · updated %5$s</string>
+    <string name="loc_details">%1$s · ±%2$d m · %3$s</string>
+    <string name="loc_no_permission">The watch needs location permission (on the watch: Settings → Permissions → Location).</string>
+    <string name="loc_gps_off">GPS is off on the watch.</string>
+    <string name="loc_none">No location yet. Tap “Locate watch”.</string>
+    <string name="no_bt">Bluetooth not available</string>
+    <string name="pair_first">Pair the watch in Bluetooth settings first.</string>
+    <string name="open_bt">Bluetooth settings</string>
+    <string name="done">Done</string>
+    <string name="no_apps_yet">Apps appear here after they send a notification.</string>
+</resources>

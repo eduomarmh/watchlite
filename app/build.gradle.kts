@@ -14,19 +14,32 @@ android {
         // behaviour identical to the device's real platform (no newer background
         // restrictions that the firmware does not have anyway).
         targetSdk = 26
-        versionCode = 1
-        versionName = "1.0.0"
+        // CI passes the GitHub run number, so every build installs as an update
+        val build = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
+        versionCode = 100 + build
+        versionName = "1.1.$build"
         resourceConfigurations += listOf("en", "ar")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // One fixed signing key (kept in this private repo) so new APKs update the installed app
+    signingConfigs {
+        create("watchlite") {
+            storeFile = rootProject.file("keystore/watchlite.jks")
+            storePassword = "REMOVED"
+            keyAlias = "watchlite"
+            keyPassword = "REMOVED"
+        }
+    }
+
     buildTypes {
+        debug { signingConfig = signingConfigs.getByName("watchlite") }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             // Signed with the debug key so a release APK can be sideloaded directly.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("watchlite")
         }
     }
     compileOptions {

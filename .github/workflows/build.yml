@@ -33,6 +33,10 @@ jobs:
             app/build/outputs/apk/release/app-release.apk
       - uses: actions/upload-artifact@v4
         with:
+          name: phone-apk
+          path: phone/build/outputs/apk/release/phone-release.apk
+      - uses: actions/upload-artifact@v4
+        with:
           name: test-apk
           path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
       - uses: actions/upload-artifact@v4
@@ -50,6 +54,10 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: watchlite-apk
+          path: app/build/outputs/apk
+      - uses: actions/download-artifact@v4
+        with:
+          name: phone-apk
           path: app/build/outputs/apk
       - uses: actions/download-artifact@v4
         with:
@@ -81,6 +89,7 @@ jobs:
           cp -r ci-out pub/ || true
           cp app/build/outputs/apk/debug/app-debug.apk pub/ || true
           cp app/build/outputs/apk/release/app-release.apk pub/ || true
+          cp app/build/outputs/apk/phone-release.apk pub/ 2>/dev/null || cp phone/build/outputs/apk/release/phone-release.apk pub/ 2>/dev/null || true
           cd pub
           git init -q -b ci-results
           git add -A
