@@ -42,15 +42,6 @@
    }
   },
   {
-   "type": "text",
-   "text": "{battery}",
-   "x": 0.5,
-   "y": 0.94,
-   "size": 0.05,
-   "font": "tajawal_bold",
-   "color": "#99FFFFFF"
-  },
-  {
    "type": "gauge",
    "source": "steps",
    "cx": 0.25,

@@ -4,8 +4,10 @@ A lightweight launcher for Android 8 smartwatches (built for the Telzal TC 5G, w
 Full Arabic (RTL) and English UI.
 
 ## Features
-- **27 watch faces**: static, animated, analog and digital, each with its own clock layout and its own always-on look.
+- **43 watch faces**: static, animated, analog and digital, each with its own clock layout and its own always-on look.
   Animated ones (liquid, warp, neon grid, ocean, bubbles, night drive, racer, speedometer…) are drawn procedurally at low cost.
+- **Interactive complications** (steps, battery, prayer…): tap to open, switch each on/off per theme.
+- **Light & dark UI**, always-on colors and always-on widgets.
 - **Your own faces**: make one from any photo on the watch, or import a `.wtheme` file (format in `docs/THEME_FORMAT.md`).
 - **Gestures**: swipe left = apps (honeycomb / grid / list, wheel zooms), right = Control Center, down = notifications, up = widgets, long-press = face editor.
 - **Buttons**: Back, Home (screen off or always-on display), configurable double/long press on Back, rotary wheel.

@@ -109,6 +109,7 @@ class El(o: JSONObject) {
     val source: String = o.optString("source", "battery")
     val trackColor = safeColor(o.optString("trackColor"), 0x33FFFFFF)
     val start = o.optDouble("start", -90.0).toFloat()
+    val backdrop = safeColor(o.optString("backdrop"), 0x5A000000)
 
     /** Optional complication id (steps, battery, prayer, …). Users can hide/show it and tap it. */
     val slot: String? = o.optString("slot").ifEmpty { null } ?: inferSlot()

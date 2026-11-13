@@ -54,6 +54,13 @@ Built-in wallpapers: flow, liquid*, dusk, carbon, aurora, dunes, geo, mountains,
 | `batteryChip` | `x`,`y`,`w`,`h`,`anchor` |
 | `panel` | rounded rectangle: `x`,`y`,`w`,`h`,`color`,`corner` |
 | `dot` | `text: "notif"` = dot shown only when there are notifications |
+| `gauge` | interactive circular complication: `cx`,`cy`,`radius`,`source` (`steps`,`battery`,`phone`,`day`),`color`,`trackColor`,`backdrop`,`numeralColor` |
+
+### Complications (interactive, can be switched on/off)
+Elements showing steps, battery, prayer, Hijri, weather, phone battery or the notification dot automatically become
+**complications** (or set `"slot": "steps"` etc. explicitly). The user turns each one on/off per theme
+(long-press the face → palette → Complications), and **tapping** one opens its details (battery → Control Center,
+notifications → Notification Center, the rest → Widgets). Add `"defaultOff": true` to ship one switched off.
 
 Colors: `#AARRGGBB`, `#RRGGBB`, `@accent` (user/theme accent), `@time` (user time color).
 Built-in fonts: `tajawal_light`, `tajawal_medium`, `tajawal_bold`, `tajawal_extrabold`, `bebas`, `michroma`, `techmono`, `ruqaa` (or a `.ttf` path inside the theme).

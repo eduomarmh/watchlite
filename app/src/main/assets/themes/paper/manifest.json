@@ -35,7 +35,9 @@
    "cy": 0.84,
    "radius": 0.105,
    "color": "#FF30D158",
-   "trackColor": "#22000000"
+   "trackColor": "#22000000",
+   "backdrop": "#00000000",
+   "numeralColor": "#FF1C1C1E"
   },
   {
    "type": "gauge",
@@ -44,7 +46,9 @@
    "cy": 0.84,
    "radius": 0.105,
    "color": "#FF0A84FF",
-   "trackColor": "#22000000"
+   "trackColor": "#22000000",
+   "backdrop": "#00000000",
+   "numeralColor": "#FF1C1C1E"
   }
  ],
  "accent": "#FFFF3B30"

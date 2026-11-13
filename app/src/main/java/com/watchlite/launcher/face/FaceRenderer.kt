@@ -391,8 +391,11 @@ class FaceRenderer(private val ctx: Context) {
             else -> resolve(e.color, e)
         }
         // soft backdrop keeps it readable on busy wallpapers
-        fp.reset(); fp.isAntiAlias = true; fp.color = Color.argb((90 * alphaMul).toInt(), 0, 0, 0)
-        c.drawCircle(cx, cy, r * 1.02f, fp)
+        if (Color.alpha(e.backdrop) > 0) {
+            fp.reset(); fp.isAntiAlias = true
+            fp.color = (e.backdrop and 0x00FFFFFF) or ((Color.alpha(e.backdrop) * alphaMul).toInt() shl 24)
+            c.drawCircle(cx, cy, r * 1.02f, fp)
+        }
         sp.reset(); sp.isAntiAlias = true; sp.style = Paint.Style.STROKE; sp.strokeCap = Paint.Cap.ROUND
         sp.strokeWidth = maxOf(2f, r * 0.15f)
         rect.set(cx - r * 0.86f, cy - r * 0.86f, cx + r * 0.86f, cy + r * 0.86f)
@@ -414,7 +417,7 @@ class FaceRenderer(private val ctx: Context) {
         tp.typeface = Fonts.get(ctx, e.font ?: "tajawal_bold", null)
         tp.textSize = r * 0.52f
         val tw = tp.measureText(label); if (tw > r * 1.4f) tp.textSize *= r * 1.4f / tw
-        tp.color = Color.argb((255 * alphaMul).toInt(), 255, 255, 255)
+        tp.color = resolve(e.numeralColor)
         tp.textAlign = Paint.Align.CENTER
         tp.getTextBounds("0", 0, 1, bounds)
         c.drawText(label, cx, cy + r * 0.42f - bounds.exactCenterY() * 0.2f, tp)
