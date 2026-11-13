@@ -1,0 +1,42 @@
+{
+ "schema": 1,
+ "id": "paper",
+ "name": {
+  "en": "Paper",
+  "ar": "ورق"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/paper.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.42,
+   "size": 0.34,
+   "font": "tajawal_light",
+   "color": "#FF1C1C1E"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.6,
+   "size": 0.06,
+   "font": "tajawal_medium",
+   "color": "#FF6C6C70"
+  },
+  {
+   "type": "text",
+   "text": "{battery}  ·  {steps}",
+   "x": 0.5,
+   "y": 0.86,
+   "size": 0.05,
+   "font": "tajawal_medium",
+   "color": "#FF8E8E93"
+  }
+ ],
+ "accent": "#FFFF3B30"
+}

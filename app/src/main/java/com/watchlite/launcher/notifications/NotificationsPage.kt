@@ -34,7 +34,7 @@ class NotificationsPage(host: HomeActivity) : Page(host, FROM_TOP) {
         scroll.addView(list)
         addView(scroll, ui.frameLp())
         // bottom handle
-        addView(View(host).apply { background = ui.rounded(0x66FFFFFF, 50f) },
+        addView(View(host).apply { background = ui.rounded((Ui.TEXT2 and 0x00FFFFFF) or 0x88000000.toInt(), 50f) },
             ui.frameLp(ui.px(14f), ui.px(1.4f), Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL).apply { bottomMargin = ui.px(3f) })
     }
 
@@ -78,7 +78,7 @@ class NotificationsPage(host: HomeActivity) : Page(host, FROM_TOP) {
             DateUtils.FORMAT_ABBREV_RELATIVE).toString() + src, 4.2f, Ui.TEXT2))
         c.addView(head)
         if (n.title.isNotEmpty()) c.addView(ui.text(n.title, 5.6f, Ui.TEXT, 2, 2), ui.lp(top = 1.5f))
-        if (n.text.isNotEmpty()) c.addView(ui.text(n.text, 5.2f, 0xFFD1D1D6.toInt(), 1, 4), ui.lp(top = 0.8f))
+        if (n.text.isNotEmpty()) c.addView(ui.text(n.text, 5.2f, Ui.BODY, 1, 4), ui.lp(top = 0.8f))
         val actions = ui.hbox()
         n.replyAction?.let { a ->
             actions.addView(ui.pill(context.getString(R.string.reply), host.ui.accent, Ui.BG) { replyDialog(n, a) }, ui.lp(0, start = 0f, end = 1.5f, weight = 1f))
@@ -138,7 +138,7 @@ class NotificationsPage(host: HomeActivity) : Page(host, FROM_TOP) {
     private fun replyDialog(n: NotificationItem, a: NotifAction) {
         val canned = cannedReplies()
         val items = (canned + context.getString(R.string.reply_type) + context.getString(R.string.reply_voice)).toTypedArray()
-        AlertDialog.Builder(context, R.style.Watch_Dialog).setTitle(n.title.ifEmpty { n.appLabel }).setItems(items) { _, i ->
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(n.title.ifEmpty { n.appLabel }).setItems(items) { _, i ->
             when {
                 i < canned.size -> send(n, a, canned[i])
                 i == canned.size -> typeDialog(n, a)
@@ -161,7 +161,7 @@ class NotificationsPage(host: HomeActivity) : Page(host, FROM_TOP) {
 
     private fun typeDialog(n: NotificationItem, a: NotifAction) {
         val input = EditText(context).apply { setTextColor(Ui.TEXT) }
-        AlertDialog.Builder(context, R.style.Watch_Dialog).setTitle(R.string.reply).setView(input)
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(R.string.reply).setView(input)
             .setPositiveButton(R.string.send) { _, _ -> send(n, a, input.text.toString()) }.show()
     }
 

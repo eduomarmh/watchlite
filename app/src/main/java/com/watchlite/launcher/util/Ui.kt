@@ -21,11 +21,24 @@ import com.watchlite.launcher.App
 class Ui(val ctx: Context, val sp: ScreenProfile = ScreenProfile.of(ctx)) {
 
     companion object {
-        const val BG = 0xFF000000.toInt()
-        const val CARD = 0xFF1C1C1E.toInt()
-        const val CARD2 = 0xFF2C2C2E.toInt()
-        const val TEXT = 0xFFFFFFFF.toInt()
-        const val TEXT2 = 0xFF8E8E93.toInt()
+        /** Light or dark UI (settings, pages, drawer). Watch faces and AOD are not affected. */
+        val light: Boolean get() {
+            val p = App.prefs
+            return when (p.uiMode) {
+                "light" -> true
+                "auto" -> !com.watchlite.launcher.theme.ThemeRepository.inRange(
+                    java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY), p.nightFrom, p.nightTo)
+                else -> false
+            }
+        }
+        val BG get() = if (light) 0xFFF2F2F7.toInt() else 0xFF000000.toInt()
+        val CARD get() = if (light) 0xFFFFFFFF.toInt() else 0xFF1C1C1E.toInt()
+        val CARD2 get() = if (light) 0xFFE5E5EA.toInt() else 0xFF2C2C2E.toInt()
+        val TEXT get() = if (light) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
+        val TEXT2 get() = if (light) 0xFF6C6C70.toInt() else 0xFF8E8E93.toInt()
+        val BODY get() = if (light) 0xFF3A3A3C.toInt() else 0xFFD1D1D6.toInt()
+        val RIPPLE get() = if (light) 0x22000000 else 0x40FFFFFF
+        val DIALOG get() = if (light) com.watchlite.launcher.R.style.Watch_Dialog_Light else com.watchlite.launcher.R.style.Watch_Dialog
         const val GREEN = 0xFF30D158.toInt()
         const val BLUE = 0xFF0A84FF.toInt()
         const val RED = 0xFFFF453A.toInt()
@@ -56,7 +69,7 @@ class Ui(val ctx: Context, val sp: ScreenProfile = ScreenProfile.of(ctx)) {
     fun oval(color: Int): GradientDrawable = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(color) }
 
     fun ripple(content: Drawable?, mask: Drawable? = content): Drawable =
-        RippleDrawable(ColorStateList.valueOf(0x40FFFFFF), content, mask ?: rounded(Color.WHITE))
+        RippleDrawable(ColorStateList.valueOf(RIPPLE), content, mask ?: rounded(Color.WHITE))
 
     fun card(): LinearLayout = LinearLayout(ctx).apply {
         orientation = LinearLayout.VERTICAL

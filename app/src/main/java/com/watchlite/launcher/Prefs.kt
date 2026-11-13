@@ -20,6 +20,7 @@ class Prefs(ctx: Context) {
     var language by str("language", "system")       // system | en | ar
     var accent by int("accent", 0xFFFF9F0A.toInt())
     var fps by int("fps", 24)
+    var uiMode by str("ui_mode", "dark")             // dark | light | auto
 
     // ---- Auto themes
     var autoTheme by bool("auto_theme", false)

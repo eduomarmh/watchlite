@@ -149,6 +149,8 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
         val list = mode == "list"
         val showLabels = list || (mode == "grid" && intArrayOf(5, 4, 3, 3, 2)[zoom] <= 3)
         labelPaint.textSize = if (list) rowH * 0.3f else sp.u * 4.6f
+        labelPaint.color = Ui.TEXT
+        bgPaint.color = Ui.CARD
         for (i in apps.indices) {
             val x = cx[i]; val y = cy[i] - scrollPos
             if (y < -cellR * 2 - rowH || y > h + cellR * 2 + rowH) continue

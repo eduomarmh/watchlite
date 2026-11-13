@@ -17,4 +17,11 @@
     <style name="Watch.Dialog" parent="android:Theme.Material.Dialog.Alert">
         <item name="android:colorAccent">@color/accent</item>
     </style>
+    <style name="Watch.Dialog.Light" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/accent</item>
+    </style>
+    <style name="Watch.Light" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@color/light_bg</item>
+        <item name="android:colorAccent">@color/accent</item>
+    </style>
 </resources>

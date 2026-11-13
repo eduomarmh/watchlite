@@ -1,0 +1,82 @@
+{
+ "schema": 1,
+ "id": "mosque",
+ "name": {
+  "en": "Crescent",
+  "ar": "الهلال"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/mosque.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.06,
+   "y": 0.17,
+   "size": 0.24,
+   "font": "tajawal_bold",
+   "anchor": "centerLeft",
+   "color": "#FFFFF3C4",
+   "digits": "arabicIndic",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{hijri}",
+   "x": 0.06,
+   "y": 0.29,
+   "size": 0.055,
+   "font": "tajawal_bold",
+   "anchor": "centerLeft",
+   "color": "#FFFFFFFF",
+   "digits": "arabicIndic",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{prayer.next} {prayer.nextTime}",
+   "x": 0.5,
+   "y": 0.92,
+   "size": 0.055,
+   "font": "tajawal_bold",
+   "color": "#FFFFF3C4",
+   "digits": "arabicIndic"
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.45,
+    "size": 0.26,
+    "font": "tajawal_light",
+    "color": "#FFC9B98A",
+    "digits": "arabicIndic"
+   },
+   {
+    "type": "text",
+    "text": "{prayer.next} {prayer.nextTime}",
+    "x": 0.5,
+    "y": 0.62,
+    "size": 0.055,
+    "font": "tajawal_medium",
+    "color": "#FF777777",
+    "digits": "arabicIndic"
+   }
+  ]
+ },
+ "accent": "#FFFFF3C4"
+}

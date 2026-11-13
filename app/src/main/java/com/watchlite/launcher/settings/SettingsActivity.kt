@@ -94,7 +94,7 @@ class SettingsActivity : Activity() {
         ui = Ui(this)
         list = ui.vbox()
         list.setPadding(ui.sp.safe, ui.px(if (ui.sp.isRound) 12f else 5f), ui.sp.safe, ui.px(if (ui.sp.isRound) 18f else 8f))
-        scroll = ScrollView(this).apply { isVerticalScrollBarEnabled = false; addView(list) }
+        scroll = ScrollView(this).apply { isVerticalScrollBarEnabled = false; addView(list); setBackgroundColor(Ui.BG) }
         setContentView(scroll)
         open(getString(R.string.settings), ::mainScreen)
     }
@@ -161,7 +161,7 @@ class SettingsActivity : Activity() {
         val sw = Switch(this).apply {
             isChecked = get(); isClickable = false
             thumbTintList = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf(ui.accent, 0xFFBBBBBB.toInt()))
-            trackTintList = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf((ui.accent and 0x00FFFFFF) or 0x88000000.toInt(), 0x55FFFFFF))
+            trackTintList = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf((ui.accent and 0x00FFFFFF) or 0x88000000.toInt(), Ui.CARD2))
         }
         row(title, summary, sw) { val v = !get(); set(v); sw.isChecked = v }
     }
@@ -189,7 +189,7 @@ class SettingsActivity : Activity() {
     private fun <T> choice(title: String, options: List<Pair<T, String>>, get: () -> T, set: (T) -> Unit) {
         val cur = options.firstOrNull { it.first == get() }?.second ?: ""
         row(title, cur) {
-            AlertDialog.Builder(this, R.style.Watch_Dialog).setTitle(title)
+            AlertDialog.Builder(this, Ui.DIALOG).setTitle(title)
                 .setSingleChoiceItems(options.map { it.second }.toTypedArray(), options.indexOfFirst { it.first == get() }) { d, i ->
                     set(options[i].first); d.dismiss(); refresh()
                 }.show()
@@ -212,7 +212,7 @@ class SettingsActivity : Activity() {
         nav(s(R.string.st_link), if (p.linkEnabled) s(R.string.on) else s(R.string.off), ::linkScreen)
         nav(s(R.string.st_permissions), s(R.string.st_permissions_sum), ::permissionsScreen)
         nav(s(R.string.st_backup), null, ::backupScreen)
-        nav(s(R.string.st_about), BuildConfig.VERSION_NAME, ::aboutScreen)
+        nav(s(R.string.st_about), s(R.string.developed_by), ::aboutScreen)
     }
 
     private fun appearance() {
@@ -220,6 +220,8 @@ class SettingsActivity : Activity() {
         choice(s(R.string.st_language), listOf("system" to s(R.string.lang_system), "ar" to "العربية", "en" to "English"), { p.language }) {
             if (it != p.language) { p.language = it; restartApp() }
         }
+        choice(s(R.string.st_ui_mode), listOf("dark" to s(R.string.mode_dark), "light" to s(R.string.mode_light), "auto" to s(R.string.mode_auto)),
+            { p.uiMode }) { if (it != p.uiMode) { p.uiMode = it; recreate() } }
         choice(s(R.string.st_digits), listOf("latin" to s(R.string.digits_latin), "arabic" to s(R.string.digits_arabic), "auto" to s(R.string.auto)),
             { p.digits }) { p.digits = it; App.I.themes.notifyChanged() }
         choice(s(R.string.st_clock), listOf("system" to s(R.string.lang_system), "12" to s(R.string.clock_12), "24" to s(R.string.clock_24)),
@@ -254,7 +256,7 @@ class SettingsActivity : Activity() {
             row(t.name(), if (t.builtIn) null else s(R.string.custom_theme), if (sel) ui.icon(R.drawable.ic_watch, 6f, ui.accent) else null) {
                 App.I.themes.select(t.id); refresh()
             }.setOnLongClickListener {
-                if (!t.builtIn) AlertDialog.Builder(this, R.style.Watch_Dialog).setTitle(t.name()).setMessage(R.string.delete_theme_q)
+                if (!t.builtIn) AlertDialog.Builder(this, Ui.DIALOG).setTitle(t.name()).setMessage(R.string.delete_theme_q)
                     .setPositiveButton(R.string.delete) { _, _ -> App.I.themes.delete(t.id); refresh() }.setNegativeButton(R.string.cancel, null).show()
                 true
             }
@@ -328,7 +330,7 @@ class SettingsActivity : Activity() {
     private fun daysDialog() {
         val names = dayNames().toTypedArray()
         val checked = BooleanArray(7) { (p.chimeDays shr it) and 1 == 1 }
-        AlertDialog.Builder(this, R.style.Watch_Dialog).setMultiChoiceItems(names, checked) { _, i, v -> checked[i] = v }
+        AlertDialog.Builder(this, Ui.DIALOG).setMultiChoiceItems(names, checked) { _, i, v -> checked[i] = v }
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 p.chimeDays = checked.foldIndexed(0) { i, acc, v -> if (v) acc or (1 shl i) else acc }
                 ChimeScheduler.schedule(this); refresh()
@@ -372,7 +374,7 @@ class SettingsActivity : Activity() {
                 setText(p.cannedReplies.ifEmpty { resources.getStringArray(R.array.canned_replies).joinToString("\n") })
                 setTextColor(Ui.TEXT); minLines = 4
             }
-            AlertDialog.Builder(this, R.style.Watch_Dialog).setTitle(R.string.canned_replies).setView(input)
+            AlertDialog.Builder(this, Ui.DIALOG).setTitle(R.string.canned_replies).setView(input)
                 .setPositiveButton(android.R.string.ok) { _, _ -> p.cannedReplies = input.text.toString() }.show()
         }
         header(s(R.string.blocked_apps))
@@ -479,19 +481,25 @@ class SettingsActivity : Activity() {
         }
         action(s(R.string.backup_restore), s(R.string.backup_restore_sum)) { pick(REQ_RESTORE, "*/*") }
         action(s(R.string.reset_all), s(R.string.reset_all_sum)) {
-            AlertDialog.Builder(this, R.style.Watch_Dialog).setMessage(R.string.reset_all_q).setPositiveButton(R.string.reset) { _, _ ->
+            AlertDialog.Builder(this, Ui.DIALOG).setMessage(R.string.reset_all_q).setPositiveButton(R.string.reset) { _, _ ->
                 p.sp.edit().clear().commit(); restartApp()
             }.setNegativeButton(R.string.cancel, null).show()
         }
     }
 
     private fun aboutScreen() {
-        row("WatchLite", "v${BuildConfig.VERSION_NAME} · ${ui.sp}")
+        val credit = ui.card().apply { gravity = Gravity.CENTER_HORIZONTAL }
+        credit.addView(ui.icon(R.mipmap.ic_launcher, 16f, 0).apply { imageTintList = null })
+        credit.addView(ui.text("WatchLite", 7.5f, Ui.TEXT, 2).apply { gravity = Gravity.CENTER }, ui.lp(top = 1.5f))
+        credit.addView(ui.text("v${BuildConfig.VERSION_NAME}", 4.6f, Ui.TEXT2).apply { gravity = Gravity.CENTER }, ui.lp(top = 0.5f))
+        credit.addView(ui.text(s(R.string.developed_by), 5.4f, ui.accent, 2, 2).apply { gravity = Gravity.CENTER }, ui.lp(top = 2.5f))
+        list.addView(credit, ui.lp(bottom = 2f))
+        row(s(R.string.screen), "${ui.sp}")
         row(s(R.string.memory), memoryInfo())
         action(s(R.string.input_probe), s(R.string.input_probe_sum)) { startActivity(Intent(this, InputProbeActivity::class.java)) }
         action(s(R.string.show_log)) {
             val t = (CrashGuard.lastCrash(this)?.let { "LAST CRASH:\n$it\n\n" } ?: "") + Log.dump()
-            AlertDialog.Builder(this, R.style.Watch_Dialog).setMessage(t.takeLast(6000)).setPositiveButton(android.R.string.ok, null).show()
+            AlertDialog.Builder(this, Ui.DIALOG).setMessage(t.takeLast(6000)).setPositiveButton(android.R.string.ok, null).show()
         }
         action(s(R.string.export_log)) {
             val f = java.io.File(getExternalFilesDir(null), "watchlite-log.txt")

@@ -307,6 +307,12 @@
     <string name="wheel_on_face">Wheel on watch face</string>
     <string name="widgets">Widgets</string>
     <string name="write_settings">Modify system settings</string>
+    <string name="st_ui_mode">Display mode</string>
+    <string name="mode_dark">Dark</string>
+    <string name="mode_light">Light</string>
+    <string name="mode_auto">Automatic (dark at night)</string>
+    <string name="developed_by">Developed by Eng. Omar Mahmoud</string>
+    <string name="screen">Screen</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

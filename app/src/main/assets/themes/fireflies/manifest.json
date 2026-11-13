@@ -1,0 +1,48 @@
+{
+ "schema": 1,
+ "id": "fireflies",
+ "name": {
+  "en": "Fireflies",
+  "ar": "اليراعات"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/forest.webp",
+  "overlay": "fireflies",
+  "overlayColor": "#FFFFE98A",
+  "speed": 1.0,
+  "scrim": 0.1
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.2,
+   "size": 0.28,
+   "font": "tajawal_bold",
+   "color": "#FFF4FFF8",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.33,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#E6F4FFF8",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  }
+ ]
+}

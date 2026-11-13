@@ -1,0 +1,43 @@
+{
+ "schema": 1,
+ "id": "lava",
+ "name": {
+  "en": "Lava Lamp",
+  "ar": "حمم"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "liquid",
+  "colors": [
+   "#FFFF3D00",
+   "#FFFF9100",
+   "#FFD50000"
+  ],
+  "speed": 0.6
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.32,
+   "font": "tajawal_extrabold",
+   "color": "#FFFFF3E0",
+   "shadow": {
+    "r": 0.03,
+    "dy": 0,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE d MMM}",
+   "x": 0.5,
+   "y": 0.64,
+   "size": 0.065,
+   "font": "tajawal_bold",
+   "color": "#FFFFF3E0"
+  }
+ ]
+}

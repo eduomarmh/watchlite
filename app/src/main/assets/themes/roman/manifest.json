@@ -1,0 +1,57 @@
+{
+ "schema": 1,
+ "id": "roman",
+ "name": {
+  "en": "Roman",
+  "ar": "روماني"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/sunray.webp"
+ },
+ "elements": [
+  {
+   "type": "ticks",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.47,
+   "count": 60,
+   "major": 5,
+   "color": "#66FFFFFF",
+   "majorColor": "#FFFFFFFF",
+   "majorLen": 0.06,
+   "minorLen": 0.025,
+   "majorW": 0.014,
+   "minorW": 0.005,
+   "numerals": "roman",
+   "numeralSize": 0.085,
+   "numeralInset": 0.13,
+   "font": "tajawal_medium"
+  },
+  {
+   "type": "text",
+   "text": "{date:d}",
+   "x": 0.72,
+   "y": 0.5,
+   "size": 0.06,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "analog",
+   "cx": 0.5,
+   "cy": 0.5,
+   "radius": 0.46,
+   "style": "sword",
+   "seconds": true,
+   "secondColor": "#FFFFC857",
+   "hourColor": "#FFF5F5F5",
+   "minuteColor": "#FFF5F5F5",
+   "centerColor": "#FFF5F5F5",
+   "hourW": 0.11,
+   "minuteW": 0.08
+  }
+ ],
+ "accent": "#FFFFC857"
+}

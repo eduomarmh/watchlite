@@ -79,6 +79,7 @@ class InputProbeActivity : Activity() {
         log = ui.text("", 3.8f, Ui.GREEN, 1, 0).apply { typeface = android.graphics.Typeface.MONOSPACE }
         scroll = ScrollView(this).apply { addView(log) }
         box.addView(scroll, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f).apply { topMargin = ui.px(2f) })
+        box.setBackgroundColor(Ui.BG)
         setContentView(box)
         append("screen: ${ui.sp}")
         append("wheel up=${App.prefs.wheelUpKey} down=${App.prefs.wheelDownKey}")

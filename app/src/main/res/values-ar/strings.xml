@@ -306,6 +306,12 @@
     <string name="wheel_on_face">العجلة على شاشة الساعة</string>
     <string name="widgets">الويدجتس</string>
     <string name="write_settings">تعديل إعدادات النظام</string>
+    <string name="st_ui_mode">وضع العرض</string>
+    <string name="mode_dark">غامق</string>
+    <string name="mode_light">فاتح</string>
+    <string name="mode_auto">تلقائي (غامق بالليل)</string>
+    <string name="developed_by">تطوير م. عمر محمود</string>
+    <string name="screen">الشاشة</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

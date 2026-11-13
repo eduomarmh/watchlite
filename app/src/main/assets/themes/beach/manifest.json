@@ -1,0 +1,44 @@
+{
+ "schema": 1,
+ "id": "beach",
+ "name": {
+  "en": "Palm Sunset",
+  "ar": "غروب النخيل"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/palms.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.16,
+   "size": 0.27,
+   "font": "tajawal_bold",
+   "color": "#FFFFF4E6",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.28,
+   "size": 0.056,
+   "font": "tajawal_medium",
+   "color": "#E6FFF4E6",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  }
+ ]
+}

@@ -62,6 +62,12 @@ object Backgrounds {
             "nightdrive" -> NightDriveLayer(cols, bg.speed)
             "racer" -> RacerLayer(cols, bg.speed)
             "speedo" -> SpeedoLayer(cols, bg.speed)
+            "rain" -> RainLayer(cols.first(), bg.speed, !overlay)
+            "matrix" -> MatrixLayer(cols.first(), bg.speed)
+            "fireflies" -> FirefliesLayer(cols.first(), bg.speed)
+            "snow" -> SnowLayer(cols.first(), bg.speed)
+            "radar" -> RadarLayer(cols, bg.speed)
+            "orbit" -> OrbitLayer(bg.speed)
             "gradient" -> GradientLayer(cols)
             else -> SolidLayer(cols.firstOrNull() ?: Color.BLACK)
         }

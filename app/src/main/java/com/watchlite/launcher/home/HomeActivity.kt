@@ -120,6 +120,7 @@ class HomeActivity : Activity() {
         super.onResume()
         resumed = true
         CrashGuard.markHealthy()
+        refreshUiMode()
         if (!aod.active && !editor.isOpen && pages.none { it.isOpen }) face.resume()
         App.I.steps.start()
         applyAodSetting()
@@ -197,6 +198,7 @@ class HomeActivity : Activity() {
             if (aod.active) aod.minuteTick()
             else if (!face.isAnimatingFrames()) face.invalidate()
             if (i.action == Intent.ACTION_TIME_TICK) {
+                refreshUiMode()
                 val repo = App.I.themes
                 if (face.theme?.id != repo.effectiveId(App.I.state.charging)) applyTheme()
             } else {
@@ -240,6 +242,18 @@ class HomeActivity : Activity() {
         if (pages.any { it.isOpen }) face.pause()
         else if (resumed && !aod.active && !editor.isOpen) face.resume()
         face.alpha = 1f - 0.6f * pages.maxOf { it.progress }
+    }
+
+    private var builtLight: Boolean? = null
+
+    /** Rebuilds the pages when light/dark mode changed (pages are created lazily again). */
+    fun refreshUiMode() {
+        val l = Ui.light
+        if (builtLight == null) { builtLight = l; return }
+        if (l == builtLight || pages.any { it.isPresent }) return
+        builtLight = l
+        for (p in pages) root.removeView(p)
+        drawer = null; notifs = null; control = null; widgets = null
     }
 
     fun goHome(animate: Boolean = true) {
@@ -563,7 +577,7 @@ class HomeActivity : Activity() {
     fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 
     fun askAccessibility() {
-        AlertDialog.Builder(this, R.style.Watch_Dialog).setTitle(R.string.a11y_label).setMessage(R.string.a11y_explain)
+        AlertDialog.Builder(this, Ui.DIALOG).setTitle(R.string.a11y_label).setMessage(R.string.a11y_explain)
             .setPositiveButton(R.string.open_settings) { _, _ -> startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
             .setNegativeButton(R.string.cancel, null).show()
     }
@@ -598,10 +612,10 @@ class HomeActivity : Activity() {
     private fun photoThemeDialog(uri: android.net.Uri) {
         val positions = arrayOf("top", "center", "bottom")
         val labels = arrayOf(getString(R.string.pos_top), getString(R.string.pos_center), getString(R.string.pos_bottom))
-        AlertDialog.Builder(this, R.style.Watch_Dialog).setTitle(R.string.clock_position).setItems(labels) { _, i ->
+        AlertDialog.Builder(this, Ui.DIALOG).setTitle(R.string.clock_position).setItems(labels) { _, i ->
             val styles = arrayOf("bold", "light", "bebas")
             val sl = arrayOf(getString(R.string.style_bold), getString(R.string.style_light), getString(R.string.style_condensed))
-            AlertDialog.Builder(this, R.style.Watch_Dialog).setTitle(R.string.clock_style).setItems(sl) { _, k ->
+            AlertDialog.Builder(this, Ui.DIALOG).setTitle(R.string.clock_style).setItems(sl) { _, k ->
                 Bg.run {
                     try {
                         val t = App.I.themes.createFromImage(uri, positions[i], styles[k])
@@ -615,12 +629,12 @@ class HomeActivity : Activity() {
     private fun showOnboarding() {
         val c = ui.card()
         c.addView(ui.text(getString(R.string.welcome), 7f, Ui.TEXT, 2))
-        c.addView(ui.text(getString(R.string.welcome_body), 4.8f, 0xFFD1D1D6.toInt(), 1, 0), ui.lp(top = 2f))
+        c.addView(ui.text(getString(R.string.welcome_body), 4.8f, Ui.BODY, 1, 0), ui.lp(top = 2f))
         c.addView(ui.pill(getString(R.string.got_it), ui.accent, Ui.BG) {
             App.prefs.onboarded = true; root.removeView(c.parent as View)
         }, ui.lp(top = 3f))
         val wrap = android.widget.ScrollView(this).apply {
-            setBackgroundColor(0xE6000000.toInt())
+            setBackgroundColor((Ui.BG and 0x00FFFFFF) or 0xE6000000.toInt())
             setPadding(ui.sp.safe, ui.sp.safe + ui.px(4f), ui.sp.safe, ui.sp.safe)
             addView(c)
         }

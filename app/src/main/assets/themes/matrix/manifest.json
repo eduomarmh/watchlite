@@ -1,0 +1,62 @@
+{
+ "schema": 1,
+ "id": "matrix",
+ "name": {
+  "en": "Digital Rain",
+  "ar": "المطر الرقمي"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "matrix",
+  "colors": [
+   "#FF00E05A"
+  ],
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "panel",
+   "x": 0.5,
+   "y": 0.47,
+   "w": 0.86,
+   "h": 0.36,
+   "color": "#D9000000",
+   "corner": 0.12
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.45,
+   "size": 0.27,
+   "font": "techmono",
+   "color": "#FF7CFF9E",
+   "glow": true,
+   "format": "HH:mm"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE dd.MM}",
+   "x": 0.5,
+   "y": 0.6,
+   "size": 0.055,
+   "font": "techmono",
+   "color": "#FF00E05A",
+   "upper": true
+  }
+ ],
+ "aod": {
+  "elements": [
+   {
+    "type": "digitalTime",
+    "x": 0.5,
+    "y": 0.47,
+    "size": 0.25,
+    "font": "techmono",
+    "color": "#FF00A040",
+    "format": "HH:mm"
+   }
+  ]
+ },
+ "accent": "#FF00E05A"
+}

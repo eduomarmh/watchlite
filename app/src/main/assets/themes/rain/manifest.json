@@ -1,0 +1,54 @@
+{
+ "schema": 1,
+ "id": "rain",
+ "name": {
+  "en": "Rainy Night",
+  "ar": "ليلة ممطرة"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/skyline.webp",
+  "overlay": "rain",
+  "overlayColor": "#FFAFC8E8",
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.2,
+   "size": 0.28,
+   "font": "tajawal_light",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.33,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#CCFFFFFF",
+   "shadow": {
+    "r": 0.02,
+    "dx": 0,
+    "dy": 0.005,
+    "color": "#99000000"
+   }
+  },
+  {
+   "type": "batteryChip",
+   "x": 0.05,
+   "y": 0.05,
+   "anchor": "topLeft",
+   "w": 0.3,
+   "h": 0.11
+  }
+ ]
+}

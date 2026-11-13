@@ -1,0 +1,32 @@
+{
+ "schema": 1,
+ "id": "forest",
+ "name": {
+  "en": "Misty Forest",
+  "ar": "غابة الضباب"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/forest.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.18,
+   "size": 0.3,
+   "font": "tajawal_light",
+   "color": "#FF0D2A2A"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.31,
+   "size": 0.055,
+   "font": "tajawal_bold",
+   "color": "#CC0D2A2A"
+  }
+ ]
+}

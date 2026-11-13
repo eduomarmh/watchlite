@@ -65,7 +65,7 @@ class DrawerPage(host: HomeActivity) : Page(host, FROM_RIGHT) {
             context.getString(R.string.app_info),
             context.getString(R.string.app_uninstall)
         )
-        AlertDialog.Builder(context, R.style.Watch_Dialog).setTitle(e.label).setItems(items) { _, which ->
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(e.label).setItems(items) { _, which ->
             when (which) {
                 0 -> App.I.apps.toggleFavorite(e.key)
                 1 -> rename(e)
@@ -78,7 +78,7 @@ class DrawerPage(host: HomeActivity) : Page(host, FROM_RIGHT) {
 
     private fun rename(e: AppEntry) {
         val input = EditText(context).apply { setText(e.label); setSelection(text.length); setTextColor(Ui.TEXT) }
-        AlertDialog.Builder(context, R.style.Watch_Dialog).setTitle(R.string.app_rename).setView(input)
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(R.string.app_rename).setView(input)
             .setPositiveButton(android.R.string.ok) { _, _ -> App.I.apps.rename(e, input.text.toString()) }
             .setNeutralButton(R.string.reset) { _, _ -> App.I.apps.rename(e, null) }
             .show()

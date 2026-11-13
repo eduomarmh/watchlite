@@ -255,9 +255,9 @@ class FaceRenderer(private val ctx: Context) {
             val arabic = Digits.forElement(e.digits)
             val rr = r - e.numeralInset * short
             for (n in 1..12) {
-                if (e.numerals == "quarters" && n % 3 != 0) continue
+                if ((e.numerals == "quarters" || e.numerals == "romanQuarters") && n % 3 != 0) continue
                 val a = Math.toRadians(n * 30.0 - 90).toFloat()
-                val s = Digits.apply(n.toString(), arabic)
+                val s = if (e.numerals.startsWith("roman")) ROMAN[n - 1] else Digits.apply(n.toString(), arabic)
                 tp.getTextBounds(s, 0, s.length, bounds)
                 c.drawText(s, cx + cos(a) * rr, cy + sin(a) * rr - bounds.exactCenterY(), tp)
             }
@@ -343,6 +343,8 @@ class FaceRenderer(private val ctx: Context) {
     }
 
     companion object {
+        private val ROMAN = arrayOf("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII")
+
         /** Generic dim clock used by themes that don't define an AOD layout. */
         val DEFAULT_AOD: List<El> = run {
             val arr = JSONArray()

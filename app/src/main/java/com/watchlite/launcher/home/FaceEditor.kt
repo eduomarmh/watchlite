@@ -65,6 +65,8 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
     val isOpen get() = visibility == VISIBLE
 
     fun open() {
+        setBackgroundColor((Ui.BG and 0x00FFFFFF) or 0xF2000000.toInt())
+        title.setTextColor(Ui.TEXT)
         themes = App.I.themes.all()
         val cur = themes.indexOfFirst { it.id == host.face.theme?.id }.coerceAtLeast(0)
         carousel.jumpTo(cur)
@@ -140,7 +142,7 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
             context.getString(if (c.seconds == true) R.string.cust_hide_seconds else R.string.cust_show_seconds),
             context.getString(R.string.cust_digits), context.getString(R.string.reset)
         )
-        AlertDialog.Builder(context, R.style.Watch_Dialog).setTitle(t.name()).setItems(items) { _, which ->
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(t.name()).setItems(items) { _, which ->
             when (which) {
                 0 -> pickColor { col -> save(t, ThemeCustom(col, c.accent, c.seconds)) }
                 1 -> pickColor { col -> save(t, ThemeCustom(c.timeColor, col, c.seconds)) }
@@ -148,7 +150,7 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
                 3 -> {
                     val modes = arrayOf("latin", "arabic", "auto")
                     val labels = arrayOf(context.getString(R.string.digits_latin), context.getString(R.string.digits_arabic), context.getString(R.string.auto))
-                    AlertDialog.Builder(context, R.style.Watch_Dialog).setItems(labels) { _, k ->
+                    AlertDialog.Builder(context, Ui.DIALOG).setItems(labels) { _, k ->
                         App.prefs.digits = modes[k]; previews.clear(); renderPreviews(); host.applyTheme()
                     }.show()
                 }
@@ -166,7 +168,7 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
 
     private fun pickColor(done: (Int) -> Unit) {
         val grid = ui.hbox().apply { gravity = Gravity.CENTER; setPadding(ui.px(2f), ui.px(4f), ui.px(2f), ui.px(4f)) }
-        val dlg = AlertDialog.Builder(context, R.style.Watch_Dialog).setView(grid).create()
+        val dlg = AlertDialog.Builder(context, Ui.DIALOG).setView(grid).create()
         val wrap = LinearLayout(context).apply { orientation = LinearLayout.VERTICAL }
         grid.addView(wrap)
         var row: LinearLayout? = null
@@ -182,7 +184,7 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
 
     private fun addTheme() {
         val items = arrayOf(context.getString(R.string.theme_from_photo), context.getString(R.string.theme_import))
-        AlertDialog.Builder(context, R.style.Watch_Dialog).setTitle(R.string.add_theme).setItems(items) { _, w ->
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(R.string.add_theme).setItems(items) { _, w ->
             if (w == 0) host.pickDocument(HomeActivity.REQ_PHOTO, "image/*") else host.pickDocument(HomeActivity.REQ_THEME, "*/*")
         }.show()
     }
@@ -190,7 +192,7 @@ class FaceEditor(private val host: HomeActivity) : FrameLayout(host) {
     private fun deleteCurrent() {
         val t = current() ?: return
         if (t.builtIn) return
-        AlertDialog.Builder(context, R.style.Watch_Dialog).setTitle(t.name()).setMessage(R.string.delete_theme_q)
+        AlertDialog.Builder(context, Ui.DIALOG).setTitle(t.name()).setMessage(R.string.delete_theme_q)
             .setPositiveButton(R.string.delete) { _, _ ->
                 App.I.themes.delete(t.id); host.applyTheme(); themes = App.I.themes.all()
                 carousel.jumpTo(carousel.index.coerceAtMost(themes.size - 1)); updateTitle()

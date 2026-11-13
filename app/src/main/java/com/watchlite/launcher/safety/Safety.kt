@@ -82,7 +82,7 @@ class SafeModeActivity : Activity() {
         CrashGuard.lastCrash(this)?.let {
             box.addView(ui.text(it.take(1200), 3.2f, Ui.TEXT2, 1, 0), ui.lp(top = 3f))
         }
-        setContentView(ScrollView(this).apply { addView(box) })
+        setContentView(ScrollView(this).apply { addView(box); setBackgroundColor(Ui.BG) })
         tick.run()
     }
 

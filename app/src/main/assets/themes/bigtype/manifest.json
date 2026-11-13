@@ -1,0 +1,70 @@
+{
+ "schema": 1,
+ "id": "bigtype",
+ "name": {
+  "en": "Big Type",
+  "ar": "أرقام كبيرة"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "solid",
+  "colors": [
+   "#FF0A0A0A"
+  ]
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.08,
+   "y": 0.3,
+   "size": 0.55,
+   "font": "bebas",
+   "anchor": "centerLeft",
+   "format": "HH",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "digitalTime",
+   "x": 0.08,
+   "y": 0.72,
+   "size": 0.55,
+   "font": "bebas",
+   "anchor": "centerLeft",
+   "format": "mm",
+   "color": "@accent",
+   "role": "accent"
+  },
+  {
+   "type": "text",
+   "text": "{date:EEE}",
+   "x": 0.94,
+   "y": 0.3,
+   "size": 0.07,
+   "font": "bebas",
+   "anchor": "centerRight",
+   "color": "#FF8E8E93",
+   "upper": true
+  },
+  {
+   "type": "text",
+   "text": "{date:d}",
+   "x": 0.94,
+   "y": 0.4,
+   "size": 0.11,
+   "font": "bebas",
+   "anchor": "centerRight",
+   "color": "#FFFFFFFF"
+  },
+  {
+   "type": "text",
+   "text": "{battery}",
+   "x": 0.94,
+   "y": 0.72,
+   "size": 0.06,
+   "font": "bebas",
+   "anchor": "centerRight",
+   "color": "#FF8E8E93"
+  }
+ ],
+ "accent": "#FFFF9F0A"
+}

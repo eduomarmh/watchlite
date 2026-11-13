@@ -1,0 +1,43 @@
+{
+ "schema": 1,
+ "id": "aqua",
+ "name": {
+  "en": "Aqua",
+  "ar": "أكوا"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "procedural",
+  "procedural": "liquid",
+  "colors": [
+   "#FF00B4D8",
+   "#FF0077B6",
+   "#FF90E0EF"
+  ],
+  "speed": 0.8
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.47,
+   "size": 0.32,
+   "font": "tajawal_light",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.03,
+    "dy": 0,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d}",
+   "x": 0.5,
+   "y": 0.64,
+   "size": 0.062,
+   "font": "tajawal_medium",
+   "color": "#E6FFFFFF"
+  }
+ ]
+}
