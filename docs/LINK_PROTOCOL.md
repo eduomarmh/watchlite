@@ -2,20 +2,14 @@
 
 For building the companion phone app later. The watch side is implemented in `link/LinkService.kt` and `link/LinkManager.kt`.
 
-## Transport: Bluetooth LE GATT
-The **watch is the GATT server** (peripheral, advertises the service). The **phone is the central**.
+## Transport: classic Bluetooth (RFCOMM / SPP)
+BLE peripheral mode is missing on many budget watch chipsets, so the link uses classic Bluetooth, which every watch
+and every phone supports (no Google services involved).
 
-| | UUID | properties |
-|---|---|---|
-| Service | `7f1a0001-5c3e-4b8e-9a51-6c2b0e9d1a01` | |
-| RX (phone → watch) | `7f1a0002-5c3e-4b8e-9a51-6c2b0e9d1a01` | write / write-no-response |
-| TX (watch → phone) | `7f1a0003-5c3e-4b8e-9a51-6c2b0e9d1a01` | notify (enable CCCD `0x2902`) |
-
-Request a large MTU (e.g. 247) after connecting.
-
-### Chunking
-Each BLE write/notification is: `[flags:1][msgId:2 BE][seq:2 BE][data…]`
-flags bit0 = first chunk, bit1 = last chunk. Concatenate `data` of one `msgId` in order → one **frame**.
+- The **watch** runs an RFCOMM server: service name `WatchLite`, UUID `7f1a0001-5c3e-4b8e-9a51-6c2b0e9d1a01`.
+- The **phone** pairs with the watch in the normal Bluetooth settings, then connects with
+  `createRfcommSocketToServiceRecord(UUID)` and reconnects automatically (3 s → 60 s backoff).
+- Stream framing: `[length: 4 bytes big-endian][frame]`.
 
 ### Encryption (frame)
 `frame = nonce(12 bytes) || AES-128-GCM(ciphertext + 16-byte tag)`
@@ -48,6 +42,11 @@ key = first 16 bytes of `SHA-256("watchlite-v1:" + pairingCode)`. The 6-digit pa
 | phone→watch | `theme.apply` | `{id}` |
 | watch→phone | `find.phone` | `{}` (ring the phone) |
 | watch→phone | `camera.remote` | `{}` (take a photo) |
+| phone→watch | `stats.request` | `{}`; watch answers `watch.stats` |
+| watch→phone | `watch.stats` | `{battery, charging, steps, goal, stepsSource, theme, aod, chime, version, model, android, uptimeMin}` |
+| phone→watch | `watch.locate` | `{}`; watch answers `watch.location` (last fix now, fresh GPS fix when ready) |
+| watch→phone | `watch.location` | `{lat, lng, acc, time, fresh, provider}` or `{error: "permission"/"gps_off"}` |
+| phone→watch | `find.watch` / `find.watch.stop` | watch rings and vibrates up to 30 s (touching the watch stops it) |
 
 Every feature has its own switch on the watch (Settings → Phone link → Features); messages for a disabled module are ignored.
 The watch includes a **simulator** (same screen) to test without the phone app.
