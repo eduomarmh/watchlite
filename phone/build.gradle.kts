@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.watchlite.companion"
-        minSdk = 24
+        minSdk = 26
         // 33: no foreground-service-type requirements of API 34; fine for a sideloaded app.
         targetSdk = 33
         // CI passes the GitHub run number, so every build installs as an update
