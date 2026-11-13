@@ -50,7 +50,8 @@ class FaceRenderer(private val ctx: Context) {
         timeColor = custom.timeColor
         secondsOverride = if (aod) false else custom.seconds
         alphaMul = if (aod) aodAlpha else 1f
-        val list = if (aod) (theme.aod.ifEmpty { DEFAULT_AOD }) else theme.elements
+        derivedAod = aod && theme.aod.isEmpty()
+        val list = if (!aod) theme.elements else theme.aod.ifEmpty { derivedAodFor(theme) }
         val short = min(w, h).toFloat()
         for (e in list) {
             try {
@@ -70,12 +71,30 @@ class FaceRenderer(private val ctx: Context) {
         }
     }
 
+    /** AOD built from the theme's own clock (same font/position), dim and on black. */
+    private var derivedAod = false
+    private val derivedCache = HashMap<String, List<El>>()
+
+    private fun derivedAodFor(theme: Theme): List<El> = derivedCache.getOrPut(theme.id) {
+        val keep = theme.elements.filter {
+            it.type == "digitalTime" || it.type == "analog" || it.type == "ticks" ||
+                (it.type == "text" && (it.text.contains("{date") || it.text.contains("{hijri")))
+        }
+        if (keep.none { it.type == "digitalTime" || it.type == "analog" }) DEFAULT_AOD else keep.take(4)
+    }
+
+    private fun lighten(c: Int): Int {
+        val lum = (0.299 * Color.red(c) + 0.587 * Color.green(c) + 0.114 * Color.blue(c)) / 255.0
+        return if (lum < 0.45) Color.argb(Color.alpha(c), 200, 200, 200) else c
+    }
+
     private fun resolve(col: Col, e: El? = null): Int {
-        val base = when (col.ref) {
+        val base0 = when (col.ref) {
             Col.ACCENT -> accent
             Col.TIME -> timeColor ?: col.value
             else -> if (e?.role == "time" && timeColor != null) timeColor!! else if (e?.role == "accent") accent else col.value
         }
+        val base = if (derivedAod) lighten(base0) else base0
         val a = (Color.alpha(base) * alphaMul * (e?.alpha ?: 1f)).toInt().coerceIn(0, 255)
         return Color.argb(a, Color.red(base), Color.green(base), Color.blue(base))
     }
@@ -134,6 +153,10 @@ class FaceRenderer(private val ctx: Context) {
             placeText(c, Digits.apply(g, arabic), x, y, e.anchor, true, theme)
             tp.color = col
         }
+        // never let a wide font run off the screen
+        val maxW = w * 0.94f
+        val tw = tp.measureText(s)
+        if (tw > maxW) tp.textSize *= maxW / tw
         placeText(c, s, x, y, e.anchor, true, theme)
         val showSec = secondsOverride ?: e.seconds
         if (showSec && alphaMul >= 0.99f) {

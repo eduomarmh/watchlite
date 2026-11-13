@@ -63,8 +63,11 @@ adb shell top -n 1 -b | head -20 > $OUT/top.txt || true
 adb root || true
 sleep 3
 adb shell "setprop persist.sys.locale ar-EG; setprop ctl.restart zygote" || true
-sleep 25
+sleep 30
 adb wait-for-device
+until [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do sleep 2; done
+sleep 15
+adb shell input keyevent KEYCODE_HOME; sleep 8
 adb shell wm size 320x385; adb shell wm density 200
 run_flow ar
 

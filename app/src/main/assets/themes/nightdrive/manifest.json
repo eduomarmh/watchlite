@@ -18,7 +18,7 @@
   {
    "type": "digitalTime",
    "x": 0.5,
-   "y": 0.13,
+   "y": 0.17,
    "size": 0.25,
    "font": "michroma",
    "color": "#FFFFFFFF",
@@ -33,7 +33,7 @@
    "type": "text",
    "text": "{date:EEE d MMM}",
    "x": 0.5,
-   "y": 0.26,
+   "y": 0.29,
    "size": 0.05,
    "font": "michroma",
    "color": "#FFFF8FA8",
@@ -41,11 +41,11 @@
   },
   {
    "type": "batteryChip",
-   "x": 0.95,
-   "y": 0.05,
-   "anchor": "topRight",
-   "w": 0.26,
-   "h": 0.09
+   "x": 0.5,
+   "y": 0.37,
+   "anchor": "topCenter",
+   "w": 0.22,
+   "h": 0.075
   }
  ],
  "aod": {

@@ -29,7 +29,8 @@
    "size": 0.24,
    "font": "bebas",
    "color": "#FFFFFFFF",
-   "tracking": 0.02
+   "tracking": 0.02,
+   "format": "HH:mm"
   },
   {
    "type": "text",

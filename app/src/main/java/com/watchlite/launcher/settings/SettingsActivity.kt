@@ -152,7 +152,7 @@ class SettingsActivity : Activity() {
     }
 
     private fun nav(title: String, summary: String? = null, screen: () -> Unit) =
-        row(title, summary, ui.text("›", 7f, Ui.TEXT2)) { open(title, screen) }
+        row(title, summary, ui.text(if (LocaleHelper.isRtl(this)) "‹" else "›", 7f, Ui.TEXT2)) { open(title, screen) }
 
     private fun action(title: String, summary: String? = null, onClick: () -> Unit) = row(title, summary, null, onClick)
 
@@ -207,7 +207,7 @@ class SettingsActivity : Activity() {
         nav(s(R.string.st_gestures), s(R.string.st_gestures_sum), ::gestures)
         nav(s(R.string.st_drawer), null, ::drawerScreen)
         nav(s(R.string.st_notifications), null, ::notifScreen)
-        nav(s(R.string.st_prayer), p.cityName, ::prayerScreen)
+        nav(s(R.string.st_prayer), cityLabel(), ::prayerScreen)
         nav(s(R.string.st_power), null, ::powerScreen)
         nav(s(R.string.st_link), if (p.linkEnabled) s(R.string.on) else s(R.string.off), ::linkScreen)
         nav(s(R.string.st_permissions), s(R.string.st_permissions_sum), ::permissionsScreen)
@@ -402,6 +402,11 @@ class SettingsActivity : Activity() {
         choice(s(R.string.calc_method), PrayerTimes.METHODS.keys.map { it to methodName(it) }, { p.prayerMethod }) { p.prayerMethod = it }
         choice(s(R.string.asr_method), listOf("shafii" to s(R.string.asr_standard), "hanafi" to s(R.string.asr_hanafi)), { p.asrMethod }) { p.asrMethod = it }
         choice(s(R.string.hijri_adjust), (-2..2).map { it to Digits.apply(if (it > 0) "+$it" else "$it", Digits.useArabic()) }, { p.hijriAdjust }) { p.hijriAdjust = it }
+    }
+
+    private fun cityLabel(): String {
+        val key = CITIES.keys.firstOrNull { it.substringBefore('|') == p.cityName } ?: return p.cityName
+        return if (java.util.Locale.getDefault().language == "ar") key.substringAfter('|') else key.substringBefore('|')
     }
 
     private fun methodName(k: String) = when (k) {

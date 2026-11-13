@@ -280,6 +280,6 @@ class SpeedoLayer(colors: IntArray, private val speed: Float) : Layer {
         p.color = accent; c.drawCircle(cx, cy, rad * 0.035f, p)
         // km/h label
         tp.textSize = rad * 0.08f; tp.color = 0x88FFFFFF.toInt()
-        c.drawText("km/h", cx, cy + rad * 0.62f, tp)
+        c.drawText("km/h", cx, cy + rad * 0.3f, tp)
     }
 }

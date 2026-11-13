@@ -188,7 +188,7 @@ class AppDrawerView(ctx: Context, private val sp: ScreenProfile) : View(ctx) {
         if (b == null || b.isRecycled) { c.drawCircle(x, y, r, bgPaint); return }
         // circular crop through a shader: uniform round icons like a watch
         val sh = shaders.getOrPut(b) { BitmapShader(b, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP) }
-        val s = (r * 2.3f) / b.width
+        val s = (r * 2.06f) / b.width
         matrix.setScale(s, s)
         matrix.postTranslate(x - b.width * s / 2, y - b.height * s / 2)
         sh.setLocalMatrix(matrix)
