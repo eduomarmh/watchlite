@@ -78,6 +78,25 @@ adb shell input keyevent KEYCODE_HOME; sleep 8
 adb shell wm size 320x385; adb shell wm density 200
 run_flow ar
 
+# 4) AOD inside another app: enable AOD, open system Settings, press power, expect the AOD screen
+adb shell am force-stop $PKG
+cat > /tmp/aod.sh <<'X'
+f=/data/data/com.watchlite.launcher/shared_prefs/watchlite.xml
+grep -q aod_enabled $f || sed -i 's#</map>#    <boolean name="aod_enabled" value="true" />\n</map>#' $f
+X
+adb push /tmp/aod.sh /data/local/tmp/aod.sh
+adb shell run-as $PKG sh /data/local/tmp/aod.sh || true
+adb shell input keyevent KEYCODE_HOME; sleep 5
+adb shell am start -a android.settings.SETTINGS; sleep 4
+shot "x_10_settings_app" 1
+adb shell input keyevent KEYCODE_POWER; sleep 4
+shot "x_11_aod_after_power" 1
+adb shell input tap 160 200; sleep 0.15; adb shell input tap 160 200; sleep 2
+shot "x_12_back_to_app" 1
+adb shell input keyevent KEYCODE_POWER; sleep 3
+adb shell input keyevent KEYCODE_POWER; sleep 3
+shot "x_13_after_double_power" 1
+
 adb logcat -d > $OUT/logcat_full.txt
 grep -E "FATAL EXCEPTION|AndroidRuntime|WL-" $OUT/logcat_full.txt > $OUT/logcat_app.txt || true
 if grep -q "FATAL EXCEPTION" $OUT/logcat_full.txt && grep -A3 "FATAL EXCEPTION" $OUT/logcat_full.txt | grep -q "$PKG"; then
