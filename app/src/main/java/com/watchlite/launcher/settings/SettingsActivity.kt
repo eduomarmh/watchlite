@@ -277,6 +277,27 @@ class SettingsActivity : Activity() {
         choice(s(R.string.aod_wake), listOf("double" to s(R.string.aod_wake_double), "single" to s(R.string.aod_wake_single)), { p.aodWake }) { p.aodWake = it }
         switch(s(R.string.aod_raise), s(R.string.aod_raise_sum), { p.aodRaise }) { p.aodRaise = it }
         switch(s(R.string.aod_shift), s(R.string.aod_shift_sum), { p.aodPixelShift }) { p.aodPixelShift = it }
+        header(s(R.string.aod_color))
+        val colors = ui.hbox().apply { gravity = Gravity.CENTER }
+        colors.addView(ui.text(s(R.string.aod_color_theme), 4.2f, if (p.aodColor == 0) ui.accent else Ui.TEXT2, 2).apply {
+            gravity = Gravity.CENTER; background = ui.rounded(Ui.CARD2, 100f * ui.u); setPadding(ui.px(2.5f), ui.px(1.5f), ui.px(2.5f), ui.px(1.5f))
+            setOnClickListener { p.aodColor = 0; refresh() }
+        }, ui.lp(LinearLayout.LayoutParams.WRAP_CONTENT, end = 1.5f))
+        intArrayOf(0xFFFFFFFF.toInt(), 0xFFFF9F0A.toInt(), 0xFF30D158.toInt(), 0xFF0A84FF.toInt(), 0xFFFF375F.toInt(), 0xFFBF5AF2.toInt(), 0xFFE8C77A.toInt()).forEach { c ->
+            colors.addView(View(this).apply {
+                background = ui.oval(c)
+                if (c == p.aodColor) { scaleX = 1.3f; scaleY = 1.3f }
+                setOnClickListener { p.aodColor = c; refresh() }
+            }, ui.lp(ui.px(6.5f), ui.px(6.5f), start = 0.8f, end = 0.8f))
+        }
+        list.addView(colors, ui.lp(bottom = 2f))
+        header(s(R.string.aod_widgets))
+        val wl = listOf("battery" to R.string.aodw_battery, "notif" to R.string.aodw_notif, "date" to R.string.aodw_date,
+            "steps" to R.string.aodw_steps, "prayer" to R.string.aodw_prayer, "phone" to R.string.aodw_phone)
+        for ((k, label) in wl) switch(s(label), null, { k in p.aodWidgets }) {
+            val set = p.aodWidgets.toMutableSet(); if (!set.remove(k)) set.add(k); p.aodWidgets = set
+        }
+        header(s(R.string.options))
         switch(s(R.string.aod_night), null, { p.aodNightOff }) { p.aodNightOff = it; refresh() }
         if (p.aodNightOff) {
             choice(s(R.string.from), hours(), { p.aodNightFrom }) { p.aodNightFrom = it }

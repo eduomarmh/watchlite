@@ -64,6 +64,7 @@ class AodView(ctx: Context, private val renderer: FaceRenderer) : View(ctx) {
         cal.timeInMillis = System.currentTimeMillis()
         c.save(); c.translate(shiftX, shiftY)
         renderer.draw(c, theme, width, height, cal, cal.timeInMillis, ThemeCustom(null, null, false), aod = true, aodAlpha = App.prefs.aodOpacity)
+        renderer.drawAodWidgets(c, width, height, cal, App.prefs.aodOpacity)
         c.restore()
     }
 }

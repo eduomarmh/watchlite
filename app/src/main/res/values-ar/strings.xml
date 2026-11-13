@@ -312,6 +312,15 @@
     <string name="mode_auto">تلقائي (غامق بالليل)</string>
     <string name="developed_by">تطوير م. عمر محمود</string>
     <string name="screen">الشاشة</string>
+    <string name="aod_color">ألوان الشاشة الدائمة</string>
+    <string name="aod_color_theme">الثيم</string>
+    <string name="aod_widgets">ويدجتس الشاشة الدائمة</string>
+    <string name="aodw_battery">البطارية</string>
+    <string name="aodw_notif">نقطة الإشعارات</string>
+    <string name="aodw_date">التاريخ</string>
+    <string name="aodw_steps">الخطوات</string>
+    <string name="aodw_prayer">الصلاة الجاية</string>
+    <string name="aodw_phone">بطارية الموبايل</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

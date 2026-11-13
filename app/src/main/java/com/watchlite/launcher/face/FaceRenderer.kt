@@ -51,6 +51,7 @@ class FaceRenderer(private val ctx: Context) {
         secondsOverride = if (aod) false else custom.seconds
         alphaMul = if (aod) aodAlpha else 1f
         derivedAod = aod && theme.aod.isEmpty()
+        aodColorOverride = if (aod) App.prefs.aodColor else 0
         val list = if (!aod) theme.elements else theme.aod.ifEmpty { derivedAodFor(theme) }
         val short = min(w, h).toFloat()
         for (e in list) {
@@ -73,6 +74,41 @@ class FaceRenderer(private val ctx: Context) {
 
     /** AOD built from the theme's own clock (same font/position), dim and on black. */
     private var derivedAod = false
+    private var aodColorOverride = 0
+
+    /** Small always-on widgets row: battery, steps, next prayer, notifications, date. */
+    fun drawAodWidgets(c: Canvas, w: Int, h: Int, cal: Calendar, alpha: Float) {
+        val set = App.prefs.aodWidgets
+        if (set.isEmpty()) return
+        data.refreshIfNeeded(cal)
+        val ar = Digits.useArabic()
+        val parts = ArrayList<String>()
+        if ("battery" in set) parts += Digits.apply("${App.I.state.battery}%", ar)
+        if ("steps" in set && App.I.steps.available) parts += Digits.apply("${App.I.steps.today}", ar) + " ↑"
+        if ("prayer" in set && data.nextPrayerName.isNotEmpty()) parts += "${data.nextPrayerName} ${data.nextPrayerTime}"
+        if ("date" in set) parts += Digits.apply(data.formatDate("EEE d", cal), ar)
+        if ("phone" in set && App.I.state.phoneBattery >= 0) parts += Digits.apply("📱${App.I.state.phoneBattery}%", ar)
+        val short = min(w, h).toFloat()
+        val col = App.prefs.aodColor.takeIf { it != 0 } ?: 0xFF9A9AA0.toInt()
+        val a = (Color.alpha(col) * alpha).toInt()
+        tp.reset(); tp.isAntiAlias = true
+        tp.typeface = Fonts.get(ctx, "tajawal_medium", null)
+        tp.textSize = short * 0.055f
+        tp.color = Color.argb(a, Color.red(col), Color.green(col), Color.blue(col))
+        tp.textAlign = Paint.Align.CENTER
+        if (parts.isNotEmpty()) {
+            var s = parts.joinToString("  ·  ")
+            val mw = w * 0.86f
+            if (tp.measureText(s) > mw) tp.textSize *= mw / tp.measureText(s)
+            c.drawText(s, w / 2f, h * 0.88f, tp)
+        }
+        if ("notif" in set && App.I.notifications.count() > 0) {
+            fp.reset(); fp.isAntiAlias = true
+            val ac = App.prefs.aodColor.takeIf { it != 0 } ?: App.prefs.accent
+            fp.color = Color.argb(a, Color.red(ac), Color.green(ac), Color.blue(ac))
+            c.drawCircle(w / 2f, h * 0.12f, short * 0.018f, fp)
+        }
+    }
     private val derivedCache = HashMap<String, List<El>>()
 
     private fun derivedAodFor(theme: Theme): List<El> = derivedCache.getOrPut(theme.id) {
@@ -94,7 +130,9 @@ class FaceRenderer(private val ctx: Context) {
             Col.TIME -> timeColor ?: col.value
             else -> if (e?.role == "time" && timeColor != null) timeColor!! else if (e?.role == "accent") accent else col.value
         }
-        val base = if (derivedAod) lighten(base0) else base0
+        val ov = aodColorOverride
+        val base = if (ov != 0) Color.argb(Color.alpha(base0), Color.red(ov), Color.green(ov), Color.blue(ov))
+            else if (derivedAod) lighten(base0) else base0
         val a = (Color.alpha(base) * alphaMul * (e?.alpha ?: 1f)).toInt().coerceIn(0, 255)
         return Color.argb(a, Color.red(base), Color.green(base), Color.blue(base))
     }

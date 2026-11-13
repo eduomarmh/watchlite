@@ -45,6 +45,7 @@ class ThemeRenderTest {
                 val a = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
                 val ac = Canvas(a); ac.drawColor(0xFF000000.toInt())
                 r.draw(ac, t, w, h, cal, cal.timeInMillis, ThemeCustom(null, null, false), aod = true, aodAlpha = 0.75f)
+                r.drawAodWidgets(ac, w, h, cal, 0.75f)
                 File(out, "${w}x${h}_${t.id}_aod.png").outputStream().use { a.compress(Bitmap.CompressFormat.PNG, 100, it) }
                 // per-frame cost of animated layers
                 val f0 = System.nanoTime(); repeat(10) { k -> layers.forEach { it.draw(c, w, h, 5_000L + k * 40L) } }

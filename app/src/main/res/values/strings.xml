@@ -313,6 +313,15 @@
     <string name="mode_auto">Automatic (dark at night)</string>
     <string name="developed_by">Developed by Eng. Omar Mahmoud</string>
     <string name="screen">Screen</string>
+    <string name="aod_color">Always-on colors</string>
+    <string name="aod_color_theme">Theme</string>
+    <string name="aod_widgets">Always-on widgets</string>
+    <string name="aodw_battery">Battery</string>
+    <string name="aodw_notif">Notification dot</string>
+    <string name="aodw_date">Date</string>
+    <string name="aodw_steps">Steps</string>
+    <string name="aodw_prayer">Next prayer</string>
+    <string name="aodw_phone">Phone battery</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>
