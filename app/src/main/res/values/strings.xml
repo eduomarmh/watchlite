@@ -370,6 +370,11 @@
     <string name="dst_inactive">standard time</string>
     <string name="dst_watch_says">watch DST:</string>
     <string name="tile_sound_settings">Sound settings</string>
+    <string name="custom_color">Your own color</string>
+    <string name="custom_color_sum">Slide to pick any shade</string>
+    <string name="accent_on_faces">Use my color on watch faces</string>
+    <string name="accent_on_faces_sum">Seconds hand, highlights and complications follow your color</string>
+    <string name="pastel">Soft tone</string>
     <string-array name="canned_replies">
         <item>OK</item>
         <item>On my way</item>

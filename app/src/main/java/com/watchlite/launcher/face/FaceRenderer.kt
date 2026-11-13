@@ -38,7 +38,7 @@ class FaceRenderer(private val ctx: Context) {
     private val digitBounds = HashMap<String, Rect>()
 
     /** Colors resolved per frame. */
-    private var accent = 0xFFFF9F0A.toInt()
+    private var accent = 0xFF7B6CFF.toInt()
     private var timeColor: Int? = null
     private var secondsOverride: Boolean? = null
     private var alphaMul = 1f
@@ -46,7 +46,7 @@ class FaceRenderer(private val ctx: Context) {
     fun draw(c: Canvas, theme: Theme, w: Int, h: Int, cal: Calendar, ms: Long,
              custom: ThemeCustom, aod: Boolean = false, aodAlpha: Float = 1f) {
         data.refreshIfNeeded(cal)
-        accent = custom.accent ?: theme.accent ?: App.prefs.accent
+        accent = custom.accent ?: (if (App.prefs.accentOnFaces) App.prefs.accent else theme.accent ?: App.prefs.accent)
         timeColor = custom.timeColor
         secondsOverride = if (aod) false else custom.seconds
         alphaMul = if (aod) aodAlpha else 1f

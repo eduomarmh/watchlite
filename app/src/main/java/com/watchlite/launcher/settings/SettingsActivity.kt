@@ -228,15 +228,19 @@ class SettingsActivity : Activity() {
         choice(s(R.string.st_clock), listOf("system" to s(R.string.lang_system), "12" to s(R.string.clock_12), "24" to s(R.string.clock_24)),
             { p.clock }) { p.clock = it; App.I.themes.notifyChanged() }
         header(s(R.string.st_accent))
-        val grid = ui.hbox().apply { gravity = Gravity.CENTER }
-        Ui.ACCENTS.take(8).forEach { c ->
-            grid.addView(View(this).apply {
-                background = ui.oval(c)
-                if (c == p.accent) { scaleX = 1.25f; scaleY = 1.25f }
-                setOnClickListener { p.accent = c; App.I.themes.notifyChanged(); refresh() }
-            }, ui.lp(ui.px(8f), ui.px(8f), start = 1f, end = 1f))
+        for (rowColors in Ui.ACCENTS.toList().chunked(7)) {
+            val grid = ui.hbox().apply { gravity = Gravity.CENTER }
+            rowColors.forEach { c ->
+                grid.addView(View(this).apply {
+                    background = ui.oval(c)
+                    if (c == p.accent) { scaleX = 1.3f; scaleY = 1.3f }
+                    setOnClickListener { setAccent(c) }
+                }, ui.lp(ui.px(8f), ui.px(8f), top = 1f, bottom = 1f, start = 0.8f, end = 0.8f))
+            }
+            list.addView(grid)
         }
-        list.addView(grid, ui.lp(bottom = 2f))
+        action(s(R.string.custom_color), s(R.string.custom_color_sum)) { customColorDialog() }
+        switch(s(R.string.accent_on_faces), s(R.string.accent_on_faces_sum), { p.accentOnFaces }) { p.accentOnFaces = it; App.I.themes.notifyChanged() }
         slider(s(R.string.st_fps), 10, 30, { p.fps }, { p.fps = it }) { Digits.fmt(it) + " fps" }
         header(s(R.string.st_auto_theme))
         switch(s(R.string.st_auto_theme), s(R.string.st_auto_theme_sum), { p.autoTheme }) { p.autoTheme = it; App.I.themes.notifyChanged(); refresh() }
@@ -248,6 +252,40 @@ class SettingsActivity : Activity() {
             choice(s(R.string.night_to), hours(), { p.nightTo }) { p.nightTo = it; App.I.themes.notifyChanged() }
             choice(s(R.string.charging_theme), listOf("" to s(R.string.none)) + themes, { p.chargingTheme }) { p.chargingTheme = it; App.I.themes.notifyChanged() }
         }
+    }
+
+    private fun setAccent(c: Int) {
+        p.accent = c
+        App.I.themes.notifyChanged()
+        if (p.iconStyle in com.watchlite.launcher.drawer.IconTheme.STYLES || p.iconStyle == "outline") App.I.apps.restyle()
+        refresh()
+    }
+
+    /** Hue slider: every position gives a well-balanced, readable color. */
+    private fun customColorDialog() {
+        val box = ui.vbox().apply { setPadding(ui.px(5f), ui.px(4f), ui.px(5f), ui.px(2f)); gravity = Gravity.CENTER_HORIZONTAL }
+        val hsv = FloatArray(3); android.graphics.Color.colorToHSV(p.accent, hsv)
+        var hue = hsv[0]; var light = if (hsv[2] > 0.95f && hsv[1] < 0.6f) 1 else 0
+        val preview = View(this)
+        fun color() = android.graphics.Color.HSVToColor(floatArrayOf(hue, if (light == 1) 0.45f else 0.72f, 1f))
+        fun upd() { preview.background = ui.oval(color()) }
+        box.addView(preview, ui.lp(ui.px(16f), ui.px(16f), bottom = 3f)); upd()
+        val bar = SeekBar(this).apply {
+            max = 360; progress = hue.toInt()
+            progressDrawable = android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT,
+                IntArray(7) { android.graphics.Color.HSVToColor(floatArrayOf(it * 60f, 0.72f, 1f)) }).apply { cornerRadius = 50f * ui.u }
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(sb: SeekBar, v: Int, fromUser: Boolean) { hue = v.toFloat(); upd() }
+                override fun onStartTrackingTouch(sb: SeekBar) {}
+                override fun onStopTrackingTouch(sb: SeekBar) {}
+            })
+        }
+        box.addView(bar, ui.lp(bottom = 2f).apply { height = ui.px(7f) })
+        val tone = Switch(this).apply { text = s(R.string.pastel); setTextColor(Ui.TEXT); isChecked = light == 1
+            setOnCheckedChangeListener { _, on -> light = if (on) 1 else 0; upd() } }
+        box.addView(tone, ui.lp())
+        AlertDialog.Builder(this, Ui.DIALOG).setTitle(R.string.custom_color).setView(box)
+            .setPositiveButton(android.R.string.ok) { _, _ -> setAccent(color()) }.setNegativeButton(R.string.cancel, null).show()
     }
 
     private fun themesScreen() {
@@ -284,7 +322,7 @@ class SettingsActivity : Activity() {
             gravity = Gravity.CENTER; background = ui.rounded(Ui.CARD2, 100f * ui.u); setPadding(ui.px(2.5f), ui.px(1.5f), ui.px(2.5f), ui.px(1.5f))
             setOnClickListener { p.aodColor = 0; refresh() }
         }, ui.lp(LinearLayout.LayoutParams.WRAP_CONTENT, end = 1.5f))
-        intArrayOf(0xFFFFFFFF.toInt(), 0xFFFF9F0A.toInt(), 0xFF30D158.toInt(), 0xFF0A84FF.toInt(), 0xFFFF375F.toInt(), 0xFFBF5AF2.toInt(), 0xFFE8C77A.toInt()).forEach { c ->
+        intArrayOf(0xFFFFFFFF.toInt(), 0xFF7B6CFF.toInt(), 0xFF30D158.toInt(), 0xFF0A84FF.toInt(), 0xFFFF375F.toInt(), 0xFFBF5AF2.toInt(), 0xFFE8C77A.toInt()).forEach { c ->
             colors.addView(View(this).apply {
                 background = ui.oval(c)
                 if (c == p.aodColor) { scaleX = 1.3f; scaleY = 1.3f }

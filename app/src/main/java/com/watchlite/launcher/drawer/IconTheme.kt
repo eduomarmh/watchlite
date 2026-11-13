@@ -42,7 +42,7 @@ object IconTheme {
         "camera" to c(R.drawable.gl_photo_camera_o, R.drawable.gl_photo_camera_f, 0xFF9A9AA2, 0xFF2C2C30),
         "gallery" to c(R.drawable.gl_photo_library_o, R.drawable.gl_photo_library_f, 0xFFFFB340, 0xFFFF2D6F),
         "settings" to c(R.drawable.gl_settings_o, R.drawable.gl_settings_f, 0xFF8E8E96, 0xFF3A3A40),
-        "clock" to c(R.drawable.gl_schedule_o, R.drawable.gl_schedule_f, 0xFFFFA733, 0xFFE85D04),
+        "clock" to c(R.drawable.gl_schedule_o, R.drawable.gl_schedule_f, 0xFF8C9BFF, 0xFF3D3FD8),
         "alarm" to c(R.drawable.gl_alarm_o, R.drawable.gl_alarm_f, 0xFFFF6B5E, 0xFFC0182A),
         "calculator" to c(R.drawable.gl_calculate_o, R.drawable.gl_calculate_f, 0xFF6E6E78, 0xFF1C1C22),
         "music" to c(R.drawable.gl_music_note_o, R.drawable.gl_music_note_f, 0xFFFF4D7A, 0xFF9B4DFF),
@@ -58,7 +58,7 @@ object IconTheme {
         "fitness" to c(R.drawable.gl_fitness_center_o, R.drawable.gl_fitness_center_f, 0xFF7CE36A, 0xFF1E9E55),
         "weather" to c(R.drawable.gl_cloud_o, R.drawable.gl_cloud_f, 0xFF7FD8FF, 0xFF2F86E0),
         "chat" to c(R.drawable.gl_chat_o, R.drawable.gl_chat_f, 0xFF4CD964, 0xFF0F9D58),
-        "watch" to c(R.drawable.gl_watch_o, R.drawable.gl_watch_f, 0xFFFFA733, 0xFFFF5E3A)
+        "watch" to c(R.drawable.gl_watch_o, R.drawable.gl_watch_f, 0xFF9D8CFF, 0xFF5B3DE0)
     )
 
     @Volatile private var categories: Map<String, String> = emptyMap()

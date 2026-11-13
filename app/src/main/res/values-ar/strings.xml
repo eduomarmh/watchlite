@@ -369,6 +369,11 @@
     <string name="dst_inactive">توقيت شتوي</string>
     <string name="dst_watch_says">الساعة:</string>
     <string name="tile_sound_settings">إعدادات الصوت</string>
+    <string name="custom_color">لون من اختيارك</string>
+    <string name="custom_color_sum">اسحب واختار أي درجة</string>
+    <string name="accent_on_faces">طبّق لوني على الثيمات</string>
+    <string name="accent_on_faces_sum">عقرب الثواني والعناصر المميزة بتاخد لونك</string>
+    <string name="pastel">درجة هادية</string>
     <string-array name="canned_replies">
         <item>تمام</item>
         <item>في الطريق</item>

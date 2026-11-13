@@ -43,8 +43,9 @@ class Ui(val ctx: Context, val sp: ScreenProfile = ScreenProfile.of(ctx)) {
         const val BLUE = 0xFF0A84FF.toInt()
         const val RED = 0xFFFF453A.toInt()
         val ACCENTS = intArrayOf(
-            0xFFFF9F0A.toInt(), 0xFF0A84FF.toInt(), 0xFF30D158.toInt(), 0xFFFF375F.toInt(), 0xFFBF5AF2.toInt(),
-            0xFFFF453A.toInt(), 0xFFFFD60A.toInt(), 0xFF64D2FF.toInt(), 0xFFFFFFFF.toInt(), 0xFFE8C77A.toInt()
+            0xFF7B6CFF.toInt(), 0xFF5E5CE6.toInt(), 0xFF0A84FF.toInt(), 0xFF3D9BFF.toInt(), 0xFF64D2FF.toInt(),
+            0xFF00C7BE.toInt(), 0xFFAF52DE.toInt(), 0xFFBF5AF2.toInt(), 0xFFDA8FFF.toInt(), 0xFF30D158.toInt(),
+            0xFFFF375F.toInt(), 0xFFFF6482.toInt(), 0xFFE8C77A.toInt(), 0xFFFFFFFF.toInt()
         )
     }
 

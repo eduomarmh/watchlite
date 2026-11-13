@@ -18,7 +18,8 @@ class Prefs(ctx: Context) {
     var digits by str("digits", "latin")            // latin | arabic | auto
     var clock by str("clock", "system")             // system | 12 | 24
     var language by str("language", "system")       // system | en | ar
-    var accent by int("accent", 0xFFFF9F0A.toInt())
+    var accent by int("accent", 0xFF7B6CFF.toInt())
+    var accentOnFaces by bool("accent_faces", true)   // user color replaces theme accents
     var fps by int("fps", 24)
     var uiMode by str("ui_mode", "dark")             // dark | light | auto
 
