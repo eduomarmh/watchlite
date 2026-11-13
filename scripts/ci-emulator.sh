@@ -91,7 +91,7 @@ adb shell am start -a android.settings.SETTINGS; sleep 4
 shot "x_10_settings_app" 1
 adb shell input keyevent KEYCODE_POWER; sleep 4
 shot "x_11_aod_after_power" 1
-adb shell input tap 160 200; sleep 0.15; adb shell input tap 160 200; sleep 2
+adb shell "input tap 160 200 & sleep 0.12; input tap 160 200"; sleep 2
 shot "x_12_back_to_app" 1
 adb shell input keyevent KEYCODE_POWER; sleep 3
 adb shell input keyevent KEYCODE_POWER; sleep 3

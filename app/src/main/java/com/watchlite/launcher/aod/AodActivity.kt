@@ -47,6 +47,16 @@ object AodGate {
 
     private val main = Handler(Looper.getMainLooper())
 
+    /** Turns the screen back on: window flags alone are ignored by some Android 8 builds. */
+    @Suppress("DEPRECATION")
+    fun wake(c: Context) {
+        try {
+            val pm = c.getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+            pm.newWakeLock(android.os.PowerManager.SCREEN_DIM_WAKE_LOCK or android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP or
+                android.os.PowerManager.ON_AFTER_RELEASE, "watchlite:aod").acquire(3000)
+        } catch (t: Throwable) { Log.w("AOD", "wake", t) }
+    }
+
     /** Registered once by the app: when the screen turns off in any app, bring up the AOD screen. */
     fun register(ctx: Context) {
         ctx.registerReceiver(object : BroadcastReceiver() {
@@ -54,6 +64,7 @@ object AodGate {
                 if (homeAodActive || AodActivity.showing || System.currentTimeMillis() - lastAodVisible < 1500) return   // power button pressed while in AOD: stay off
                 if (!App.prefs.aodEverywhere || !canEnter()) return
                 main.postDelayed({
+                    wake(c)
                     try {
                         c.startActivity(Intent(c, AodActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     } catch (t: Throwable) { Log.w("AOD", "start", t) }
