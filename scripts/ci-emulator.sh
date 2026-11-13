@@ -79,13 +79,7 @@ adb shell wm size 320x385; adb shell wm density 200
 run_flow ar
 
 # 4) AOD inside another app: enable AOD, open system Settings, press power, expect the AOD screen
-adb shell am force-stop $PKG
-cat > /tmp/aod.sh <<'X'
-f=/data/data/com.watchlite.launcher/shared_prefs/watchlite.xml
-grep -q aod_enabled $f || sed -i 's#</map>#    <boolean name="aod_enabled" value="true" />\n</map>#' $f
-X
-adb push /tmp/aod.sh /data/local/tmp/aod.sh
-adb shell run-as $PKG sh /data/local/tmp/aod.sh || true
+adb shell am start -W -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled; sleep 2
 adb shell input keyevent KEYCODE_HOME; sleep 5
 adb shell am start -a android.settings.SETTINGS; sleep 4
 shot "x_10_settings_app" 1

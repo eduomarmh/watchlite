@@ -92,6 +92,11 @@ class SettingsActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ui = Ui(this)
+        // CI hook (debug builds only): --es ci_bool "key1,key2" sets boolean prefs to true, then closes
+        if (BuildConfig.DEBUG) intent.getStringExtra("ci_bool")?.let { keys ->
+            val ed = p.sp.edit(); keys.split(',').forEach { ed.putBoolean(it.trim(), true) }; ed.commit()
+            finish(); return
+        }
         list = ui.vbox()
         list.setPadding(ui.sp.safe, ui.px(if (ui.sp.isRound) 12f else 5f), ui.sp.safe, ui.px(if (ui.sp.isRound) 18f else 8f))
         scroll = ScrollView(this).apply { isVerticalScrollBarEnabled = false; addView(list); setBackgroundColor(Ui.BG) }
