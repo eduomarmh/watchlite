@@ -94,7 +94,9 @@ class SettingsActivity : Activity() {
         ui = Ui(this)
         // CI hook (debug builds only): --es ci_bool "key1,key2" sets boolean prefs to true, then closes
         if (BuildConfig.DEBUG) intent.getStringExtra("ci_bool")?.let { keys ->
-            val ed = p.sp.edit(); keys.split(',').forEach { ed.putBoolean(it.trim(), true) }; ed.commit()
+            val ed = p.sp.edit(); keys.split(',').forEach { ed.putBoolean(it.trim(), true) }
+            intent.getStringExtra("ci_str")?.split(',')?.forEach { kv -> kv.split('=').takeIf { it.size == 2 }?.let { ed.putString(it[0], it[1]) } }
+            ed.commit()
             finish(); return
         }
         list = ui.vbox()

@@ -91,6 +91,18 @@ adb shell input keyevent KEYCODE_POWER; sleep 3
 adb shell input keyevent KEYCODE_POWER; sleep 3
 shot "x_13_after_double_power" 1
 
+# 5) Charging + "off while charging": Home on the face must NOT enter AOD
+adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled --es ci_str aod_charging_mode=never; sleep 4
+adb shell dumpsys battery set ac 1; adb shell dumpsys battery set status 2
+adb shell input keyevent KEYCODE_HOME; sleep 4
+adb shell input keyevent KEYCODE_WAKEUP; sleep 1
+adb logcat -c
+adb shell input keyevent KEYCODE_HOME; sleep 3
+shot "x_20_home_press_while_charging" 1
+adb logcat -d | grep "WL-AOD" > $OUT/aod_charging_check.txt || true
+if grep -q "WL-AOD  : enter" $OUT/aod_charging_check.txt; then echo "AOD entered while charging with mode=never" > $OUT/CRASHED; fi
+adb shell dumpsys battery reset
+
 adb logcat -d > $OUT/logcat_full.txt
 grep -E "FATAL EXCEPTION|AndroidRuntime|WL-" $OUT/logcat_full.txt > $OUT/logcat_app.txt || true
 if grep -q "FATAL EXCEPTION" $OUT/logcat_full.txt && grep -A3 "FATAL EXCEPTION" $OUT/logcat_full.txt | grep -q "$PKG"; then
