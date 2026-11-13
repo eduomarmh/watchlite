@@ -133,6 +133,9 @@ class HomeActivity : Activity() {
     override fun onPause() {
         resumed = false
         com.watchlite.launcher.aod.AodGate.homeResumed = false
+        // another app came to the front while the face was in AOD: leave AOD so the
+        // stand-alone AOD screen can take over when that app's screen turns off
+        if (aod.active) aod.exit(screenGoingOff = true)
         face.pause()
         App.I.steps.stop()
         cancelIdle()
