@@ -453,4 +453,6 @@
         <item>أيوه</item>
         <item>لأ</item>
     </string-array>
+    <string name="face_double_tap">ضغطتين للإطفاء</string>
+    <string name="face_double_tap_sum">اضغط ضغطتين على شاشة الساعة عشان تدخل الشاشة الدائمة (أو الشاشة تطفي)</string>
 </resources>

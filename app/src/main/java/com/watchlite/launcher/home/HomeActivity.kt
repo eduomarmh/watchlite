@@ -397,14 +397,32 @@ class HomeActivity : Activity() {
     }
 
     /** Tapping a complication opens its details. */
+    private var lastFaceTapAt = 0L
+    private var lastFaceTapX = 0f
+    private var lastFaceTapY = 0f
+
     private fun onFaceTap(x: Float, y: Float) {
-        val slot = face.renderer.hitTest(x, y) ?: return
+        val slot = face.renderer.hitTest(x, y) ?: run { onFaceEmptyTap(x, y); return }
         Haptics.tick(this)
         when (slot) {
             "battery" -> openPage(Page.FROM_LEFT)
             "notif" -> if (useSystemShade() && SystemActions.expandSystemNotifications(this)) Unit else openPage(Page.FROM_TOP)
             else -> openPage(Page.FROM_BOTTOM) // steps, prayer, hijri, weather, phone → widgets
         }
+    }
+
+    /** Double tap on an empty part of the face → AOD if allowed, otherwise screen off (same as Home). */
+    private fun onFaceEmptyTap(x: Float, y: Float) {
+        val now = android.os.SystemClock.uptimeMillis()
+        val isDouble = now - lastFaceTapAt < 400 && hypot(x - lastFaceTapX, y - lastFaceTapY) < slop * 4
+        lastFaceTapAt = if (isDouble) 0L else now; lastFaceTapX = x; lastFaceTapY = y
+        if (!isDouble || !App.prefs.faceDoubleTap) return
+        // ignore the taps that just woke the screen from AOD
+        if (System.currentTimeMillis() - AodGate.lastAodVisible < 1200) return
+        if (aod.active || editor.isOpen || pages.any { it.isPresent }) return
+        Log.i("Home", "double tap on face")
+        Haptics.tick(this)
+        if (aod.canEnter()) aod.enter() else screenOff()
     }
 
     // ------------------------------------------------------------------ touch routing

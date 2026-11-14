@@ -122,6 +122,15 @@ if ! grep -q "WL-AOD  : exit" $OUT/aod_home_check.txt || grep -q "WL-AOD  : ente
   echo "Home in AOD did not wake the screen" > $OUT/CRASHED
 fi
 
+# 6b) Double tap on the face → AOD
+sleep 2
+adb logcat -c
+adb shell "input tap 160 200 & sleep 0.12; input tap 160 200"; sleep 3
+shot "x_32_double_tap_aod" 1
+adb logcat -d | grep -E "WL-AOD|WL-Home" > $OUT/double_tap_check.txt || true
+if ! grep -q "WL-AOD  : enter" $OUT/double_tap_check.txt; then echo "Double tap on the face did not enter AOD" > $OUT/CRASHED; fi
+adb shell input keyevent KEYCODE_HOME; sleep 2
+
 # 7) Phone companion UI smoke test (renders, no crash)
 if [ -f app/build/outputs/apk/phone-release.apk ]; then
   adb install -r -g app/build/outputs/apk/phone-release.apk || true
