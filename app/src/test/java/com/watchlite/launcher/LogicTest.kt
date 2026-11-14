@@ -78,4 +78,21 @@ class LogicTest {
         assertFalse(ThemeRepository.inRange(12, 20, 6))
         assertTrue(ThemeRepository.inRange(10, 9, 17))
     }
+
+    @Test fun burnInOrbitIsEvenAndBounded() {
+        val r = 8f
+        val seen = HashSet<String>()
+        for (m in 0L until 16L) {
+            val o = com.watchlite.launcher.aod.AodView.burnInOffset(m, r)
+            assertTrue(Math.hypot(o[0].toDouble(), o[1].toDouble()) <= r + 0.01)
+            seen.add("%.2f,%.2f".format(o[0], o[1]))
+            val n = com.watchlite.launcher.aod.AodView.burnInOffset(m + 8, r)
+            assertEquals(o[0], n[0], 0.001f); assertEquals(o[1], n[1], 0.001f)
+        }
+        assertEquals(8, seen.size)
+        // consecutive minutes move only a small step (never a full jump across)
+        val a = com.watchlite.launcher.aod.AodView.burnInOffset(5, r)
+        val b = com.watchlite.launcher.aod.AodView.burnInOffset(6, r)
+        assertTrue(Math.hypot((a[0] - b[0]).toDouble(), (a[1] - b[1]).toDouble()) < r)
+    }
 }

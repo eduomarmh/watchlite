@@ -18,7 +18,6 @@ import com.watchlite.launcher.theme.ThemeCustom
 import com.watchlite.launcher.theme.ThemeRepository
 import com.watchlite.launcher.util.Log
 import java.util.Calendar
-import kotlin.random.Random
 
 /**
  * Battery policy with hysteresis (pure logic, unit tested).
@@ -51,22 +50,39 @@ class AodView(ctx: Context, private val renderer: FaceRenderer) : View(ctx) {
     private val cal = Calendar.getInstance()
     private var shiftX = 0f
     private var shiftY = 0f
-    private val rnd = Random(System.nanoTime())
 
     init { setBackgroundColor(0xFF000000.toInt()) }
 
-    fun tick() {
-        if (App.prefs.aodPixelShift) {
-            val m = minOf(width, height) * 0.015f
-            shiftX = (rnd.nextFloat() * 2 - 1) * m
-            shiftY = (rnd.nextFloat() * 2 - 1) * m
+    fun tick() { invalidate() }
+
+    private fun updateShift(now: Long) {
+        if (App.prefs.aodPixelShift && width > 0) {
+            val o = burnInOffset(now / 60_000L, minOf(width, height) * AMP)
+            shiftX = o[0]; shiftY = o[1]
+        } else { shiftX = 0f; shiftY = 0f }
+    }
+
+    companion object {
+        /** Orbit radius as a fraction of the short side (~8 px on a 320 px screen). */
+        const val AMP = 0.025f
+        const val STEPS = 8
+
+        /**
+         * Deterministic burn-in orbit: the content walks one step per minute around
+         * a circle of [STEPS] fixed positions, so every position gets exactly the same
+         * share of time (random jitter can linger in one spot). Pure → unit tested.
+         */
+        fun burnInOffset(minute: Long, radius: Float): FloatArray {
+            val i = Math.floorMod(minute, STEPS.toLong()).toInt()
+            val a = i * (2 * Math.PI / STEPS)
+            return floatArrayOf((Math.cos(a) * radius).toFloat(), (Math.sin(a) * radius).toFloat())
         }
-        invalidate()
     }
 
     override fun onDraw(c: Canvas) {
         val theme = App.I.themes.get(App.I.themes.effectiveId(App.I.state.charging)) ?: App.I.themes.default()
         cal.timeInMillis = System.currentTimeMillis()
+        updateShift(cal.timeInMillis)
         c.save(); c.translate(shiftX, shiftY)
         renderer.draw(c, theme, width, height, cal, cal.timeInMillis, ThemeCustom(null, null, false), aod = true, aodAlpha = App.prefs.aodOpacity)
         renderer.drawAodWidgets(c, width, height, cal, App.prefs.aodOpacity)
