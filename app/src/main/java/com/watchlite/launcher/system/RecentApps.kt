@@ -37,18 +37,31 @@ object RecentApps {
         (0 until a.length()).map { a.getString(it) }
     } catch (_: Exception) { emptyList() }
 
-    private fun forget(pkg: String) {
-        App.prefs.sp.edit().putString(KEY, JSONArray(load().filter { it != pkg }).toString()).apply()
+    private const val CLOSED = "recent_closed"
+
+    /** Remembers when each app was closed, so usage stats don't bring it straight back. */
+    private fun closedMap(): org.json.JSONObject = try { org.json.JSONObject(App.prefs.sp.getString(CLOSED, "{}")) } catch (_: Exception) { org.json.JSONObject() }
+
+    private fun forget(pkgs: Collection<String>) {
+        val now = System.currentTimeMillis()
+        val closed = closedMap()
+        pkgs.forEach { closed.put(it, now) }
+        // keep the map small: drop entries older than the 6 h usage window
+        closed.keys().asSequence().toList().forEach { if (now - closed.optLong(it) > 6 * 3600_000L) closed.remove(it) }
+        App.prefs.sp.edit()
+            .putString(KEY, JSONArray(load().filter { it !in pkgs }).toString())
+            .putString(CLOSED, closed.toString()).apply()
     }
 
     fun list(ctx: Context): List<String> {
         val out = LinkedHashSet<String>()
         if (Permissions.hasUsage(ctx)) {
+            val closed = closedMap()
             try {
                 val usm = ctx.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
                 val now = System.currentTimeMillis()
                 usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, now - 6 * 3600_000L, now)
-                    ?.filter { it.lastTimeUsed > now - 6 * 3600_000L && it.totalTimeInForeground > 0 }
+                    ?.filter { it.lastTimeUsed > now - 6 * 3600_000L && it.totalTimeInForeground > 0 && it.lastTimeUsed > closed.optLong(it.packageName, 0L) + 2000 }
                     ?.sortedByDescending { it.lastTimeUsed }
                     ?.forEach { out.add(it.packageName) }
             } catch (_: Throwable) { }
@@ -58,10 +71,21 @@ object RecentApps {
         return out.filter { it != ctx.packageName && pm.getLaunchIntentForPackage(it) != null }.take(MAX)
     }
 
-    fun close(ctx: Context, pkg: String) {
-        try { (ctx.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).killBackgroundProcesses(pkg) } catch (_: Throwable) { }
-        forget(pkg)
+    fun close(ctx: Context, pkg: String) = closeAll(ctx, listOf(pkg))
+
+    /** Kills the apps' background processes and returns the RAM freed (MB, may be 0). */
+    fun closeAll(ctx: Context, pkgs: List<String>): Int {
+        val am = ctx.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val before = freeMb(am)
+        for (p in pkgs) {
+            if (p == ctx.packageName) continue
+            try { am.killBackgroundProcesses(p) } catch (t: Throwable) { com.watchlite.launcher.util.Log.w("Recents", "kill $p", t) }
+        }
+        forget(pkgs)
+        return (freeMb(am) - before).coerceAtLeast(0)
     }
+
+    private fun freeMb(am: ActivityManager): Int = ActivityManager.MemoryInfo().also { am.getMemoryInfo(it) }.availMem.div(1048576).toInt()
 
     /** Lightweight sheet: tap to open, X to close, "Close all". */
     fun show(a: Activity, ui: Ui) {
@@ -93,8 +117,10 @@ object RecentApps {
         build()
         dlg.setOnShowListener {
             dlg.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
-                list(a).forEach { close(a, it) }
+                val apps = list(a)
+                val freed = closeAll(a, apps)
                 Haptics.tick(a, true); build()
+                android.widget.Toast.makeText(a, a.getString(R.string.recents_closed, apps.size, freed), android.widget.Toast.LENGTH_SHORT).show()
             }
         }
         dlg.show()

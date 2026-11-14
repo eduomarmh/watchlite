@@ -388,6 +388,7 @@
     <string name="usage_access">Usage access (recent apps)</string>
     <string name="close_all">Close all</string>
     <string name="no_recents">No recent apps yet</string>
+    <string name="recents_closed">Closed %1$d apps · freed %2$d MB</string>
     <string name="power_hint">Tip: hold the Home button for Restart / Power off.</string>
     <string name="chime_stream">Play on</string>
     <string name="stream_alarm">Alarm volume (recommended)</string>

@@ -19,6 +19,8 @@ class AppEntry(val component: ComponentName, val originalLabel: String, val user
     val key: String = component.flattenToShortString()
     var label: String = originalLabel
     @Volatile var icon: Bitmap? = null
+    /** Signature (style/pack/accent/size) the current [icon] was rendered with. */
+    @Volatile var iconSig: String? = null
     val pkg: String get() = component.packageName
 }
 
@@ -26,12 +28,15 @@ class AppEntry(val component: ComponentName, val originalLabel: String, val user
  * Lists launchable apps, keeps a small icon cache, applies hide/rename/favorites.
  */
 class AppRepository(private val ctx: Context) {
+    companion object { const val ICON_VER = 3 }
 
     private val la = ctx.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
     @Volatile private var all: List<AppEntry> = emptyList()
     private val listeners = ArrayList<() -> Unit>()
-    @Volatile var iconSize = 96
-    private var loading = false
+    @Volatile var iconSize = App.prefs.sp.getInt("icon_size_px", 96)
+    @Volatile private var loading = false
+    @Volatile private var pending = false
+    private val cacheDir = java.io.File(ctx.cacheDir, "icons").apply { mkdirs() }
 
     fun listen(l: () -> Unit) { listeners.add(l) }
     fun unlisten(l: () -> Unit) { listeners.remove(l) }
@@ -61,59 +66,100 @@ class AppRepository(private val ctx: Context) {
 
     private val collator: Collator get() = Collator.getInstance(Locale.getDefault())
 
+    /**
+     * Lists apps and renders icons in the background.
+     * - Rendered icons are cached on disk, so after the launcher process is killed
+     *   (frequent on Android Go) icons come back instantly instead of re-rendering.
+     * - The UI is refreshed progressively while icons load, not only at the end.
+     * - An icon is replaced only when a new one is ready (no blank bubbles while zooming).
+     * - A reload requested while one is running is queued, never dropped.
+     */
     fun reload() {
-        if (loading) return
-        loading = true
+        synchronized(this) { if (loading) { pending = true; return }; loading = true; pending = false }
         Bg.run {
-            try {
-                val me = ctx.packageName
-                val renamed = try { JSONObject(App.prefs.renamedApps) } catch (_: Exception) { JSONObject() }
-                val old = all.associateBy { it.key }
-                val list = la.getActivityList(null, Process.myUserHandle()).mapNotNull { info ->
-                    val cn = info.componentName
-                    if (cn.packageName == me && cn.className.endsWith("HomeActivity")) return@mapNotNull null
-                    AppEntry(cn, info.label?.toString() ?: cn.packageName, info.user).also { e ->
-                        e.label = renamed.optString(e.key, e.originalLabel).ifEmpty { e.originalLabel }
-                        e.icon = old[e.key]?.icon
-                    }
-                }
-                all = list
-                changed()
-                // icons: icon pack first, then the app's own icon, rendered in the chosen style
-                val packPkg = App.prefs.iconPack
-                if (packPkg != (pack?.pkg ?: "")) pack = if (packPkg.isEmpty()) null else IconPack(ctx, packPkg).takeIf { it.load() }
-                val style = App.prefs.iconStyle
-                val accent = App.prefs.accent
-                if (style in IconTheme.STYLES) IconTheme.detect(ctx)
-                for (e in list) {
-                    if (e.icon != null) continue
-                    try {
-                        val packIcon = pack?.drawableFor(e.component)
-                        val d = packIcon ?: la.resolveActivity(Intent(Intent.ACTION_MAIN).setComponent(e.component), e.user)?.getBadgedIcon(0) ?: continue
-                        e.icon = if (style in IconTheme.STYLES && packIcon == null) IconTheme.render(ctx, style, e.pkg, d, iconSize, accent)
-                            else IconStyler.render(d, iconSize, style, accent, packIcon != null)
-                    } catch (t: Throwable) { Log.w("Apps", "icon ${e.key}", t) }
-                }
-                changed()
-            } finally { loading = false }
+            try { doReload() } finally {
+                val again = synchronized(this) { loading = false; pending }
+                if (again) reload()
+            }
         }
     }
 
+    private fun doReload() {
+        val me = ctx.packageName
+        val renamed = try { JSONObject(App.prefs.renamedApps) } catch (_: Exception) { JSONObject() }
+        val old = all.associateBy { it.key }
+        val list = la.getActivityList(null, Process.myUserHandle()).mapNotNull { info ->
+            val cn = info.componentName
+            if (cn.packageName == me && cn.className.endsWith("HomeActivity")) return@mapNotNull null
+            AppEntry(cn, info.label?.toString() ?: cn.packageName, info.user).also { e ->
+                e.label = renamed.optString(e.key, e.originalLabel).ifEmpty { e.originalLabel }
+                old[e.key]?.let { o -> e.icon = o.icon; e.iconSig = o.iconSig }
+            }
+        }
+        all = list
+        changed()
+        val packPkg = App.prefs.iconPack
+        if (packPkg != (pack?.pkg ?: "")) pack = if (packPkg.isEmpty()) null else IconPack(ctx, packPkg).takeIf { it.load() }
+        val style = App.prefs.iconStyle
+        val accent = App.prefs.accent
+        val size = iconSize
+        val sig = "$style|$packPkg|${Integer.toHexString(accent)}|$size|$ICON_VER"
+        // 1) fast pass: everything already cached on disk
+        var n = 0
+        for (e in list) {
+            if (e.iconSig == sig) continue
+            val f = cacheFile(e, sig, list)
+            if (f.exists()) try {
+                android.graphics.BitmapFactory.decodeFile(f.path)?.let { e.icon = it; e.iconSig = sig; n++ }
+            } catch (_: Throwable) { }
+        }
+        if (n > 0) changed()
+        // 2) slow pass: render the rest, refreshing the UI every few icons
+        var detected = false
+        n = 0
+        for (e in list) {
+            if (e.iconSig == sig) continue
+            if (iconSize != size || App.prefs.iconStyle != style) { pending = true; return }
+            try {
+                if (!detected && style in IconTheme.STYLES) { IconTheme.detect(ctx); detected = true }
+                val packIcon = pack?.drawableFor(e.component)
+                val d = packIcon ?: la.resolveActivity(Intent(Intent.ACTION_MAIN).setComponent(e.component), e.user)?.getBadgedIcon(0) ?: continue
+                val bmp = if (style in IconTheme.STYLES && packIcon == null) IconTheme.render(ctx, style, e.pkg, d, size, accent)
+                    else IconStyler.render(d, size, style, accent, packIcon != null)
+                e.icon = bmp; e.iconSig = sig
+                try { java.io.FileOutputStream(cacheFile(e, sig, list)).use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) } } catch (_: Throwable) { }
+                if (++n % 6 == 0) changed()
+            } catch (t: Throwable) { Log.w("Apps", "icon ${e.key}", t) }
+        }
+        if (n > 0) changed()
+        pruneCache(sig)
+    }
+
+    private fun cacheFile(e: AppEntry, sig: String, @Suppress("UNUSED_PARAMETER") l: List<AppEntry>): java.io.File {
+        val ver = try { ctx.packageManager.getPackageInfo(e.pkg, 0).lastUpdateTime } catch (_: Exception) { 0L }
+        val name = Integer.toHexString("${e.key}|$ver".hashCode()) + "_" + Integer.toHexString(sig.hashCode())
+        return java.io.File(cacheDir, "$name.png")
+    }
+
+    /** Drops cached icons rendered with old settings so the cache never grows. */
+    private fun pruneCache(sig: String) {
+        val tag = "_" + Integer.toHexString(sig.hashCode()) + ".png"
+        cacheDir.listFiles()?.forEach { if (!it.name.endsWith(tag)) it.delete() }
+    }
+
+    /** Larger icons are rendered in steps; old icons stay visible until replaced. */
     fun requestIconSize(px: Int) {
-        val target = px.coerceIn(48, 192)
+        val target = ((px.coerceIn(48, 192) + 23) / 24) * 24
         if (target <= iconSize) return
         iconSize = target
-        all.forEach { it.icon?.recycle(); it.icon = null }
+        App.prefs.sp.edit().putInt("icon_size_px", target).apply()   // remembered → disk cache stays valid
         reload()
     }
 
     private var pack: IconPack? = null
 
     /** Re-renders every icon (style or icon pack changed). */
-    fun restyle() {
-        all.forEach { it.icon = null }
-        reload()
-    }
+    fun restyle() = reload()   // signature changes → icons re-render, old ones shown meanwhile
 
     fun trimIcons() { /* icons are small; kept so the drawer opens instantly */ }
 

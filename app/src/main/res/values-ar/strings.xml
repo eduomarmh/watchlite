@@ -387,6 +387,7 @@
     <string name="usage_access">الوصول للاستخدام (التطبيقات الأخيرة)</string>
     <string name="close_all">إغلاق الكل</string>
     <string name="no_recents">مفيش تطبيقات أخيرة لسه</string>
+    <string name="recents_closed">اتقفل %1$d تطبيق · اتوفر %2$d ميجا</string>
     <string name="power_hint">نصيحة: اضغط مطولًا على زرار الهوم لإعادة التشغيل أو الإيقاف.</string>
     <string name="chime_stream">يشتغل على</string>
     <string name="stream_alarm">صوت المنبه (مستحسن)</string>
