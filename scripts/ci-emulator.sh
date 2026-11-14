@@ -103,24 +103,38 @@ adb logcat -d | grep "WL-AOD" > $OUT/aod_charging_check.txt || true
 if grep -q "WL-AOD  : enter" $OUT/aod_charging_check.txt; then echo "AOD entered while charging with mode=never" > $OUT/CRASHED; fi
 adb shell dumpsys battery reset
 
-# 6) Home on the face → AOD, Home again → screen wakes and STAYS awake
+# 6) Home on the face toggles AOD; Home in AOD must wake the screen and it must STAY awake.
+#    One log for the whole sequence, analysed afterwards (logcat -c is not reliable on the emulator).
 adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled --es ci_str aod_charging_mode=normal; sleep 4
 adb shell input keyevent KEYCODE_HOME; sleep 4
-# press Home until the launcher reports it entered AOD (start state may vary)
-for try in 1 2 3; do
-  adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 4
-  adb logcat -d | grep -E "WL-AOD|WL-Home" >> $OUT/aod_home_setup.txt || true
-  if adb logcat -d | grep -q "WL-AOD  : enter" && ! adb logcat -d | grep -q "WL-AOD  : exit"; then break; fi
-done
-shot "x_30_aod_by_home" 1
-adb logcat -d | grep -E "WL-AOD|WL-Home" > $OUT/aod_home_before.txt || true
-adb logcat -c
-adb shell input keyevent KEYCODE_HOME; sleep 5
-shot "x_31_home_wakes" 1
+adb logcat -c; sleep 1
+for k in 1 2 3 4; do adb shell input keyevent KEYCODE_HOME; sleep 5; shot "x_3${k}_home_press" 0; done
+sleep 2
 adb logcat -d | grep -E "WL-AOD|WL-Home" > $OUT/aod_home_check.txt || true
-if ! grep -q "WL-AOD  : exit" $OUT/aod_home_check.txt || grep -q "WL-AOD  : enter" $OUT/aod_home_check.txt; then
-  echo "Home in AOD did not wake the screen" > $OUT/CRASHED
-fi
+python3 - "$OUT" <<'PY' >> $OUT/aod_home_check.txt
+import sys, re, datetime
+out = sys.argv[1]
+ev = []
+for line in open(f"{out}/aod_home_check.txt"):
+    m = re.match(r"\d+-\d+ (\d+):(\d+):([\d.]+) .*?(WL-AOD|WL-Home)\s*: (.*)", line)
+    if not m: continue
+    t = int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3))
+    kind = "home" if "home on face" in m.group(5) else m.group(5).split()[0]
+    ev.append((t, kind))
+ok = True; wakes = 0
+for i, (t, k) in enumerate(ev):
+    if k == "exit":
+        # an exit followed (within 0.1 s) by a Home press = woken by Home
+        if any(k2 == "home" and 0 <= t2 - t < 0.1 for t2, k2 in ev):
+            wakes += 1
+            # no AOD entry in the next 4 s unless Home was pressed again
+            for t2, k2 in ev:
+                if 0.1 < t2 - t < 4 and k2 == "home": break
+                if 0.1 < t2 - t < 4 and k2 == "enter": ok = False
+print(f"woken by Home: {wakes}, stayed awake: {ok}")
+if wakes == 0 or not ok:
+    open(f"{out}/CRASHED", "a").write("Home in AOD did not wake the screen and keep it on\n")
+PY
 
 # 6b) Double tap on the face → AOD (start from the awake face: Home toggles AOD)
 adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 2.5
