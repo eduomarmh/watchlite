@@ -205,7 +205,7 @@ class MainActivity : Activity() {
         val badge = FrameLayout(this).apply { background = bgd; addView(ic, FrameLayout.LayoutParams(dp(20), dp(20), Gravity.CENTER)) }
         v.addView(badge, LinearLayout.LayoutParams(dp(38), dp(38)))
         val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-        col.addView(tv(label, 13.5f, bold = true).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END })
+        col.addView(tv(label, 13.5f, bold = true).apply { maxLines = 2; ellipsize = android.text.TextUtils.TruncateAt.END })
         val st = tv("", 12f, text2).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END }
         col.addView(st)
         v.addView(col, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(10) })
@@ -280,7 +280,7 @@ class MainActivity : Activity() {
         // header
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         head.addView(badge(R.drawable.ic_watch, accent, 44))
-        head.addView(tv("WatchLite", 24f, bold = true), LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(12) })
+        head.addView(tv("WatchLite", 24f, bold = true).apply { maxLines = 1 }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(12) })
         val chip = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; background = bg(card, 20); setPadding(dp(12), dp(6), dp(12), dp(6)) }
         statusDot = View(this).apply { background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFF555555.toInt()) } }
         chip.addView(statusDot, LinearLayout.LayoutParams(dp(9), dp(9)).apply { marginEnd = dp(8) })
