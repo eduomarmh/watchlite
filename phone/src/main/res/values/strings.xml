@@ -126,4 +126,22 @@
     <string name="picker_edit">Edit</string>
     <string name="picker_delete">Delete</string>
     <string name="picker_delete_q">Delete \"%1$s\" from the watch?</string>
+    <string name="f_weather">Weather on the watch</string>
+    <string name="f_weather_sum">Updated once an hour from the phone (no GPS)</string>
+    <string name="f_location">Prayer location from the phone</string>
+    <string name="f_location_sum">The watch uses the phone\'s location for prayer times</string>
+    <string name="f_media">Now playing + controls</string>
+    <string name="f_media_sum">Music widget on the watch (needs notification access)</string>
+    <string name="f_net">Phone network on the watch</string>
+    <string name="f_dnd">Sync Do not disturb</string>
+    <string name="f_dnd_sum">When the phone goes silent the watch does too</string>
+    <string name="f_alerts">Watch battery alerts</string>
+    <string name="f_alerts_sum">Notify on the phone when the watch is low or fully charged</string>
+    <string name="f_lost">Watch left behind alert</string>
+    <string name="f_lost_sum">Notify when the watch stays disconnected for a minute</string>
+    <string name="perm_location">Allow approximate location (weather)</string>
+    <string name="alert_channel">Watch alerts</string>
+    <string name="alert_watch_low">Watch battery is low (%1$d%%)</string>
+    <string name="alert_watch_full">Watch is fully charged</string>
+    <string name="alert_watch_lost">Watch disconnected. Did you leave it behind?</string>
 </resources>

@@ -35,7 +35,7 @@ class PhoneNotifListener : NotificationListenerService() {
     private val active = HashMap<String, StatusBarNotification>()
     private val iconCache = HashMap<String, String>()
 
-    override fun onListenerConnected() { instance = this; resendActive() }
+    override fun onListenerConnected() { instance = this; resendActive(); PhoneLinkService.instance?.extras?.registerMedia() }
     override fun onListenerDisconnected() { if (instance === this) instance = null }
     override fun onDestroy() { if (instance === this) instance = null; super.onDestroy() }
 

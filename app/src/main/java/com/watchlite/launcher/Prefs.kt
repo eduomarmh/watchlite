@@ -90,6 +90,7 @@ class Prefs(ctx: Context) {
     var notifWake by bool("notif_wake", false)
     var notifBanner by bool("notif_banner", true)
     var notifVibrate by bool("notif_vibrate", true)
+    var linkLostAlert by bool("link_lost_alert", false)
     var faceDoubleTap by bool("face_double_tap", true)   // double tap on the face → AOD / screen off
     var swipeDown by str("swipe_down", "auto")          // auto | launcher | system  (auto = system shade if no notification access)
     var blockedNotifApps by set("blocked_notif_apps")

@@ -455,4 +455,10 @@
     </string-array>
     <string name="face_double_tap">ضغطتين للإطفاء</string>
     <string name="face_double_tap_sum">اضغط ضغطتين على شاشة الساعة عشان تدخل الشاشة الدائمة (أو الشاشة تطفي)</string>
+    <string name="use_phone_location">استخدم موقع الموبايل</string>
+    <string name="use_phone_location_sum">بيتحدث من برنامج الموبايل (فعّل \"موقع الصلاة من الموبايل\" هناك)</string>
+    <string name="on_now">شغال</string>
+    <string name="link_lost_alert">تنبيه فصل الموبايل</string>
+    <string name="link_lost_alert_sum">اهتزاز لو الموبايل فضل مفصول دقيقة</string>
+    <string name="link_lost_toast">الموبايل اتفصل</string>
 </resources>

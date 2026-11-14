@@ -128,7 +128,11 @@ class PhoneLinkService : Service() {
         registerReceiver(battery, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         thread = Thread({ loop() }, "wlc-link").apply { isDaemon = true; start() }
         main.postDelayed(statsTick, 60_000)
+        extras = LinkExtras(this).also { it.start() }
     }
+
+    var extras: LinkExtras? = null
+        private set
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == "reconnect") try { socket?.close() } catch (_: Throwable) { }
@@ -144,8 +148,14 @@ class PhoneLinkService : Service() {
             .setContentText(getString(if (connected) R.string.connected else R.string.not_connected)).build())
     }
 
+    private val lostAlert = Runnable { if (!connected) extras?.notifyDisconnected(true) }
+    private var wasConnected = false
+
     private fun setStatus(s: String, c: Boolean) {
         status = s; connected = c
+        // "left the watch behind": only if still disconnected 60 s later (short drops are normal)
+        if (c) { wasConnected = true; main.removeCallbacks(lostAlert); main.post { extras?.notifyDisconnected(false) } }
+        else if (wasConnected) { wasConnected = false; main.removeCallbacks(lostAlert); main.postDelayed(lostAlert, 60_000) }
         main.post { try { foreground() } catch (_: Throwable) { } }
         changed()
     }
@@ -196,6 +206,7 @@ class PhoneLinkService : Service() {
         sendBattery(force = true)
         sendMsg("stats.request")
         PhoneNotifListener.instance?.resendActive()
+        main.post { extras?.onConnected() }
     }
 
     @Synchronized
@@ -220,6 +231,7 @@ class PhoneLinkService : Service() {
                 // the face list only comes with full stats; keep it separately so periodic stats don't wipe it
                 p.optJSONObject("ctl")?.optJSONArray("themes")?.let { e.putString("themes", it.toString()); p.getJSONObject("ctl").remove("themes") }
                 e.putString("stats", p.toString()).putLong("stats_time", System.currentTimeMillis()).apply(); changed()
+                main.post { extras?.onWatchStats(p) }
             }
             "watch.location" -> {
                 if (p.has("lat")) prefs.edit().putString("loc", p.toString()).putLong("loc_time", System.currentTimeMillis()).apply()
@@ -325,6 +337,7 @@ class PhoneLinkService : Service() {
         running = false
         instance = null
         main.removeCallbacksAndMessages(null)
+        extras?.stop(); extras = null
         try { unregisterReceiver(battery) } catch (_: Throwable) { }
         try { socket?.close() } catch (_: Throwable) { }
         connected = false; status = "idle"; changed()

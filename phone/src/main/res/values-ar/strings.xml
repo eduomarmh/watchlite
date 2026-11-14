@@ -126,4 +126,22 @@
     <string name="picker_edit">تعديل</string>
     <string name="picker_delete">مسح</string>
     <string name="picker_delete_q">تمسح \"%1$s\" من الساعة؟</string>
+    <string name="f_weather">الطقس على الساعة</string>
+    <string name="f_weather_sum">بيتحدث مرة كل ساعة من الموبايل (من غير GPS)</string>
+    <string name="f_location">موقع الصلاة من الموبايل</string>
+    <string name="f_location_sum">الساعة تاخد موقع الموبايل لمواقيت الصلاة</string>
+    <string name="f_media">الأغنية الشغالة والتحكم</string>
+    <string name="f_media_sum">ويدجت الموسيقى على الساعة (محتاج صلاحية الإشعارات)</string>
+    <string name="f_net">شبكة الموبايل على الساعة</string>
+    <string name="f_dnd">مزامنة عدم الإزعاج</string>
+    <string name="f_dnd_sum">لما الموبايل يبقى صامت الساعة كمان</string>
+    <string name="f_alerts">تنبيهات بطارية الساعة</string>
+    <string name="f_alerts_sum">إشعار على الموبايل لما الساعة تفضى أو تكمل شحن</string>
+    <string name="f_lost">تنبيه نسيان الساعة</string>
+    <string name="f_lost_sum">إشعار لو الساعة فضلت مفصولة دقيقة</string>
+    <string name="perm_location">السماح بالموقع التقريبي (للطقس)</string>
+    <string name="alert_channel">تنبيهات الساعة</string>
+    <string name="alert_watch_low">بطارية الساعة قربت تخلص (%1$d%%)</string>
+    <string name="alert_watch_full">الساعة شحنت على الآخر</string>
+    <string name="alert_watch_lost">الساعة اتفصلت. نسيتها؟</string>
 </resources>

@@ -82,7 +82,7 @@ object LinkManager {
             "media.state" -> if (enabled("media")) {
                 st.mediaTitle = p.optString("title"); st.mediaArtist = p.optString("artist"); st.mediaPlaying = p.optBoolean("playing")
             }
-            "location.state" -> if (enabled("location") && App.prefs.locationMode == "phone") {
+            "location.state" -> if (App.prefs.locationMode == "phone") {
                 App.prefs.latitude = p.optDouble("lat", App.prefs.latitude.toDouble()).toFloat()
                 App.prefs.longitude = p.optDouble("lng", App.prefs.longitude.toDouble()).toFloat()
             }

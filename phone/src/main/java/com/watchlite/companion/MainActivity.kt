@@ -391,6 +391,13 @@ class MainActivity : Activity() {
         toggle(getString(R.string.f_notif), "mod_notif", R.drawable.ic_notifications, sum = getString(R.string.f_notif_sum))
         toggle(getString(R.string.f_battery), "mod_battery", R.drawable.ic_battery_full)
         toggle(getString(R.string.f_find), "mod_find", R.drawable.ic_phonelink_ring, sum = getString(R.string.f_find_sum))
+        toggle(getString(R.string.f_weather), "mod_weather", R.drawable.ic_light_mode, sum = getString(R.string.f_weather_sum))
+        toggle(getString(R.string.f_location), "mod_location", R.drawable.ic_my_location, def = false, sum = getString(R.string.f_location_sum))
+        toggle(getString(R.string.f_media), "mod_media", R.drawable.ic_music_note, sum = getString(R.string.f_media_sum))
+        toggle(getString(R.string.f_net), "mod_net", R.drawable.ic_wifi)
+        toggle(getString(R.string.f_dnd), "mod_dnd_sync", R.drawable.ic_do_not_disturb_on, def = false, sum = getString(R.string.f_dnd_sum))
+        toggle(getString(R.string.f_alerts), "mod_watch_alerts", R.drawable.ic_battery_full, sum = getString(R.string.f_alerts_sum))
+        toggle(getString(R.string.f_lost), "mod_lost_alert", R.drawable.ic_link, def = false, sum = getString(R.string.f_lost_sum))
         lastSection?.addView(button(getString(R.string.muted_apps), R.drawable.ic_phone_android) { mutedAppsDialog() }, LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(6) })
 
         // permissions
@@ -398,6 +405,9 @@ class MainActivity : Activity() {
         pm.addView(button(getString(R.string.perm_notif), R.drawable.ic_notifications) {
             startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
         }, LinearLayout.LayoutParams(-1, dp(48)))
+        pm.addView(button(getString(R.string.perm_location), R.drawable.ic_my_location) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 3)
+        }, LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(8) })
         pm.addView(button(getString(R.string.perm_battery), R.drawable.ic_battery_full) { askIgnoreBattery() }, LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(8) })
         pm.addView(button(getString(R.string.perm_app_settings), R.drawable.ic_settings) {
             startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))

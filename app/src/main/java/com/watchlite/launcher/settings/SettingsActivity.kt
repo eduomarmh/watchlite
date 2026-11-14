@@ -532,6 +532,9 @@ class SettingsActivity : Activity() {
             val (lat, lng) = CITIES.getValue(it)
             p.cityName = it.substringBefore('|'); p.latitude = lat.toFloat(); p.longitude = lng.toFloat(); p.locationMode = "manual"
         }
+        action(s(R.string.use_phone_location), s(if (p.locationMode == "phone") R.string.on_now else R.string.use_phone_location_sum)) {
+            p.locationMode = "phone"; p.cityName = s(R.string.phone); toast(s(R.string.use_phone_location_sum)); refresh()
+        }
         action(s(R.string.use_gps), Digits.apply("%.3f, %.3f".format(java.util.Locale.US, p.latitude, p.longitude), Digits.useArabic())) { requestGps() }
         choice(s(R.string.calc_method), PrayerTimes.METHODS.keys.map { it to methodName(it) }, { p.prayerMethod }) { p.prayerMethod = it }
         choice(s(R.string.asr_method), listOf("shafii" to s(R.string.asr_standard), "hanafi" to s(R.string.asr_hanafi)), { p.asrMethod }) { p.asrMethod = it }
@@ -586,6 +589,7 @@ class SettingsActivity : Activity() {
         row(s(R.string.pairing_code), Digits.apply(p.linkCode.chunked(3).joinToString(" "), Digits.useArabic()) + " · " +
             s(if (st.linkConnected) R.string.connected else R.string.not_connected))
         action(s(R.string.new_code)) { p.linkCode = LinkManager.newCode(); LinkManager.stop(this); LinkManager.start(this); refresh() }
+        switch(s(R.string.link_lost_alert), s(R.string.link_lost_alert_sum), { p.linkLostAlert }) { p.linkLostAlert = it }
         header(s(R.string.modules))
         val names = mapOf("notif" to R.string.mod_notif, "battery" to R.string.mod_battery, "net" to R.string.mod_net, "location" to R.string.mod_location,
             "contacts" to R.string.mod_contacts, "calls" to R.string.mod_calls, "media" to R.string.mod_media, "weather" to R.string.mod_weather,

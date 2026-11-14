@@ -456,4 +456,10 @@
     </string-array>
     <string name="face_double_tap">Double tap to sleep</string>
     <string name="face_double_tap_sum">Double tap the watch face to go to Always-on (or turn the screen off)</string>
+    <string name="use_phone_location">Use the phone\'s location</string>
+    <string name="use_phone_location_sum">Updated by the phone app (turn on \"Prayer location from the phone\" there)</string>
+    <string name="on_now">On</string>
+    <string name="link_lost_alert">Phone disconnected alert</string>
+    <string name="link_lost_alert_sum">Vibrate when the phone stays disconnected for a minute</string>
+    <string name="link_lost_toast">Phone disconnected</string>
 </resources>

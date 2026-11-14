@@ -106,7 +106,22 @@ class LinkService : Service() {
         }
     }
 
+    private var connectedSince = 0L
+    private val lostAlert = Runnable {
+        if (!App.I.state.linkConnected && App.prefs.linkLostAlert) {
+            com.watchlite.launcher.util.Haptics.tick(this, true)
+            try {
+                val v = getSystemService(android.content.Context.VIBRATOR_SERVICE) as android.os.Vibrator
+                v.vibrate(android.os.VibrationEffect.createWaveform(longArrayOf(0, 300, 200, 300, 200, 600), -1))
+            } catch (_: Throwable) { }
+            android.widget.Toast.makeText(this, getString(com.watchlite.launcher.R.string.link_lost_toast), android.widget.Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun setConnected(c: Boolean) {
+        // phone left behind: alert only if the link stays down for a minute after a real session
+        if (c) { connectedSince = System.currentTimeMillis(); Bg.main.removeCallbacks(lostAlert) }
+        else if (App.I.state.linkConnected && System.currentTimeMillis() - connectedSince > 60_000) { Bg.main.removeCallbacks(lostAlert); Bg.main.postDelayed(lostAlert, 60_000) }
         App.I.state.linkConnected = c
         App.I.state.changed()
         Bg.ui { try { notify(c) } catch (_: Throwable) { } }
@@ -123,6 +138,7 @@ class LinkService : Service() {
     private fun sleep(ms: Long) = try { Thread.sleep(ms) } catch (_: InterruptedException) { }
 
     override fun onDestroy() {
+        Bg.main.removeCallbacks(lostAlert)
         running = false
         LinkManager.transport = null
         try { server?.close() } catch (_: Throwable) { }

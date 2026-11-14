@@ -134,13 +134,15 @@ adb shell input keyevent KEYCODE_HOME; sleep 2
 # 6c) Control Center tiles: toggle each safe tile, the Wi-Fi tile must settle (no flicker), no crash
 python3 -m pip install -q --user pillow >/dev/null 2>&1 || pip3 install -q pillow >/dev/null 2>&1 || true
 tile_xy() {  # prints "x y" centre of the view whose content-desc matches $1
-  adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
-  adb shell cat /sdcard/ui.xml | tr '>' '\n' | grep "content-desc=\"$1\"" | head -1 | \
+  adb shell uiautomator dump /sdcard/ui.xml >> $OUT/uidump_log.txt 2>&1
+  adb shell cat /sdcard/ui.xml > $OUT/ui_last.xml 2>/dev/null
+  cat $OUT/ui_last.xml | tr '>' '\n' | grep "content-desc=\"$1\"" | head -1 | \
     sed -E 's/.*bounds="\[([0-9]+),([0-9]+)\]\[([0-9]+),([0-9]+)\]".*/\1 \2 \3 \4/' | awk '{print int(($1+$3)/2), int(($2+$4)/2)}'
 }
 adb shell svc wifi enable; sleep 3
 adb shell input keyevent KEYCODE_HOME; sleep 2
 swipe 30 190 290 190; sleep 2
+shot "x_39_control_open" 0
 XY=$(tile_xy "واي فاي"); [ -z "$XY" ] && XY=$(tile_xy "Wi-Fi")
 echo "wifi tile at $XY" > $OUT/control_check.txt
 if [ -n "$XY" ]; then
