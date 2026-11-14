@@ -199,7 +199,6 @@ class PhoneLinkService : Service() {
     }
 
     @Synchronized
-    @Synchronized
     fun sendMsg(type: String, payload: JSONObject = JSONObject()): Boolean {
         val o = out ?: return false
         val env = JSONObject().put("v", 1).put("id", UUID.randomUUID().toString()).put("type", type)
