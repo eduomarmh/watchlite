@@ -122,8 +122,9 @@ if ! grep -q "WL-AOD  : exit" $OUT/aod_home_check.txt || grep -q "WL-AOD  : ente
   echo "Home in AOD did not wake the screen" > $OUT/CRASHED
 fi
 
-# 6b) Double tap on the face → AOD
-sleep 2
+# 6b) Double tap on the face → AOD (start from the awake face: Home toggles AOD)
+adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 2.5
+if adb logcat -d | grep -q "WL-AOD  : enter"; then adb shell input keyevent KEYCODE_HOME; sleep 2.5; fi
 adb logcat -c
 adb shell "input tap 160 200 & sleep 0.12; input tap 160 200"; sleep 3
 shot "x_32_double_tap_aod" 1
