@@ -41,6 +41,7 @@ object RemoteControl {
             .put("theme", p.themeId)
             .put("canLock", SystemActions.isAdmin(ctx))
             .put("location", SystemActions.locationOn(ctx))
+            .also { o -> com.watchlite.launcher.util.ScreenProfile.of(ctx).let { sp -> o.put("screenW", sp.width).put("screenH", sp.height) } }
         if (withThemes) {
             val a = JSONArray()
             App.I.themes.all().forEach { a.put(JSONObject().put("id", it.id).put("name", it.name())) }

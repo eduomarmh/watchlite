@@ -21,6 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/Companion">
 
+        <activity android:name=".ThemePickerActivity" android:exported="true" />
+        <activity android:name=".ThemeDesignerActivity" android:exported="true" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

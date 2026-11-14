@@ -129,6 +129,11 @@ if [ -f app/build/outputs/apk/phone-release.apk ]; then
   adb shell input keyevent KEYCODE_BACK; sleep 1   # dismiss a permission / BT prompt if any
   adb shell am start -n com.watchlite.companion/.MainActivity; sleep 3
   for i in 1 2 3 4 5 6; do shot "p_0$i" 1; swipe 160 330 160 90 300; done
+  adb shell am start -n com.watchlite.companion/.ThemeDesignerActivity; sleep 4
+  for i in 1 2 3 4 5; do shot "p_d$i" 1; swipe 160 330 160 90 300; done
+  adb shell input keyevent KEYCODE_BACK; sleep 1
+  adb shell am start -n com.watchlite.companion/.ThemePickerActivity; sleep 3
+  shot "p_picker" 1
   adb shell am force-stop com.watchlite.companion
 fi
 

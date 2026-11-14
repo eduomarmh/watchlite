@@ -199,6 +199,7 @@ class PhoneLinkService : Service() {
     }
 
     @Synchronized
+    @Synchronized
     fun sendMsg(type: String, payload: JSONObject = JSONObject()): Boolean {
         val o = out ?: return false
         val env = JSONObject().put("v", 1).put("id", UUID.randomUUID().toString()).put("type", type)
@@ -233,7 +234,12 @@ class PhoneLinkService : Service() {
             "notif.action" -> PhoneNotifListener.instance?.action(p.optString("key"), p.optString("action"))
             "notif.reply" -> PhoneNotifListener.instance?.reply(p.optString("key"), p.optString("action"), p.optString("text"))
             "media.cmd" -> media(p.optString("cmd"))
-            "capabilities", "pong", "theme.installed", "theme.error" -> Unit
+            "theme.thumb" -> { ThemeStore.saveThumb(this, p); changed() }
+            "theme.thumbs.done" -> { ThemeStore.done(this, p); changed() }
+            "theme.progress" -> { ThemeStore.event = "progress:" + (p.optInt("index") + 1) + "/" + p.optInt("total"); changed() }
+            "theme.installed" -> { ThemeStore.event = "installed:" + p.optString("id"); changed() }
+            "theme.error" -> { ThemeStore.event = "error:" + p.optString("error"); changed() }
+            "capabilities", "pong" -> Unit
         }
     }
 

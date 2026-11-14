@@ -38,8 +38,11 @@ key = first 16 bytes of `SHA-256("watchlite-v1:" + pairingCode)`. The 6-digit pa
 | phone→watch | `weather.update` | `{temp:"24°", desc:"Sunny"}` |
 | phone→watch | `media.state` | `{title, artist, playing}` |
 | watch→phone | `media.cmd` | `{cmd:"toggle"/"next"/"prev"}` |
-| phone→watch | `theme.install` | chunks `{id, index, total, data(base64 of .wtheme)}`; watch replies `theme.installed {id}` or `theme.error {id,error}` |
+| phone→watch | `theme.install` | chunks `{id, index, total, apply, data(base64 of .wtheme)}` (48 KB each; `apply` selects it after install); watch replies `theme.installed {id}` or `theme.error {id,error}` |
 | phone→watch | `theme.apply` | `{id}` |
+| phone→watch | `theme.thumbs` | `{have:{id:rev}}`; watch streams `theme.thumb {id, rev, name, builtIn, data(jpeg base64)}` for faces whose preview changed, then `theme.thumbs.done {ids, current}` |
+| phone→watch | `theme.delete` | `{id}` (user faces only) |
+| watch→phone | `theme.progress` | `{id, index, total}` while a `theme.install` is received |
 | watch→phone | `find.phone` | `{}` (ring the phone) |
 | watch→phone | `camera.remote` | `{}` (take a photo) |
 | phone→watch | `stats.request` | `{}`; watch answers `watch.stats` |

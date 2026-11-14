@@ -341,6 +341,9 @@ class MainActivity : Activity() {
         themeBtn = button(getString(R.string.c_theme), R.drawable.ic_palette) { chooseTheme() }
         goalBtn = button(getString(R.string.c_goal), R.drawable.ic_flag) { editGoal() }
         controlsBox.addView(row(themeBtn, goalBtn), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
+        controlsBox.addView(button(getString(R.string.design_new), R.drawable.ic_brush, true) {
+            startActivity(Intent(this, ThemeDesignerActivity::class.java))
+        }, LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(8) })
         controlsBox.addView(row(
             button(getString(R.string.c_wake), R.drawable.ic_light_mode) { sendCtl("wake", null) },
             button(getString(R.string.c_lock), R.drawable.ic_lock) { if (ctl()?.optBoolean("canLock") == false) toast(getString(R.string.c_no_lock)) else sendCtl("lock", null) }),
@@ -443,13 +446,7 @@ class MainActivity : Activity() {
         return (0 until a.length()).map { a.getJSONObject(it).let { o -> o.optString("id") to o.optString("name") } }
     }
 
-    private fun chooseTheme() {
-        val t = themesList()
-        if (t.isEmpty()) { PhoneLinkService.send("stats.request"); toast(getString(R.string.c_no_themes)); return }
-        val cur = t.indexOfFirst { it.first == ctl()?.optString("theme") }
-        AlertDialog.Builder(this).setTitle(R.string.c_theme)
-            .setSingleChoiceItems(t.map { it.second }.toTypedArray(), cur) { d, i -> sendCtl("theme", t[i].first); d.dismiss() }.show()
-    }
+    private fun chooseTheme() = startActivity(Intent(this, ThemePickerActivity::class.java))
 
     private fun editGoal() {
         val e = EditText(this).apply {

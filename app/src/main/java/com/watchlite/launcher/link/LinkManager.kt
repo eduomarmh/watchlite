@@ -89,6 +89,8 @@ object LinkManager {
             "contacts.sync" -> if (enabled("contacts")) saveContacts(p)
             "theme.apply" -> if (enabled("themes")) App.I.themes.get(p.optString("id"))?.let { App.I.themes.select(it.id) }
             "theme.install" -> if (enabled("themes")) installTheme(p)
+            "theme.thumbs" -> ThemeThumbs.send(app, p.optJSONObject("have") ?: JSONObject())
+            "theme.delete" -> com.watchlite.launcher.util.Bg.ui { App.I.themes.delete(p.optString("id")); com.watchlite.launcher.util.Bg.run { sendStats(full = true) } }
             else -> Log.i("Link", "unhandled $type")
         }
         st.changed()
@@ -195,6 +197,7 @@ object LinkManager {
         if (idx == 0) themeChunks[id] = ByteArrayOutputStream()
         val buf = themeChunks[id] ?: return
         buf.write(Base64.decode(p.optString("data"), Base64.DEFAULT))
+        send("theme.progress", JSONObject().put("id", id).put("index", idx).put("total", total))
         if (buf.size() > 30 * 1024 * 1024) { themeChunks.remove(id); return }
         if (idx == total - 1) {
             themeChunks.remove(id)
@@ -202,7 +205,9 @@ object LinkManager {
             f.writeBytes(buf.toByteArray())
             try {
                 val t = App.I.themes.importPackage(android.net.Uri.fromFile(f))
+                if (p.optBoolean("apply")) com.watchlite.launcher.util.Bg.ui { App.I.themes.select(t.id) }
                 send("theme.installed", JSONObject().put("id", t.id))
+                sendStats(full = true)
             } catch (e: Throwable) {
                 send("theme.error", JSONObject().put("id", id).put("error", e.message ?: "invalid"))
             } finally { f.delete() }
