@@ -195,7 +195,7 @@ adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool link_enabl
 adb shell am start -n $PKG/.settings.SettingsActivity --es ci_link "$B64"; sleep 3
 adb shell input keyevent KEYCODE_HOME; sleep 2
 swipe 160 340 160 40; sleep 2
-for k in 1 2 3; do shot "x_50_music_$k" 1; swipe 160 300 160 120 300; done
+shot "x_50_music_1" 1
 adb shell input keyevent KEYCODE_BACK; sleep 1
 
 # 7) Phone companion UI smoke test (renders, no crash)

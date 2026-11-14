@@ -192,7 +192,8 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
             if (st.mediaArtist.isNotEmpty()) texts.addView(ui.text(st.mediaArtist, 4.6f, Ui.TEXT2, 1))
             head.addView(texts, ui.lp(0, weight = 1f))
             c.addView(head)
-            val row = ui.hbox().apply { gravity = Gravity.CENTER }
+            // media controls keep their universal order (prev ◂ play ▸ next) even in Arabic
+            val row = ui.hbox().apply { gravity = Gravity.CENTER; layoutDirection = View.LAYOUT_DIRECTION_LTR }
             fun cmd(icon: Int, a: String, main: Boolean = false) = ui.circleButton(icon, if (main) 14f else 11.5f,
                 bg = if (main) ui.accent else Ui.CARD2, tint = if (main) Ui.BG else Ui.TEXT) {
                 LinkManager.send("media.cmd", JSONObject().put("cmd", a))
@@ -202,7 +203,8 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
             row.addView(cmd(if (st.mediaPlaying) R.drawable.ic_pause else R.drawable.ic_play_arrow, "toggle", true), ui.lp(ui.px(14f), ui.px(14f), end = 4f))
             row.addView(cmd(R.drawable.ic_skip_next, "next"), ui.lp(ui.px(11.5f), ui.px(11.5f)))
             c.addView(row, ui.lp(top = 2.5f))
-            box.addView(c, ui.lp(bottom = 2.5f))
+            // while something is playing, the music card goes to the top
+            box.addView(c, if (st.mediaPlaying) 0 else box.childCount, ui.lp(bottom = 2.5f))
         }
 
         // Shortcuts
