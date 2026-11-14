@@ -103,9 +103,30 @@ adb logcat -d | grep "WL-AOD" > $OUT/aod_charging_check.txt || true
 if grep -q "WL-AOD  : enter" $OUT/aod_charging_check.txt; then echo "AOD entered while charging with mode=never" > $OUT/CRASHED; fi
 adb shell dumpsys battery reset
 
+# 6) Home on the face → AOD, Home again → screen wakes and STAYS awake
+adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled --es ci_str aod_charging_mode=normal; sleep 4
+adb shell input keyevent KEYCODE_HOME; sleep 4
+adb logcat -c
+adb shell input keyevent KEYCODE_HOME; sleep 3
+shot "x_30_aod_by_home" 1
+adb shell input keyevent KEYCODE_HOME; sleep 4
+shot "x_31_home_wakes" 1
+adb logcat -d | grep -E "WL-AOD|WL-Home" > $OUT/aod_home_check.txt || true
+if [ "$(grep 'WL-AOD' $OUT/aod_home_check.txt | tail -1 | grep -c exit)" != "1" ]; then echo "Home in AOD did not leave AOD" > $OUT/CRASHED; fi
+
+# 7) Phone companion UI smoke test (renders, no crash)
+if [ -f app/build/outputs/apk/phone-release.apk ]; then
+  adb install -r -g app/build/outputs/apk/phone-release.apk || true
+  adb shell am start -n com.watchlite.companion/.MainActivity; sleep 6
+  adb shell input keyevent KEYCODE_BACK; sleep 1   # dismiss a permission / BT prompt if any
+  adb shell am start -n com.watchlite.companion/.MainActivity; sleep 3
+  for i in 1 2 3 4 5 6; do shot "p_0$i" 1; swipe 160 330 160 90 300; done
+  adb shell am force-stop com.watchlite.companion
+fi
+
 adb logcat -d > $OUT/logcat_full.txt
 grep -E "FATAL EXCEPTION|AndroidRuntime|WL-" $OUT/logcat_full.txt > $OUT/logcat_app.txt || true
-if grep -q "FATAL EXCEPTION" $OUT/logcat_full.txt && grep -A3 "FATAL EXCEPTION" $OUT/logcat_full.txt | grep -q "$PKG"; then
+if grep -q "FATAL EXCEPTION" $OUT/logcat_full.txt && grep -A3 "FATAL EXCEPTION" $OUT/logcat_full.txt | grep -qE "$PKG|com.watchlite.companion"; then
   echo "APP CRASHED" > $OUT/CRASHED
 fi
 exit 0
