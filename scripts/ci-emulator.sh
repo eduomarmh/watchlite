@@ -106,12 +106,14 @@ adb shell dumpsys battery reset
 # 6) Home on the face → AOD, Home again → screen wakes and STAYS awake
 adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled --es ci_str aod_charging_mode=normal; sleep 4
 adb shell input keyevent KEYCODE_HOME; sleep 4
-adb logcat -c
-adb shell input keyevent KEYCODE_HOME; sleep 4
-if ! adb logcat -d | grep -q "WL-AOD  : enter"; then   # we were in AOD already → this press woke it; press once more to enter
+# press Home until the launcher reports it entered AOD (start state may vary)
+for try in 1 2 3; do
   adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 4
-fi
+  adb logcat -d | grep -E "WL-AOD|WL-Home" >> $OUT/aod_home_setup.txt || true
+  if adb logcat -d | grep -q "WL-AOD  : enter" && ! adb logcat -d | grep -q "WL-AOD  : exit"; then break; fi
+done
 shot "x_30_aod_by_home" 1
+adb logcat -d | grep -E "WL-AOD|WL-Home" > $OUT/aod_home_before.txt || true
 adb logcat -c
 adb shell input keyevent KEYCODE_HOME; sleep 5
 shot "x_31_home_wakes" 1
