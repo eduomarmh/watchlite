@@ -77,14 +77,22 @@ object SystemActions {
 
     // ------------------------------------------------------------------ radios
     @Suppress("DEPRECATION")
-    fun wifiOn(ctx: Context) = (ctx.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager).isWifiEnabled
+    /** Target state: "turning on" counts as on and "turning off" as off, so tiles don't bounce mid-transition. */
+    fun wifiOn(ctx: Context): Boolean = try {
+        when ((ctx.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager).wifiState) {
+            WifiManager.WIFI_STATE_ENABLED, WifiManager.WIFI_STATE_ENABLING -> true
+            else -> false
+        }
+    } catch (_: Throwable) { false }
 
     @Suppress("DEPRECATION")
     fun setWifi(ctx: Context, on: Boolean): Boolean = try {
         (ctx.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager).setWifiEnabled(on)
     } catch (t: Throwable) { false }
 
-    fun btOn(): Boolean = try { BluetoothAdapter.getDefaultAdapter()?.isEnabled == true } catch (_: Throwable) { false }
+    fun btOn(): Boolean = try {
+        when (BluetoothAdapter.getDefaultAdapter()?.state) { BluetoothAdapter.STATE_ON, BluetoothAdapter.STATE_TURNING_ON -> true; else -> false }
+    } catch (_: Throwable) { false }
 
     @Suppress("DEPRECATION", "MissingPermission")
     fun setBt(on: Boolean): Boolean = try {

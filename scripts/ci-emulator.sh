@@ -131,6 +131,49 @@ adb logcat -d | grep -E "WL-AOD|WL-Home" > $OUT/double_tap_check.txt || true
 if ! grep -q "WL-AOD  : enter" $OUT/double_tap_check.txt; then echo "Double tap on the face did not enter AOD" > $OUT/CRASHED; fi
 adb shell input keyevent KEYCODE_HOME; sleep 2
 
+# 6c) Control Center tiles: toggle each safe tile, the Wi-Fi tile must settle (no flicker), no crash
+python3 -m pip install -q --user pillow >/dev/null 2>&1 || pip3 install -q pillow >/dev/null 2>&1 || true
+tile_xy() {  # prints "x y" centre of the view whose content-desc matches $1
+  adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
+  adb shell cat /sdcard/ui.xml | tr '>' '\n' | grep "content-desc=\"$1\"" | head -1 | \
+    sed -E 's/.*bounds="\[([0-9]+),([0-9]+)\]\[([0-9]+),([0-9]+)\]".*/\1 \2 \3 \4/' | awk '{print int(($1+$3)/2), int(($2+$4)/2)}'
+}
+adb shell svc wifi enable; sleep 3
+adb shell input keyevent KEYCODE_HOME; sleep 2
+swipe 30 190 290 190; sleep 2
+XY=$(tile_xy "واي فاي"); [ -z "$XY" ] && XY=$(tile_xy "Wi-Fi")
+echo "wifi tile at $XY" > $OUT/control_check.txt
+if [ -n "$XY" ]; then
+  adb shell input tap $XY; sleep 2.5
+  shot "x_40_wifi_off" 0
+  for k in 1 2 3 4; do sleep 0.4; adb exec-out screencap -p > $OUT/screens/x_41_wifi_frame$k.png; done
+  adb shell dumpsys wifi | grep -m1 "Wi-Fi is" >> $OUT/control_check.txt
+  adb shell input tap $XY; sleep 3
+  shot "x_42_wifi_on" 0
+  adb shell dumpsys wifi | grep -m1 "Wi-Fi is" >> $OUT/control_check.txt
+  python3 - "$OUT" "$XY" <<'PY' >> $OUT/control_check.txt
+import sys
+from PIL import Image
+out, xy = sys.argv[1], sys.argv[2].split()
+x, y = int(xy[0]), int(xy[1])
+box = (x-25, y-25, x+25, y+25)
+frames = [Image.open(f"{out}/screens/x_41_wifi_frame{k}.png").convert("RGB").crop(box).tobytes() for k in range(1, 5)]
+stable = all(f == frames[0] for f in frames)
+print("wifi tile stable after toggle:", stable)
+if not stable:
+    open(f"{out}/CRASHED", "w").write("Wi-Fi tile keeps changing after toggling\n")
+PY
+fi
+for name in "دائمة" "توفير" "عدم الإزعاج" "بلوتوث"; do
+  XY=$(tile_xy "$name"); echo "$name -> $XY" >> $OUT/control_check.txt
+  [ -z "$XY" ] && continue
+  adb shell input tap $XY; sleep 2; shot "x_43_tile_$(echo $name | md5sum | cut -c1-6)" 0
+  adb shell dumpsys window | grep -q "mCurrentFocus.*watchlite.launcher/.home.HomeActivity" || { adb shell input keyevent KEYCODE_BACK; sleep 1.5; }
+  XY=$(tile_xy "$name"); [ -n "$XY" ] && { adb shell input tap $XY; sleep 1.5; }
+  adb shell dumpsys window | grep -q "mCurrentFocus.*watchlite.launcher/.home.HomeActivity" || { adb shell input keyevent KEYCODE_BACK; sleep 1.5; }
+done
+adb shell input keyevent KEYCODE_HOME; sleep 2
+
 # 7) Phone companion UI smoke test (renders, no crash)
 if [ -f app/build/outputs/apk/phone-release.apk ]; then
   adb install -r -g app/build/outputs/apk/phone-release.apk || true
