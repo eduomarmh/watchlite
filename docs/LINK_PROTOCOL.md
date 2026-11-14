@@ -43,7 +43,8 @@ key = first 16 bytes of `SHA-256("watchlite-v1:" + pairingCode)`. The 6-digit pa
 | watch→phone | `find.phone` | `{}` (ring the phone) |
 | watch→phone | `camera.remote` | `{}` (take a photo) |
 | phone→watch | `stats.request` | `{}`; watch answers `watch.stats` |
-| watch→phone | `watch.stats` | `{battery, charging, steps, goal, stepsSource, theme, aod, chime, version, model, android, uptimeMin}` |
+| watch→phone | `watch.stats` | `{battery, charging, steps, goal, stepsSource, theme, aod, chime, version, model, android, uptimeMin, ctl}`; `ctl` = current control values + capabilities (`canDnd`, `canBrightness`, `canLock`), plus `themes:[{id,name}]` only in the answer to `stats.request` |
+| phone→watch | `ctl.set` | `{k, v}` with k = `wifi`, `dnd`, `aod`, `chime`, `notifBanner`, `notifVibrate` (bool) · `brightness`, `aodBrightness`, `volMedia`, `volRing`, `volAlarm` (0–100) · `ringer` (`normal`/`vibrate`/`silent`) · `goal` (int) · `theme` (id) · `lock`, `wake` (no v). Watch answers with fresh `watch.stats`. Bluetooth is not switchable remotely (it would cut the link). |
 | phone→watch | `watch.locate` | `{}`; watch answers `watch.location` (last fix now, fresh GPS fix when ready) |
 | watch→phone | `watch.location` | `{lat, lng, acc, time, fresh, provider}` or `{error: "permission"/"gps_off"}` |
 | phone→watch | `find.watch` / `find.watch.stop` | watch rings and vibrates up to 30 s (touching the watch stops it) |

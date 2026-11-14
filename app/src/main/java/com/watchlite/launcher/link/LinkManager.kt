@@ -67,7 +67,8 @@ object LinkManager {
             "hello", "capabilities" -> send("capabilities", JSONObject().put("modules", org.json.JSONArray(App.prefs.linkModules.toList()))
                 .put("app", "watchlite").put("version", 1))
             "ping" -> send("pong")
-            "stats.request" -> sendStats()
+            "stats.request" -> sendStats(full = true)
+            "ctl.set" -> com.watchlite.launcher.util.Bg.ui { RemoteControl.apply(app, p.optString("k"), p); com.watchlite.launcher.util.Bg.run { sendStats() } }
             "watch.locate" -> locate()
             "find.watch" -> findWatch(true)
             "find.watch.stop" -> findWatch(false, remote = true)
@@ -94,7 +95,7 @@ object LinkManager {
     }
 
     /** Watch status for the phone app's dashboard. */
-    fun sendStats() {
+    fun sendStats(full: Boolean = false) {
         val st = App.I.state
         val p = App.prefs
         send("watch.stats", JSONObject()
@@ -104,7 +105,8 @@ object LinkManager {
             .put("aod", p.aodEnabled).put("chime", p.chimeEnabled)
             .put("version", com.watchlite.launcher.BuildConfig.VERSION_NAME)
             .put("model", android.os.Build.MODEL).put("android", android.os.Build.VERSION.RELEASE)
-            .put("uptimeMin", android.os.SystemClock.elapsedRealtime() / 60000))
+            .put("uptimeMin", android.os.SystemClock.elapsedRealtime() / 60000)
+            .put("ctl", RemoteControl.state(app, withThemes = full)))
     }
 
     /** Sends the watch position: last known fix right away, then a fresh GPS fix when it arrives. */

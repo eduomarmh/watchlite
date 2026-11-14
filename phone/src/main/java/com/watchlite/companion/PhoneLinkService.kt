@@ -215,7 +215,12 @@ class PhoneLinkService : Service() {
         val p = env.optJSONObject("payload") ?: JSONObject()
         val prefs = CompanionApp.prefs
         when (env.optString("type")) {
-            "watch.stats" -> { prefs.edit().putString("stats", p.toString()).putLong("stats_time", System.currentTimeMillis()).apply(); changed() }
+            "watch.stats" -> {
+                val e = prefs.edit()
+                // the face list only comes with full stats; keep it separately so periodic stats don't wipe it
+                p.optJSONObject("ctl")?.optJSONArray("themes")?.let { e.putString("themes", it.toString()); p.getJSONObject("ctl").remove("themes") }
+                e.putString("stats", p.toString()).putLong("stats_time", System.currentTimeMillis()).apply(); changed()
+            }
             "watch.location" -> {
                 if (p.has("lat")) prefs.edit().putString("loc", p.toString()).putLong("loc_time", System.currentTimeMillis()).apply()
                 else prefs.edit().putString("loc_error", p.optString("error")).apply()

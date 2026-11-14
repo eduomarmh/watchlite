@@ -38,6 +38,7 @@ import com.watchlite.launcher.util.Bg
 import com.watchlite.launcher.util.Haptics
 import com.watchlite.launcher.util.LocaleHelper
 import com.watchlite.launcher.util.Log
+import com.watchlite.launcher.aod.AodGate
 import com.watchlite.launcher.util.Ui
 import com.watchlite.launcher.widgets.WidgetsPage
 import kotlin.math.abs
@@ -425,7 +426,17 @@ class HomeActivity : Activity() {
         if (alreadyOnHome) homePressedOnHome() else { goHome(false); hideCurtain() }
     }
 
+    private var lastHomeAt = 0L
+
     private fun homePressedOnHome() {
+        // Some firmwares deliver the Home intent twice for one press (key down + up).
+        // Without this the 1st copy woke the screen from AOD and the 2nd put it straight back.
+        val now = android.os.SystemClock.uptimeMillis()
+        val dup = now - lastHomeAt < 700
+        lastHomeAt = now
+        Log.i("Home", "home on face dup=$dup aod=${aod.active}")
+        if (dup) return
+        val sinceAod = System.currentTimeMillis() - AodGate.lastAodVisible
         resetIdle()
         when {
             lockOverlay != null -> Haptics.tick(this)
@@ -433,6 +444,7 @@ class HomeActivity : Activity() {
             aod.active -> aod.exit()
             flash != null -> toggleFlashlight()
             editor.isOpen || pages.any { it.isPresent } -> goHome()
+            sinceAod < 1500 -> Unit   // just woke from AOD: never fall back into it
             else -> {
                 if (aod.canEnter()) aod.enter() else screenOff()
             }

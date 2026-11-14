@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
@@ -21,9 +22,12 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
+import android.widget.SeekBar
 import android.widget.Switch
 import android.widget.TextView
 import org.json.JSONObject
@@ -58,6 +62,8 @@ class MainActivity : Activity() {
     private lateinit var details: TextView
     private lateinit var locText: TextView
     private lateinit var findBtn: Button
+    private lateinit var batteryIcon: FrameLayout
+    private lateinit var batterySub: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +104,7 @@ class MainActivity : Activity() {
         super.onPause()
     }
 
-    // ------------------------------------------------------------------ UI
+    // ------------------------------------------------------------------ UI kit (icons, no emoji)
     private fun dp(v: Int) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v.toFloat(), resources.displayMetrics).toInt()
 
     private fun tv(s: CharSequence, size: Float = 15f, color: Int = 0xFFFFFFFF.toInt(), bold: Boolean = false) = TextView(this).apply {
@@ -107,65 +113,205 @@ class MainActivity : Activity() {
 
     private fun bg(color: Int, r: Int = 18) = GradientDrawable().apply { setColor(color); cornerRadius = dp(r).toFloat() }
 
-    private fun section(title: String): LinearLayout {
-        root.addView(tv(title, 13f, accent, true), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(18); bottomMargin = dp(8); marginStart = dp(4) })
+    private fun icon(res: Int, tint: Int, sizeDp: Int = 22): Drawable =
+        getDrawable(res)!!.mutate().apply { setTint(tint); setBounds(0, 0, dp(sizeDp), dp(sizeDp)) }
+
+    private fun iconView(res: Int, tint: Int, sizeDp: Int = 22) = ImageView(this).apply {
+        setImageDrawable(icon(res, tint, sizeDp)); layoutParams = LinearLayout.LayoutParams(dp(sizeDp), dp(sizeDp))
+    }
+
+    /** Icon inside a soft round badge (used for tiles and stat blocks). */
+    private fun badge(res: Int, tint: Int, size: Int = 40) = FrameLayout(this).apply {
+        background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor((tint and 0x00FFFFFF) or 0x2A000000) }
+        addView(iconView(res, tint, size / 2), FrameLayout.LayoutParams(dp(size / 2), dp(size / 2), Gravity.CENTER))
+        layoutParams = LinearLayout.LayoutParams(dp(size), dp(size))
+    }
+
+    private fun section(title: String, iconRes: Int): LinearLayout {
+        val h = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        h.addView(iconView(iconRes, accent, 18))
+        h.addView(tv(title, 13f, accent, true), LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
+        root.addView(h, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(20); bottomMargin = dp(8); marginStart = dp(4) })
         val c = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; background = bg(card); setPadding(dp(16), dp(14), dp(16), dp(14)) }
         root.addView(c)
         return c
     }
 
-    private fun button(label: String, primary: Boolean = false, onClick: () -> Unit) = Button(this).apply {
-        text = label; isAllCaps = false; setTextColor(if (primary) 0xFFFFFFFF.toInt() else accent)
+    private fun button(label: String, iconRes: Int? = null, primary: Boolean = false, onClick: () -> Unit) = Button(this).apply {
+        text = label; isAllCaps = false; textSize = 14f
+        val fg = if (primary) 0xFFFFFFFF.toInt() else accent
+        setTextColor(fg)
+        if (iconRes != null) { setCompoundDrawablesRelative(icon(iconRes, fg, 20), null, null, null); compoundDrawablePadding = dp(8) }
+        gravity = Gravity.CENTER
+        setPadding(dp(12), 0, dp(12), 0)
         background = bg(if (primary) accent else 0xFF262633.toInt(), 14); stateListAnimator = null
         setOnClickListener { onClick() }
     }
 
     private fun row(vararg views: View) = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-        views.forEachIndexed { i, v -> addView(v, LinearLayout.LayoutParams(0, dp(46), 1f).apply { if (i > 0) marginStart = dp(8) }) }
+        views.forEachIndexed { i, v -> addView(v, LinearLayout.LayoutParams(0, dp(48), 1f).apply { if (i > 0) marginStart = dp(8) }) }
     }
 
-    private fun toggle(label: String, key: String, def: Boolean = true, sum: String? = null) {
+    private fun toggle(label: String, key: String, iconRes: Int, def: Boolean = true, sum: String? = null) {
+        val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(6), 0, dp(6)) }
+        r.addView(badge(iconRes, accent, 36))
         val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         col.addView(tv(label, 15f))
         if (sum != null) col.addView(tv(sum, 12f, text2))
-        val sw = Switch(this).apply {
+        r.addView(col, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(12) })
+        r.addView(Switch(this).apply {
             isChecked = prefs.getBoolean(key, def)
             thumbTintList = ColorStateList.valueOf(accent)
             setOnCheckedChangeListener { _, v -> prefs.edit().putBoolean(key, v).apply() }
-        }
-        val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(6), 0, dp(6)) }
-        r.addView(col, LinearLayout.LayoutParams(0, -2, 1f)); r.addView(sw)
+        })
         lastSection?.addView(r)
     }
 
     private var lastSection: LinearLayout? = null
 
+    // ------------------------------------------------------------------ remote controls
+    private class Tile(val key: String, val view: LinearLayout, val badgeBg: GradientDrawable, val iconV: ImageView,
+                       val onRes: Int, val offRes: Int, val state: TextView, val permKey: String?)
+    private val tiles = ArrayList<Tile>()
+    private class Slide(val key: String, val bar: SeekBar, val value: TextView, val permKey: String?) { var dragging = false }
+    private val slides = ArrayList<Slide>()
+    private val ringerBtns = LinkedHashMap<String, TextView>()
+    private lateinit var themeBtn: Button
+    private lateinit var goalBtn: Button
+    private lateinit var controlsBox: LinearLayout
+
+    private fun ctl(): JSONObject? = prefs.getString("stats", null)?.let { JSONObject(it).optJSONObject("ctl") }
+
+    private fun sendCtl(k: String, v: Any?): Boolean {
+        val o = JSONObject().put("k", k); if (v != null) o.put("v", v)
+        if (!PhoneLinkService.send("ctl.set", o)) { toastNotConnected(); return false }
+        // optimistic: reflect the change right away, the watch confirms with fresh stats
+        prefs.getString("stats", null)?.let { st ->
+            val j = JSONObject(st); val c = j.optJSONObject("ctl") ?: JSONObject()
+            if (v != null) c.put(k, v); j.put("ctl", c); prefs.edit().putString("stats", j.toString()).apply()
+        }
+        render()
+        return true
+    }
+
+    private fun controlTile(key: String, label: String, onRes: Int, offRes: Int = onRes, permKey: String? = null): View {
+        val v = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            background = bg(0xFF20202A.toInt(), 16); setPadding(dp(12), dp(12), dp(12), dp(12))
+        }
+        val bgd = GradientDrawable().apply { shape = GradientDrawable.OVAL }
+        val ic = ImageView(this)
+        val badge = FrameLayout(this).apply { background = bgd; addView(ic, FrameLayout.LayoutParams(dp(20), dp(20), Gravity.CENTER)) }
+        v.addView(badge, LinearLayout.LayoutParams(dp(38), dp(38)))
+        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        col.addView(tv(label, 13.5f, bold = true).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END })
+        val st = tv("", 12f, text2).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END }
+        col.addView(st)
+        v.addView(col, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(10) })
+        v.setOnClickListener {
+            val c = ctl() ?: run { toastNotConnected(); return@setOnClickListener }
+            if (permKey != null && !c.optBoolean(permKey, true)) { toast(getString(R.string.c_needs_perm)); return@setOnClickListener }
+            sendCtl(key, !c.optBoolean(key))
+        }
+        tiles += Tile(key, v, bgd, ic, onRes, offRes, st, permKey)
+        return v
+    }
+
+    private fun grid(vararg views: View): LinearLayout {
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        views.toList().chunked(2).forEachIndexed { i, pair ->
+            val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+            pair.forEachIndexed { j, v -> r.addView(v, LinearLayout.LayoutParams(0, -2, 1f).apply { if (j > 0) marginStart = dp(8) }) }
+            if (pair.size == 1) r.addView(View(this), LinearLayout.LayoutParams(0, 1, 1f).apply { marginStart = dp(8) })
+            box.addView(r, LinearLayout.LayoutParams(-1, -2).apply { if (i > 0) topMargin = dp(8) })
+        }
+        return box
+    }
+
+    private fun slider(key: String, label: String, iconRes: Int, min: Int = 0, max: Int = 100, permKey: String? = null): View {
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(0, dp(8), 0, dp(4)) }
+        val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        head.addView(iconView(iconRes, accent, 20))
+        head.addView(tv(label, 14f), LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(10) })
+        val value = tv("--", 13f, text2)
+        head.addView(value)
+        box.addView(head)
+        val bar = SeekBar(this).apply {
+            this.max = max - min
+            progressTintList = ColorStateList.valueOf(accent); thumbTintList = ColorStateList.valueOf(accent)
+            progressBackgroundTintList = ColorStateList.valueOf(0xFF3A3A48.toInt())
+        }
+        val sl = Slide(key, bar, value, permKey)
+        bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(sb: SeekBar, p: Int, fromUser: Boolean) { if (fromUser) value.text = "${p + min}%" }
+            override fun onStartTrackingTouch(sb: SeekBar) { sl.dragging = true }
+            override fun onStopTrackingTouch(sb: SeekBar) {
+                sl.dragging = false
+                val c = ctl()
+                if (permKey != null && c != null && !c.optBoolean(permKey, true)) {
+                    toast(getString(if (permKey == "canBrightness") R.string.c_brightness_perm else R.string.c_needs_perm)); render(); return
+                }
+                sendCtl(key, sb.progress + min)
+            }
+        })
+        box.addView(bar, LinearLayout.LayoutParams(-1, dp(36)))
+        slides += sl
+        return box
+    }
+
+    private fun ringerRow(): View {
+        val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; background = bg(0xFF20202A.toInt(), 14); setPadding(dp(4), dp(4), dp(4), dp(4)) }
+        listOf(Triple("normal", R.string.c_normal, R.drawable.ic_notifications_active),
+               Triple("vibrate", R.string.c_vibrate_mode, R.drawable.ic_vibration),
+               Triple("silent", R.string.c_silent, R.drawable.ic_volume_off)).forEach { (k, l, ic) ->
+            val b = tv(getString(l), 13f, text2).apply {
+                gravity = Gravity.CENTER; setPadding(0, dp(10), 0, dp(10))
+                compoundDrawablePadding = dp(6); setCompoundDrawablesRelative(icon(ic, text2, 18), null, null, null)
+                setOnClickListener { sendCtl("ringer", k) }
+            }
+            ringerBtns[k] = b
+            r.addView(b, LinearLayout.LayoutParams(0, -2, 1f))
+        }
+        return r
+    }
+
     private fun build() {
         // header
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-        head.addView(tv("WatchLite", 26f, bold = true), LinearLayout.LayoutParams(0, -2, 1f))
+        head.addView(badge(R.drawable.ic_watch, accent, 44))
+        head.addView(tv("WatchLite", 24f, bold = true), LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(12) })
+        val chip = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; background = bg(card, 20); setPadding(dp(12), dp(6), dp(12), dp(6)) }
         statusDot = View(this).apply { background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFF555555.toInt()) } }
-        head.addView(statusDot, LinearLayout.LayoutParams(dp(10), dp(10)).apply { marginEnd = dp(8) })
+        chip.addView(statusDot, LinearLayout.LayoutParams(dp(9), dp(9)).apply { marginEnd = dp(8) })
         statusText = tv("", 13f, text2)
-        head.addView(statusText)
+        chip.addView(statusText)
+        head.addView(chip)
         root.addView(head)
 
         // watch status
-        val w = section(getString(R.string.sec_watch))
+        val w = section(getString(R.string.sec_watch), R.drawable.ic_watch)
         val big = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        battery = tv("--", 34f, bold = true); steps = tv("--", 34f, bold = true)
-        val bcol = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; addView(tv(getString(R.string.battery), 12f, text2)); addView(battery) }
-        val scol = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; addView(tv(getString(R.string.steps), 12f, text2)); addView(steps) }
-        big.addView(bcol, LinearLayout.LayoutParams(0, -2, 1f)); big.addView(scol, LinearLayout.LayoutParams(0, -2, 1f))
+        battery = tv("--", 28f, bold = true); steps = tv("--", 28f, bold = true)
+        batteryIcon = badge(R.drawable.ic_battery_full, 0xFF30D158.toInt(), 44)
+        batterySub = tv("", 12f, text2)
+        fun stat(b: View, title: String, value: TextView, sub: TextView?) = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            addView(b)
+            addView(LinearLayout(this@MainActivity).apply {
+                orientation = LinearLayout.VERTICAL; addView(tv(title, 12f, text2)); addView(value); if (sub != null) addView(sub)
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(10) })
+        }
+        big.addView(stat(batteryIcon, getString(R.string.battery), battery, batterySub), LinearLayout.LayoutParams(0, -2, 1f))
+        big.addView(stat(badge(R.drawable.ic_directions_walk, 0xFF30D158.toInt(), 44), getString(R.string.steps), steps, null), LinearLayout.LayoutParams(0, -2, 1f))
         w.addView(big)
         stepsBar = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
-            max = 1000; progressTintList = ColorStateList.valueOf(0xFF30D158.toInt())
+            max = 1000; progressTintList = ColorStateList.valueOf(0xFF30D158.toInt()); progressBackgroundTintList = ColorStateList.valueOf(0xFF2A2A36.toInt())
         }
-        w.addView(stepsBar, LinearLayout.LayoutParams(-1, dp(10)).apply { topMargin = dp(8) })
+        w.addView(stepsBar, LinearLayout.LayoutParams(-1, dp(8)).apply { topMargin = dp(12) })
         details = tv("", 12f, text2)
         w.addView(details, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
-        findBtn = button(getString(R.string.find_watch), true) {
+        findBtn = button(getString(R.string.find_watch), R.drawable.ic_phonelink_ring, true) {
             if (PhoneLinkService.watchRinging()) {
                 PhoneLinkService.watchRingingUntil = 0; PhoneLinkService.send("find.watch.stop")
             } else if (PhoneLinkService.send("find.watch")) PhoneLinkService.watchRingingUntil = System.currentTimeMillis() + 30_000
@@ -173,11 +319,35 @@ class MainActivity : Activity() {
             render()
             root.postDelayed({ render() }, 30_500)
         }
-        w.addView(row(button(getString(R.string.refresh)) { if (!PhoneLinkService.send("stats.request")) toastNotConnected() }, findBtn),
+        w.addView(row(button(getString(R.string.refresh), R.drawable.ic_sync) { if (!PhoneLinkService.send("stats.request")) toastNotConnected() }, findBtn),
             LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
 
+        // remote controls
+        controlsBox = section(getString(R.string.sec_controls), R.drawable.ic_settings)
+        controlsBox.addView(grid(
+            controlTile("wifi", getString(R.string.c_wifi), R.drawable.ic_wifi, R.drawable.ic_wifi_off),
+            controlTile("dnd", getString(R.string.c_dnd), R.drawable.ic_do_not_disturb_on, R.drawable.ic_do_not_disturb_off, "canDnd"),
+            controlTile("aod", getString(R.string.c_aod), R.drawable.ic_nightlight),
+            controlTile("chime", getString(R.string.c_chime), R.drawable.ic_alarm),
+            controlTile("notifBanner", getString(R.string.c_banner), R.drawable.ic_notifications),
+            controlTile("notifVibrate", getString(R.string.c_vibrate), R.drawable.ic_vibration)))
+        controlsBox.addView(tv(getString(R.string.c_ringer), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(16); bottomMargin = dp(6) })
+        controlsBox.addView(ringerRow())
+        controlsBox.addView(slider("brightness", getString(R.string.c_brightness), R.drawable.ic_light_mode, 1, 100, "canBrightness"), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
+        controlsBox.addView(slider("aodBrightness", getString(R.string.c_aod_brightness), R.drawable.ic_bedtime, 1, 60))
+        controlsBox.addView(slider("volMedia", getString(R.string.c_vol_media), R.drawable.ic_music_note))
+        controlsBox.addView(slider("volRing", getString(R.string.c_vol_ring), R.drawable.ic_notifications_active))
+        controlsBox.addView(slider("volAlarm", getString(R.string.c_vol_alarm), R.drawable.ic_alarm))
+        themeBtn = button(getString(R.string.c_theme), R.drawable.ic_palette) { chooseTheme() }
+        goalBtn = button(getString(R.string.c_goal), R.drawable.ic_flag) { editGoal() }
+        controlsBox.addView(row(themeBtn, goalBtn), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
+        controlsBox.addView(row(
+            button(getString(R.string.c_wake), R.drawable.ic_light_mode) { sendCtl("wake", null) },
+            button(getString(R.string.c_lock), R.drawable.ic_lock) { if (ctl()?.optBoolean("canLock") == false) toast(getString(R.string.c_no_lock)) else sendCtl("lock", null) }),
+            LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+
         // location
-        val l = section(getString(R.string.sec_location))
+        val l = section(getString(R.string.sec_location), R.drawable.ic_location_on)
         val mv = MapView(this).apply {
             setTileSource(TileSourceFactory.MAPNIK); setMultiTouchControls(true)
             controller.setZoom(15.0); controller.setCenter(GeoPoint(30.0444, 31.2357))
@@ -187,47 +357,109 @@ class MainActivity : Activity() {
         l.addView(mv, LinearLayout.LayoutParams(-1, dp(240)))
         locText = tv("", 12f, text2)
         l.addView(locText, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
-        l.addView(row(button(getString(R.string.locate_watch), true) {
+        l.addView(row(button(getString(R.string.locate_watch), R.drawable.ic_my_location, true) {
             if (!PhoneLinkService.send("watch.locate")) toastNotConnected() else toast(getString(R.string.locating))
-        }, button(getString(R.string.open_maps)) { openInMaps() }), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
+        }, button(getString(R.string.open_maps), R.drawable.ic_map) { openInMaps() }), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
 
         // pairing
-        val pr = section(getString(R.string.sec_pairing))
-        val name = tv("", 15f)
-        pr.addView(name)
+        val pr = section(getString(R.string.sec_pairing), R.drawable.ic_link)
+        val name = tv("", 15f, bold = true)
+        val nameRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        nameRow.addView(badge(R.drawable.ic_bluetooth, accent, 36))
+        nameRow.addView(name, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(12) })
+        pr.addView(nameRow)
         name.text = prefs.getString("watch_name", null) ?: getString(R.string.no_watch)
-        pr.addView(tv(getString(R.string.pair_help), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4) })
+        pr.addView(tv(getString(R.string.pair_help), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
         val code = EditText(this).apply {
             setText(prefs.getString("code", "")); hint = getString(R.string.code_hint); inputType = InputType.TYPE_CLASS_NUMBER
             setTextColor(0xFFFFFFFF.toInt()); setHintTextColor(text2); textSize = 20f; letterSpacing = 0.3f; gravity = Gravity.CENTER
+            background = bg(0xFF20202A.toInt(), 14); setPadding(dp(12), dp(12), dp(12), dp(12))
+            setCompoundDrawablesRelative(icon(R.drawable.ic_vpn_key, text2, 20), null, null, null)
         }
-        pr.addView(code, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
-        pr.addView(row(button(getString(R.string.choose_watch)) { chooseWatch { name.text = it } },
-            button(getString(R.string.connect), true) {
+        pr.addView(code, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
+        pr.addView(row(button(getString(R.string.choose_watch), R.drawable.ic_watch) { chooseWatch { name.text = it } },
+            button(getString(R.string.connect), R.drawable.ic_link, true) {
                 prefs.edit().putString("code", code.text.toString().trim()).apply()
                 if (prefs.getString("watch_addr", "").isNullOrEmpty()) chooseWatch { name.text = it; reconnect() } else reconnect()
             }), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
 
         // features
-        lastSection = section(getString(R.string.sec_features))
-        toggle(getString(R.string.f_notif), "mod_notif", sum = getString(R.string.f_notif_sum))
-        toggle(getString(R.string.f_battery), "mod_battery")
-        toggle(getString(R.string.f_find), "mod_find", sum = getString(R.string.f_find_sum))
-        lastSection?.addView(button(getString(R.string.muted_apps)) { mutedAppsDialog() }, LinearLayout.LayoutParams(-1, dp(46)).apply { topMargin = dp(6) })
+        lastSection = section(getString(R.string.sec_features), R.drawable.ic_notifications)
+        toggle(getString(R.string.f_notif), "mod_notif", R.drawable.ic_notifications, sum = getString(R.string.f_notif_sum))
+        toggle(getString(R.string.f_battery), "mod_battery", R.drawable.ic_battery_full)
+        toggle(getString(R.string.f_find), "mod_find", R.drawable.ic_phonelink_ring, sum = getString(R.string.f_find_sum))
+        lastSection?.addView(button(getString(R.string.muted_apps), R.drawable.ic_phone_android) { mutedAppsDialog() }, LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(6) })
 
         // permissions
-        val pm = section(getString(R.string.sec_permissions))
-        pm.addView(button(getString(R.string.perm_notif)) {
+        val pm = section(getString(R.string.sec_permissions), R.drawable.ic_shield)
+        pm.addView(button(getString(R.string.perm_notif), R.drawable.ic_notifications) {
             startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
-        }, LinearLayout.LayoutParams(-1, dp(46)))
-        pm.addView(button(getString(R.string.perm_battery)) { askIgnoreBattery() }, LinearLayout.LayoutParams(-1, dp(46)).apply { topMargin = dp(8) })
-        pm.addView(button(getString(R.string.perm_app_settings)) {
+        }, LinearLayout.LayoutParams(-1, dp(48)))
+        pm.addView(button(getString(R.string.perm_battery), R.drawable.ic_battery_full) { askIgnoreBattery() }, LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(8) })
+        pm.addView(button(getString(R.string.perm_app_settings), R.drawable.ic_settings) {
             startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
-        }, LinearLayout.LayoutParams(-1, dp(46)).apply { topMargin = dp(8) })
+        }, LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(8) })
         pm.addView(tv(getString(R.string.huawei_tip), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
 
         root.addView(tv(getString(R.string.developed_by), 12f, text2).apply { gravity = Gravity.CENTER },
             LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(20) })
+    }
+
+    private fun renderControls(connected: Boolean) {
+        val c = ctl()
+        controlsBox.alpha = if (connected && c != null) 1f else 0.5f
+        for (t in tiles) {
+            val on = c?.optBoolean(t.key) == true
+            val allowed = t.permKey == null || c?.optBoolean(t.permKey, true) != false
+            val col = if (on) accent else text2
+            t.badgeBg.setColor(if (on) accent else 0xFF2E2E3A.toInt())
+            t.iconV.setImageDrawable(icon(if (on) t.onRes else t.offRes, if (on) 0xFFFFFFFF.toInt() else text2, 20))
+            t.state.text = getString(if (!allowed) R.string.c_needs_perm else if (on) R.string.c_on else R.string.c_off)
+            t.state.setTextColor(if (!allowed) 0xFFFF9F0A.toInt() else col)
+        }
+        for (s in slides) {
+            if (s.dragging || c == null || !c.has(s.key)) continue
+            val min = if (s.key == "brightness" || s.key == "aodBrightness") 1 else 0
+            val v = c.optInt(s.key)
+            s.bar.progress = (v - min).coerceIn(0, s.bar.max)
+            s.value.text = "$v%"
+            s.bar.isEnabled = s.permKey == null || c.optBoolean(s.permKey, true)
+        }
+        val ringer = c?.optString("ringer")
+        ringerBtns.forEach { (k, b) ->
+            val sel = k == ringer
+            b.background = if (sel) bg(accent, 11) else null
+            b.setTextColor(if (sel) 0xFFFFFFFF.toInt() else text2)
+            b.compoundDrawablesRelative[0]?.setTint(if (sel) 0xFFFFFFFF.toInt() else text2)
+        }
+        val themes = themesList()
+        val cur = themes.firstOrNull { it.first == c?.optString("theme") }?.second
+        themeBtn.text = cur ?: getString(R.string.c_theme)
+        goalBtn.text = c?.optInt("goal", 0)?.takeIf { it > 0 }?.let { "%,d".format(it) } ?: getString(R.string.c_goal)
+    }
+
+    private fun themesList(): List<Pair<String, String>> {
+        val a = try { org.json.JSONArray(prefs.getString("themes", "[]")) } catch (_: Exception) { org.json.JSONArray() }
+        return (0 until a.length()).map { a.getJSONObject(it).let { o -> o.optString("id") to o.optString("name") } }
+    }
+
+    private fun chooseTheme() {
+        val t = themesList()
+        if (t.isEmpty()) { PhoneLinkService.send("stats.request"); toast(getString(R.string.c_no_themes)); return }
+        val cur = t.indexOfFirst { it.first == ctl()?.optString("theme") }
+        AlertDialog.Builder(this).setTitle(R.string.c_theme)
+            .setSingleChoiceItems(t.map { it.second }.toTypedArray(), cur) { d, i -> sendCtl("theme", t[i].first); d.dismiss() }.show()
+    }
+
+    private fun editGoal() {
+        val e = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_NUMBER; hint = getString(R.string.c_goal_hint)
+            setText(ctl()?.optInt("goal", 6000)?.toString() ?: "6000"); gravity = Gravity.CENTER; textSize = 20f
+        }
+        val box = FrameLayout(this).apply { setPadding(dp(24), dp(8), dp(24), 0); addView(e) }
+        AlertDialog.Builder(this).setTitle(R.string.c_goal).setView(box)
+            .setPositiveButton(android.R.string.ok) { _, _ -> e.text.toString().toIntOrNull()?.let { sendCtl("goal", it.coerceIn(500, 100_000)) } }
+            .setNegativeButton(android.R.string.cancel, null).show()
     }
 
     private fun render() {
@@ -244,7 +476,12 @@ class MainActivity : Activity() {
 
         prefs.getString("stats", null)?.let {
             val s = JSONObject(it)
-            battery.text = "${s.optInt("battery")}%" + if (s.optBoolean("charging")) " ⚡" else ""
+            val lvl = s.optInt("battery"); val chg = s.optBoolean("charging")
+            battery.text = "$lvl%"
+            batterySub.text = getString(if (chg) R.string.charging else R.string.not_charging)
+            val bcol = when { chg -> 0xFF30D158.toInt(); lvl <= 15 -> 0xFFFF453A.toInt(); lvl <= 30 -> 0xFFFF9F0A.toInt(); else -> 0xFF30D158.toInt() }
+            (batteryIcon.background as GradientDrawable).setColor((bcol and 0x00FFFFFF) or 0x2A000000)
+            (batteryIcon.getChildAt(0) as ImageView).setImageDrawable(icon(if (chg) R.drawable.ic_bolt else R.drawable.ic_battery_full, bcol, 22))
             val stp = s.optInt("steps"); val goal = s.optInt("goal", 6000).coerceAtLeast(1)
             steps.text = "%,d".format(stp)
             stepsBar.progress = (stp * 1000 / goal).coerceAtMost(1000)
@@ -252,6 +489,7 @@ class MainActivity : Activity() {
             details.text = getString(R.string.stats_details, "%,d".format(goal), s.optString("theme"), s.optString("model"),
                 s.optString("android"), DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(t)))
         }
+        renderControls(PhoneLinkService.connected)
         prefs.getString("loc", null)?.let {
             val o = JSONObject(it)
             val p = GeoPoint(o.getDouble("lat"), o.getDouble("lng"))
