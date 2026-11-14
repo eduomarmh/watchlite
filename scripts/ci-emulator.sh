@@ -107,12 +107,18 @@ adb shell dumpsys battery reset
 adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool aod_enabled --es ci_str aod_charging_mode=normal; sleep 4
 adb shell input keyevent KEYCODE_HOME; sleep 4
 adb logcat -c
-adb shell input keyevent KEYCODE_HOME; sleep 3
-shot "x_30_aod_by_home" 1
 adb shell input keyevent KEYCODE_HOME; sleep 4
+if ! adb logcat -d | grep -q "WL-AOD  : enter"; then   # we were in AOD already → this press woke it; press once more to enter
+  adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 4
+fi
+shot "x_30_aod_by_home" 1
+adb logcat -c
+adb shell input keyevent KEYCODE_HOME; sleep 5
 shot "x_31_home_wakes" 1
 adb logcat -d | grep -E "WL-AOD|WL-Home" > $OUT/aod_home_check.txt || true
-if [ "$(grep 'WL-AOD' $OUT/aod_home_check.txt | tail -1 | grep -c exit)" != "1" ]; then echo "Home in AOD did not leave AOD" > $OUT/CRASHED; fi
+if ! grep -q "WL-AOD  : exit" $OUT/aod_home_check.txt || grep -q "WL-AOD  : enter" $OUT/aod_home_check.txt; then
+  echo "Home in AOD did not wake the screen" > $OUT/CRASHED
+fi
 
 # 7) Phone companion UI smoke test (renders, no crash)
 if [ -f app/build/outputs/apk/phone-release.apk ]; then
