@@ -140,7 +140,9 @@ tile_xy() {  # prints "x y" centre of the view whose content-desc matches $1
     sed -E 's/.*bounds="\[([0-9]+),([0-9]+)\]\[([0-9]+),([0-9]+)\]".*/\1 \2 \3 \4/' | awk '{print int(($1+$3)/2), int(($2+$4)/2)}'
 }
 adb shell svc wifi enable; sleep 3
-adb shell input keyevent KEYCODE_HOME; sleep 2
+# make sure we're on the awake face (Home toggles AOD)
+adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 3
+if adb logcat -d | grep -q "WL-AOD  : enter"; then adb shell input keyevent KEYCODE_HOME; sleep 3; fi
 swipe 30 190 290 190; sleep 2
 shot "x_39_control_open" 0
 XY=$(tile_xy "واي فاي"); [ -z "$XY" ] && XY=$(tile_xy "Wi-Fi")
