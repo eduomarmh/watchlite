@@ -81,6 +81,11 @@ object LinkManager {
             "weather.update" -> if (enabled("weather")) { st.weatherTemp = p.optString("temp"); st.weatherDesc = p.optString("desc") }
             "media.state" -> if (enabled("media")) {
                 st.mediaTitle = p.optString("title"); st.mediaArtist = p.optString("artist"); st.mediaPlaying = p.optBoolean("playing")
+                // cover art only travels when the track changes; "art":"" means the new track has none
+                if (p.has("art")) st.mediaArt = p.optString("art").takeIf { it.isNotEmpty() }?.let {
+                    try { val b = Base64.decode(it, Base64.DEFAULT); BitmapFactory.decodeByteArray(b, 0, b.size) } catch (_: Throwable) { null }
+                }
+                if (st.mediaTitle.isEmpty()) st.mediaArt = null
             }
             "location.state" -> if (App.prefs.locationMode == "phone") {
                 App.prefs.latitude = p.optDouble("lat", App.prefs.latitude.toDouble()).toFloat()

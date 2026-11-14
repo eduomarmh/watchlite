@@ -174,6 +174,8 @@ class DeviceState {
     @Volatile var mediaTitle = ""
     @Volatile var mediaArtist = ""
     @Volatile var mediaPlaying = false
+    /** Cover art of the track playing on the phone (small JPEG sent with media.state), or null. */
+    @Volatile var mediaArt: android.graphics.Bitmap? = null
     @Volatile var linkConnected = false
 
     private val listeners = ArrayList<() -> Unit>()

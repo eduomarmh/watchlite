@@ -50,7 +50,7 @@ class LinkExtras(private val ctx: Context) {
 
     /** Called each time the link (re)connects: push the current state once. */
     fun onConnected() {
-        lastNet = ""; lastMedia = ""
+        lastNet = ""; lastMedia = ""; lastTrack = ""
         sendNet(currentNet())
         sendMedia()
         maybeWeather(force = System.currentTimeMillis() - prefs.getLong("weather_time", 0) > 45 * 60_000L)
@@ -98,6 +98,22 @@ class LinkExtras(private val ctx: Context) {
     private var msm: MediaSessionManager? = null
     private var controller: MediaController? = null
     private var lastMedia = ""
+    private var lastTrack = ""
+
+    private fun artBase64(md: MediaMetadata?): String? {
+        md ?: return null
+        val src = md.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART) ?: md.getBitmap(MediaMetadata.METADATA_KEY_ART)
+            ?: md.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON) ?: return null
+        return try {
+            val side = minOf(src.width, src.height)
+            val sq = android.graphics.Bitmap.createBitmap(src, (src.width - side) / 2, (src.height - side) / 2, side, side)
+            val small = android.graphics.Bitmap.createScaledBitmap(sq, 104, 104, true)
+            val out = java.io.ByteArrayOutputStream()
+            small.compress(android.graphics.Bitmap.CompressFormat.JPEG, 78, out)
+            if (small !== sq) small.recycle(); if (sq !== src) sq.recycle()
+            android.util.Base64.encodeToString(out.toByteArray(), android.util.Base64.NO_WRAP)
+        } catch (_: Throwable) { null }
+    }
     private val listenerCn get() = ComponentName(ctx, PhoneNotifListener::class.java)
 
     private val sessionsCb = MediaSessionManager.OnActiveSessionsChangedListener { list -> attach(list?.firstOrNull()) }
@@ -139,7 +155,11 @@ class LinkExtras(private val ctx: Context) {
         val playing = c?.playbackState?.state == PlaybackState.STATE_PLAYING
         val key = "$title|$artist|$playing"
         if (key == lastMedia) return
-        if (PhoneLinkService.send("media.state", JSONObject().put("title", title).put("artist", artist).put("playing", playing))) lastMedia = key
+        val o = JSONObject().put("title", title).put("artist", artist).put("playing", playing)
+        // cover art: only when the track changes, ~100 px JPEG (a few KB)
+        val track = "$title|$artist"
+        if (track != lastTrack) o.put("art", artBase64(md) ?: "")
+        if (PhoneLinkService.send("media.state", o)) { lastMedia = key; lastTrack = track }
     }
 
     // ------------------------------------------------------------------ weather + location (hourly, coarse, no GPS)

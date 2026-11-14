@@ -36,7 +36,7 @@ key = first 16 bytes of `SHA-256("watchlite-v1:" + pairingCode)`. The 6-digit pa
 | phone→watch | `location.state` | `{lat, lng}` |
 | phone→watch | `contacts.sync` | `{contacts:[{name, numbers:[…]}]}` |
 | phone→watch | `weather.update` | `{temp:"24°", desc:"Sunny"}` |
-| phone→watch | `media.state` | `{title, artist, playing}` |
+| phone→watch | `media.state` | `{title, artist, playing, art?}`; `art` = base64 JPEG cover (~104 px) sent only when the track changes, "" = no cover |
 | watch→phone | `media.cmd` | `{cmd:"toggle"/"next"/"prev"}` |
 | phone→watch | `theme.install` | chunks `{id, index, total, apply, data(base64 of .wtheme)}` (48 KB each; `apply` selects it after install); watch replies `theme.installed {id}` or `theme.error {id,error}` |
 | phone→watch | `theme.apply` | `{id}` |

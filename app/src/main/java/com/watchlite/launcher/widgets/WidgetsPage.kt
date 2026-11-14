@@ -171,14 +171,37 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         // Music (from phone)
         if (st.mediaTitle.isNotEmpty() && LinkManager.enabled("media")) {
             val c = ui.card()
-            c.addView(ui.text(st.mediaTitle, 5.6f, Ui.TEXT, 2))
-            c.addView(ui.text(st.mediaArtist, 4.8f, Ui.TEXT2))
+            val head = ui.hbox()
+            // cover art (or a music note when the player gives none)
+            val art = android.widget.ImageView(ctx).apply {
+                val bmp = st.mediaArt
+                if (bmp != null) { setImageBitmap(bmp); scaleType = android.widget.ImageView.ScaleType.CENTER_CROP }
+                else {
+                    setImageResource(R.drawable.ic_music_note); imageTintList = android.content.res.ColorStateList.valueOf(ui.accent)
+                    val pd = ui.px(3.5f); setPadding(pd, pd, pd, pd)
+                    background = ui.rounded(Ui.CARD2, ui.px(3f).toFloat())
+                }
+                outlineProvider = object : android.view.ViewOutlineProvider() {
+                    override fun getOutline(v: android.view.View, o: android.graphics.Outline) { o.setRoundRect(0, 0, v.width, v.height, ui.px(3f).toFloat()) }
+                }
+                clipToOutline = true
+            }
+            head.addView(art, ui.lp(ui.px(17f), ui.px(17f), end = 3f))
+            val texts = ui.vbox()
+            texts.addView(ui.text(st.mediaTitle, 5.4f, Ui.TEXT, 2))
+            if (st.mediaArtist.isNotEmpty()) texts.addView(ui.text(st.mediaArtist, 4.6f, Ui.TEXT2, 1))
+            head.addView(texts, ui.lp(0, weight = 1f))
+            c.addView(head)
             val row = ui.hbox().apply { gravity = Gravity.CENTER }
-            fun cmd(label: String, a: String) = ui.pill(label) { LinkManager.send("media.cmd", JSONObject().put("cmd", a)) }
-            row.addView(cmd("⏮", "prev"), ui.lp(0, end = 1f, weight = 1f))
-            row.addView(cmd(if (st.mediaPlaying) "⏸" else "▶", "toggle"), ui.lp(0, end = 1f, weight = 1f))
-            row.addView(cmd("⏭", "next"), ui.lp(0, weight = 1f))
-            c.addView(row, ui.lp(top = 2f))
+            fun cmd(icon: Int, a: String, main: Boolean = false) = ui.circleButton(icon, if (main) 14f else 11.5f,
+                bg = if (main) ui.accent else Ui.CARD2, tint = if (main) Ui.BG else Ui.TEXT) {
+                LinkManager.send("media.cmd", JSONObject().put("cmd", a))
+                if (a == "toggle") { st.mediaPlaying = !st.mediaPlaying; build() }   // instant feedback, the phone confirms
+            }
+            row.addView(cmd(R.drawable.ic_skip_previous, "prev"), ui.lp(ui.px(11.5f), ui.px(11.5f), end = 4f))
+            row.addView(cmd(if (st.mediaPlaying) R.drawable.ic_pause else R.drawable.ic_play_arrow, "toggle", true), ui.lp(ui.px(14f), ui.px(14f), end = 4f))
+            row.addView(cmd(R.drawable.ic_skip_next, "next"), ui.lp(ui.px(11.5f), ui.px(11.5f)))
+            c.addView(row, ui.lp(top = 2.5f))
             box.addView(c, ui.lp(bottom = 2.5f))
         }
 

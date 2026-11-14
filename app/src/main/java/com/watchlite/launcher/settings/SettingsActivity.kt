@@ -92,6 +92,11 @@ class SettingsActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ui = Ui(this)
+        // CI hook (debug builds only): --es ci_link <base64 of a link message> feeds it to the link handler
+        if (BuildConfig.DEBUG) intent.getStringExtra("ci_link")?.let { b64 ->
+            try { com.watchlite.launcher.link.LinkManager.handle(String(android.util.Base64.decode(b64, android.util.Base64.DEFAULT))) } catch (t: Throwable) { Log.w("CI", "ci_link", t) }
+            finish(); return
+        }
         // CI hook (debug builds only): --es ci_bool "key1,key2" sets boolean prefs to true, then closes
         if (BuildConfig.DEBUG) intent.getStringExtra("ci_bool")?.let { keys ->
             val ed = p.sp.edit(); keys.split(',').forEach { ed.putBoolean(it.trim(), true) }

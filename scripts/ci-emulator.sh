@@ -178,6 +178,26 @@ for name in "دائمة" "توفير" "عدم الإزعاج" "بلوتوث"; do
 done
 adb shell input keyevent KEYCODE_HOME; sleep 2
 
+# 6d) Music widget: simulated "now playing" from the phone, with cover art
+B64=$(python3 - <<'PY'
+import base64, io, json
+from PIL import Image, ImageDraw
+im = Image.new("RGB", (104, 104))
+d = ImageDraw.Draw(im)
+for y in range(104): d.line([(0, y), (104, y)], fill=(40 + y, 20, 120 + y))
+d.ellipse([30, 30, 74, 74], fill=(255, 200, 80))
+b = io.BytesIO(); im.save(b, "JPEG", quality=78)
+msg = {"type": "media.state", "payload": {"title": "Test Track Title", "artist": "Artist Name", "playing": True, "art": base64.b64encode(b.getvalue()).decode()}}
+print(base64.b64encode(json.dumps(msg).encode()).decode())
+PY
+)
+adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool link_enabled; sleep 3
+adb shell am start -n $PKG/.settings.SettingsActivity --es ci_link "$B64"; sleep 3
+adb shell input keyevent KEYCODE_HOME; sleep 2
+swipe 160 340 160 40; sleep 2
+for k in 1 2 3; do shot "x_50_music_$k" 1; swipe 160 300 160 120 300; done
+adb shell input keyevent KEYCODE_BACK; sleep 1
+
 # 7) Phone companion UI smoke test (renders, no crash)
 if [ -f app/build/outputs/apk/phone-release.apk ]; then
   adb install -r -g app/build/outputs/apk/phone-release.apk || true

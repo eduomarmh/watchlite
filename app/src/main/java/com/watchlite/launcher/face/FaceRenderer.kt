@@ -111,7 +111,7 @@ class FaceRenderer(private val ctx: Context) {
         if ("steps" in set && App.I.steps.available) parts += Digits.apply("${App.I.steps.today}", ar) + " ↑"
         if ("prayer" in set && !App.prefs.aodPrayer && data.nextPrayerName.isNotEmpty()) parts += "${data.nextPrayerName} ${data.nextPrayerTime}"
         if ("date" in set) parts += Digits.apply(data.formatDate("EEE d", cal), ar)
-        if ("phone" in set && App.I.state.phoneBattery >= 0) parts += Digits.apply("📱${App.I.state.phoneBattery}%", ar)
+        if ("phone" in set && App.I.state.phoneBattery >= 0) parts += Digits.apply((if (ar) "الموبايل " else "Phone ") + "${App.I.state.phoneBattery}%", ar)
         val short = min(w, h).toFloat()
         val col = App.prefs.aodColor.takeIf { it != 0 } ?: 0xFF9A9AA0.toInt()
         val a = (Color.alpha(col) * alpha).toInt()
