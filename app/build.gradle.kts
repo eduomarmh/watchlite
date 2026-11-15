@@ -25,10 +25,12 @@ android {
     // One fixed signing key (kept in this private repo) so new APKs update the installed app
     signingConfigs {
         create("watchlite") {
+            // the signing key is NOT in the repo: CI writes it from the WL_KEYSTORE_B64 secret,
+            // locally put your copy at keystore/watchlite.jks (git-ignored)
             storeFile = rootProject.file("keystore/watchlite.jks")
-            storePassword = "REMOVED"
+            storePassword = System.getenv("WL_KEYSTORE_PASSWORD") ?: (project.findProperty("wlKeystorePassword") as String?) ?: ""
             keyAlias = "watchlite"
-            keyPassword = "REMOVED"
+            keyPassword = System.getenv("WL_KEYSTORE_PASSWORD") ?: (project.findProperty("wlKeystorePassword") as String?) ?: ""
         }
     }
 

@@ -21,7 +21,15 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Unit tests
         run: ./gradlew --no-daemon testDebugUnitTest
+      - name: Signing key (from repository secrets)
+        env:
+          WL_KEYSTORE_B64: ${{ secrets.WL_KEYSTORE_B64 }}
+        run: |
+          mkdir -p keystore
+          if [ -n "$WL_KEYSTORE_B64" ]; then echo "$WL_KEYSTORE_B64" | base64 -d > keystore/watchlite.jks; else echo "::error::WL_KEYSTORE_B64 secret missing"; exit 1; fi
       - name: Build APKs
+        env:
+          WL_KEYSTORE_PASSWORD: ${{ secrets.WL_KEYSTORE_PASSWORD }}
         run: ./gradlew --no-daemon assembleDebug assembleRelease assembleDebugAndroidTest
       - name: Lint (report only)
         run: ./gradlew --no-daemon lintDebug || true
