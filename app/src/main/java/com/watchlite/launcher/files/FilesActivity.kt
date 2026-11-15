@@ -136,7 +136,7 @@ class FilesActivity : Activity() {
     }
 
     private fun home() {
-        if (!App.I.state.linkConnected) list.addView(ui.text(s(R.string.files_not_connected), 4.4f, Ui.TEXT2).apply { gravity = Gravity.CENTER }, ui.lp(bottom = 2f))
+        if (!App.I.state.linkConnected) list.addView(ui.text(s(R.string.files_not_connected), 4.4f, Ui.TEXT2, 1, 3).apply { gravity = Gravity.CENTER }, ui.lp(bottom = 2f))
         val inbox = FileTransfer.inbox(this)
         header(s(R.string.files_received))
         val got = inbox.listFiles()?.filter { it.isFile }?.sortedByDescending { it.lastModified() } ?: emptyList()

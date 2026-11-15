@@ -74,7 +74,7 @@ object LinkManager {
             "find.watch.stop" -> findWatch(false, remote = true)
             "find.phone.stopped" -> { phoneRingingUntil = 0; App.I.state.changed() }
             "time.sync" -> Unit
-            "file.start", "file.chunk", "file.end", "file.cancel", "file.done" -> if (App.prefs.linkEnabled) FileTransfer.handle(app, type, p)
+            "file.start", "file.chunk", "file.end", "file.cancel", "file.done" -> if (App.prefs.linkEnabled) FileTransfer.handle(App.I, type, p)
             "notif.post", "notif.update" -> if (enabled("notif")) postPhoneNotification(p)
             "notif.remove" -> App.I.notifications.remove("phone:" + p.optString("key"))
             "battery.phone" -> if (enabled("battery")) { st.phoneBattery = p.optInt("level", -1); st.phoneCharging = p.optBoolean("charging") }
