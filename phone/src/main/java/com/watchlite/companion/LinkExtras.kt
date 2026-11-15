@@ -32,8 +32,8 @@ import java.util.Locale
  */
 class LinkExtras(private val ctx: Context) {
     private val io = java.util.concurrent.Executors.newSingleThreadExecutor()
-    private fun safe(what: String, f: () -> Unit) = try { f() } catch (t: Throwable) { Log.w("WLC", "extras $what", t) }
-    private fun sendAsync(type: String, p: JSONObject, ok: () -> Unit = {}) = io.execute { safe(type) { if (PhoneLinkService.send(type, p)) main.post(ok) } }
+    private fun safe(what: String, f: () -> Unit) { try { f() } catch (t: Throwable) { Log.w("WLC", "extras $what", t) } }
+    private fun sendAsync(type: String, p: JSONObject, ok: () -> Unit = {}) { if (!io.isShutdown) io.execute { safe(type) { if (PhoneLinkService.send(type, p)) main.post(ok) } } }
     private val prefs get() = CompanionApp.prefs
     private val main = Handler(Looper.getMainLooper())
     private fun on(key: String, def: Boolean = true) = prefs.getBoolean(key, def)
