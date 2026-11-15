@@ -238,7 +238,8 @@ for i in range(0, len(data), 32768):
 msgs.append({"type": "file.end", "payload": {"fid": fid, "n": len(msgs) - 1}})
 for m in msgs: print(base64.b64encode(json.dumps(m).encode()).decode())
 PY
-while read -r M; do adb shell am start -n $PKG/.settings.SettingsActivity --es ci_link "$M" >/dev/null; sleep 1.5; done < $OUT/file_msgs.txt
+adb shell am force-stop $PKG; sleep 2    # no old Settings task: each message must reach a fresh activity
+while read -r M; do adb shell am start -n $PKG/.settings.SettingsActivity --activity-clear-task --es ci_link "$M" >> $OUT/files_am.txt 2>&1; sleep 1.5; done < $OUT/file_msgs.txt
 sleep 2
 adb shell ls -l /sdcard/Download/WatchLite/ > $OUT/files_check.txt 2>&1 || true
 adb shell ls -l /sdcard/Android/data/$PKG/files/received/ >> $OUT/files_check.txt 2>&1 || true
