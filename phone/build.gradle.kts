@@ -14,8 +14,8 @@ android {
         targetSdk = 33
         // CI passes the GitHub run number, so every build installs as an update
         val build = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
-        versionCode = 100 + build
-        versionName = "1.1.$build"
+        versionCode = 1000 + build   // new repo restarted run numbers: 1000+ keeps every build above the old 1xx ones
+        versionName = "1.2.$build"
         resourceConfigurations += listOf("en", "ar")
     }
     // One fixed signing key (kept in this private repo) so new APKs update the installed app
