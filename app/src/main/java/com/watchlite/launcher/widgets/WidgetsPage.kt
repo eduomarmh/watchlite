@@ -67,7 +67,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         }
         /** User order (Settings → Widgets), with any card it doesn't know yet appended in default order. */
         fun order(): List<String> {
-            val saved = App.prefs.widgetOrder.split(',').map { it.trim() }.filter { it in DEFAULT }.distinct()
+            val saved = App.prefs.widgetOrder.split(',', ';').map { it.trim() }.filter { it in DEFAULT }.distinct()
             return saved + DEFAULT.filter { it !in saved }
         }
     }

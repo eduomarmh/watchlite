@@ -209,19 +209,19 @@ PY
 adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool link_enabled; sleep 3
 adb shell am start -n $PKG/.settings.SettingsActivity --es ci_link "$B64"; sleep 3
 adb shell input keyevent KEYCODE_HOME; sleep 2
-swipe 160 340 160 40; sleep 2
+adb shell input swipe 160 380 160 60 180; sleep 3
 shot "x_50_music_1" 1
 adb shell input keyevent KEYCODE_BACK; sleep 1
 
 # 6e) Widget order: battery first, music hidden is not possible via strings, so only order here
-adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool link_enabled --es ci_str widget_order=battery,prayer,steps; sleep 3
+adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool link_enabled --es ci_str 'widget_order=battery;prayer;steps'; sleep 3
 adb shell am start -n $PKG/.settings.SettingsActivity --es screen widgets; sleep 3
 shot "x_60_widgets_settings" 1
 swipe 160 300 160 100 300; shot "x_61_widgets_settings2" 1
 adb shell input keyevent KEYCODE_HOME; sleep 2
 adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 2.5
 if adb logcat -d | grep -q "WL-AOD  : enter"; then adb shell input keyevent KEYCODE_HOME; sleep 2.5; fi
-swipe 160 340 160 40; sleep 3
+adb shell input swipe 160 380 160 60 180; sleep 3
 shot "x_62_widgets_page" 1
 adb shell input keyevent KEYCODE_BACK; sleep 1
 
