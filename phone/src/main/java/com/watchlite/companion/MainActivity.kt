@@ -64,6 +64,66 @@ class MainActivity : Activity() {
     private lateinit var findBtn: Button
     private lateinit var batteryIcon: FrameLayout
     private lateinit var batterySub: TextView
+    private lateinit var filesBox: LinearLayout
+    private var filesKey = ""
+
+    @Deprecated("simple result API is enough here")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != 21 || resultCode != RESULT_OK || data == null) return
+        val uris = ArrayList<Uri>()
+        data.clipData?.let { c -> for (i in 0 until c.itemCount) uris += c.getItemAt(i).uri }
+        if (uris.isEmpty()) data.data?.let { uris += it }
+        if (!PhoneLinkService.connected) { toastNotConnected(); return }
+        FileTransfer.enqueue(this, uris)
+    }
+
+    private fun size(b: Long) = when {
+        b >= 1048576 -> "%.1f MB".format(b / 1048576.0); b >= 1024 -> "${b / 1024} KB"; else -> "$b B"
+    }
+
+    private fun renderFiles() {
+        val o = FileTransfer.outgoing; val i = FileTransfer.incoming
+        val key = listOf(o, i).joinToString { if (it == null) "-" else it.fid + it.state + (it.done * 100 / it.size.coerceAtLeast(1)) } + FileTransfer.received().size
+        if (key == filesKey) return
+        filesKey = key
+        filesBox.removeAllViews()
+        for (pr in listOfNotNull(o, i)) {
+            val c = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; background = bg(0xFF20202A.toInt(), 14); setPadding(dp(12), dp(10), dp(12), dp(10)) }
+            val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+            head.addView(iconView(if (pr.outgoing) R.drawable.ic_upload_file else R.drawable.ic_download, accent, 20))
+            head.addView(tv(pr.name, 14f, bold = true).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.MIDDLE },
+                LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(10) })
+            c.addView(head)
+            val status = when (pr.state) {
+                "ok" -> getString(if (pr.outgoing) R.string.file_sent_ok else R.string.file_saved)
+                "fail" -> getString(R.string.file_failed); "cancel" -> getString(R.string.file_cancelled)
+                else -> getString(if (pr.outgoing) R.string.file_sending else R.string.file_receiving) + " · " + size(pr.done) + " / " + size(pr.size)
+            }
+            if (pr.state == "run") c.addView(ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
+                max = 1000; progress = (pr.done * 1000 / pr.size.coerceAtLeast(1)).toInt(); progressTintList = ColorStateList.valueOf(accent)
+            }, LinearLayout.LayoutParams(-1, dp(8)).apply { topMargin = dp(8) })
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+            row.addView(tv(status, 12f, if (pr.state == "fail") 0xFFFF453A.toInt() else text2), LinearLayout.LayoutParams(0, -2, 1f))
+            if (pr.state == "run") row.addView(tv(getString(R.string.cancel_transfer), 13f, accent, true).apply {
+                setPadding(dp(8), dp(6), dp(8), dp(6)); setOnClickListener { FileTransfer.cancel() }
+            })
+            c.addView(row, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6) })
+            filesBox.addView(c, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+        }
+        val got = FileTransfer.received()
+        if (got.isNotEmpty()) filesBox.addView(tv(getString(R.string.files_from_watch), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
+        got.take(6).forEach { (name, uri, time) ->
+            val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(8), 0, dp(8)) }
+            r.addView(iconView(R.drawable.ic_description, accent, 20))
+            val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+            col.addView(tv(name, 14f).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.MIDDLE })
+            col.addView(tv(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(time)), 11.5f, text2))
+            r.addView(col, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(10) })
+            r.setOnClickListener { try { startActivity(FileTransfer.viewIntent(name, uri)) } catch (_: Exception) { toast(getString(R.string.no_viewer)) } }
+            filesBox.addView(r)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -349,6 +409,16 @@ class MainActivity : Activity() {
             button(getString(R.string.c_lock), R.drawable.ic_lock) { if (ctl()?.optBoolean("canLock") == false) toast(getString(R.string.c_no_lock)) else sendCtl("lock", null) }),
             LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
 
+        // files
+        val fs = section(getString(R.string.sec_files), R.drawable.ic_folder)
+        fs.addView(button(getString(R.string.send_file), R.drawable.ic_upload_file, true) {
+            val i = Intent(Intent.ACTION_GET_CONTENT).setType("*/*").addCategory(Intent.CATEGORY_OPENABLE).putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            try { startActivityForResult(Intent.createChooser(i, getString(R.string.send_file)), 21) } catch (_: Exception) { }
+        }, LinearLayout.LayoutParams(-1, dp(48)))
+        filesBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        fs.addView(filesBox, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6) })
+        fs.addView(tv(getString(R.string.files_hint), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+
         // location
         val l = section(getString(R.string.sec_location), R.drawable.ic_location_on)
         val mv = MapView(this).apply {
@@ -497,6 +567,7 @@ class MainActivity : Activity() {
                 s.optString("android"), DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(t)))
         }
         renderControls(PhoneLinkService.connected)
+        renderFiles()
         prefs.getString("loc", null)?.let {
             val o = JSONObject(it)
             val p = GeoPoint(o.getDouble("lat"), o.getDouble("lng"))

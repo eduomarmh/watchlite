@@ -144,4 +144,21 @@
     <string name="alert_watch_low">بطارية الساعة قربت تخلص (%1$d%%)</string>
     <string name="alert_watch_full">الساعة شحنت على الآخر</string>
     <string name="alert_watch_lost">الساعة اتفصلت. نسيتها؟</string>
+    <string name="sec_files">الملفات</string>
+    <string name="send_file">ابعت ملف للساعة</string>
+    <string name="files_hint">وتقدر تشارك أي ملف من أي تطبيق: مشاركة ← ابعت للساعة. الملفات اللي جاية من الساعة بتتحفظ في Download/WatchLite.</string>
+    <string name="file_sent_ok">وصل للساعة</string>
+    <string name="file_saved">اتحفظ في Download/WatchLite</string>
+    <string name="file_failed">النقل فشل</string>
+    <string name="file_cancelled">اتلغى</string>
+    <string name="file_sending">بيتبعت</string>
+    <string name="file_receiving">بيستقبل من الساعة</string>
+    <string name="cancel_transfer">إلغاء</string>
+    <string name="files_from_watch">جاي من الساعة</string>
+    <string name="no_viewer">مفيش تطبيق يفتح الملف ده</string>
+    <string name="files_channel">ملفات من الساعة</string>
+    <string name="file_from_watch">ملف من الساعة</string>
+    <string name="share_label">ابعت للساعة</string>
+    <string name="share_nothing">مفيش حاجة تتبعت</string>
+    <string name="share_sending">بيبعت %1$d ملف للساعة…</string>
 </resources>

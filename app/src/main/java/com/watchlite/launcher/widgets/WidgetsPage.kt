@@ -59,12 +59,47 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
     override fun onAttachedToWindow() { super.onAttachedToWindow(); App.I.state.listen(stateListener) }
     override fun onDetachedFromWindow() { App.I.state.unlisten(stateListener); removeCallbacks(ticker); super.onDetachedFromWindow() }
 
+    companion object {
+        val DEFAULT = listOf("music", "steps", "prayer", "battery", "weather", "stopwatch", "timer", "shortcuts")
+        fun label(key: String) = when (key) {
+            "music" -> R.string.w_music; "steps" -> R.string.w_steps; "prayer" -> R.string.w_prayer; "battery" -> R.string.w_battery
+            "weather" -> R.string.w_weather; "stopwatch" -> R.string.w_stopwatch; "timer" -> R.string.w_timer; else -> R.string.w_shortcuts
+        }
+        /** User order (Settings → Widgets), with any card it doesn't know yet appended in default order. */
+        fun order(): List<String> {
+            val saved = App.prefs.widgetOrder.split(',').map { it.trim() }.filter { it in DEFAULT }.distinct()
+            return saved + DEFAULT.filter { it !in saved }
+        }
+    }
+
+    private val marks = ArrayList<Pair<String, Int>>()
+    private fun mark(key: String) { marks += key to box.childCount }
+
+    /** Re-orders the cards built by [build] (each card group starts at a mark) and hides the disabled ones. */
+    private fun applyOrder() {
+        val groups = HashMap<String, List<View>>()
+        marks.forEachIndexed { i, (key, start) ->
+            val end = if (i + 1 < marks.size) marks[i + 1].second else box.childCount
+            groups[key] = (start until end).map { box.getChildAt(it) }
+        }
+        marks.clear()
+        box.removeAllViews()
+        val hidden = App.prefs.widgetHidden
+        for (key in order()) if (key !in hidden) groups[key]?.forEach { box.addView(it) }
+        if (box.childCount == 0) box.addView(ui.text(context.getString(R.string.widgets_all_hidden), 4.8f, Ui.TEXT2).apply { gravity = Gravity.CENTER }, ui.lp(top = 10f))
+        box.addView(ui.pill(context.getString(R.string.edit_widgets)) {
+            launch(Intent(context, com.watchlite.launcher.settings.SettingsActivity::class.java).putExtra("screen", "widgets"))
+        }, ui.lp(top = 3f))
+    }
+
     private fun build() {
         box.removeAllViews()
+        marks.clear()
         val ar = Digits.useArabic()
         val ctx = context
 
         // Steps
+        mark("steps")
         if (App.I.steps.available) {
             val c = ui.card()
             val row = ui.hbox()
@@ -84,6 +119,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         }
 
         // Prayer
+        mark("prayer")
         if (App.prefs.prayerEnabled) {
             val c = ui.card()
             val data = host.face.renderer.data
@@ -108,6 +144,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         }
 
         // Battery
+        mark("battery")
         run {
             val st = App.I.state
             val c = ui.card()
@@ -122,6 +159,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         }
 
         // Stopwatch
+        mark("stopwatch")
         run {
             val c = ui.card()
             c.addView(ui.text(ctx.getString(R.string.stopwatch), 4.6f, Ui.TEXT2))
@@ -141,6 +179,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         }
 
         // Timer
+        mark("timer")
         run {
             val c = ui.card()
             c.addView(ui.text(ctx.getString(R.string.timer), 4.6f, Ui.TEXT2))
@@ -159,6 +198,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         }
 
         // Weather (from phone)
+        mark("weather")
         val st = App.I.state
         if (st.weatherTemp.isNotEmpty()) {
             val c = ui.card()
@@ -169,6 +209,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
         }
 
         // Music (from phone)
+        mark("music")
         if (st.mediaTitle.isNotEmpty() && LinkManager.enabled("media")) {
             val c = ui.card()
             val head = ui.hbox()
@@ -204,10 +245,11 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
             row.addView(cmd(R.drawable.ic_skip_next, "next"), ui.lp(ui.px(11.5f), ui.px(11.5f)))
             c.addView(row, ui.lp(top = 2.5f))
             // while something is playing, the music card goes to the top
-            box.addView(c, if (st.mediaPlaying) 0 else box.childCount, ui.lp(bottom = 2.5f))
+            box.addView(c, ui.lp(bottom = 2.5f))
         }
 
         // Shortcuts
+        mark("shortcuts")
         val sc = ui.hbox().apply { gravity = Gravity.CENTER }
         sc.addView(ui.circleButton(R.drawable.ic_timer, 14f) { launch(Intent(AlarmClock.ACTION_SHOW_ALARMS)) }, ui.lp(ui.px(14f), ui.px(14f), end = 2f))
         if (SystemActions.hasTelephony(ctx)) {
@@ -222,6 +264,7 @@ class WidgetsPage(host: HomeActivity) : Page(host, FROM_BOTTOM) {
             box.addView(ui.text(ctx.getString(R.string.next_alarm, Digits.apply(f.format(next.triggerTime), ar)), 4.8f, Ui.TEXT2)
                 .apply { gravity = Gravity.CENTER }, ui.lp(top = 2f))
         }
+        applyOrder()
         updateClocks()
     }
 

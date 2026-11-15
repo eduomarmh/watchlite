@@ -213,6 +213,41 @@ swipe 160 340 160 40; sleep 2
 shot "x_50_music_1" 1
 adb shell input keyevent KEYCODE_BACK; sleep 1
 
+# 6e) Widget order: battery first, music hidden is not possible via strings, so only order here
+adb shell am start -S -n $PKG/.settings.SettingsActivity --es ci_bool link_enabled --es ci_str widget_order=battery,prayer,steps; sleep 3
+adb shell am start -n $PKG/.settings.SettingsActivity --es screen widgets; sleep 3
+shot "x_60_widgets_settings" 1
+swipe 160 300 160 100 300; shot "x_61_widgets_settings2" 1
+adb shell input keyevent KEYCODE_HOME; sleep 2
+adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 2.5
+if adb logcat -d | grep -q "WL-AOD  : enter"; then adb shell input keyevent KEYCODE_HOME; sleep 2.5; fi
+swipe 160 340 160 40; sleep 3
+shot "x_62_widgets_page" 1
+adb shell input keyevent KEYCODE_BACK; sleep 1
+
+# 6f) File received from the phone (simulated link messages) → Download/WatchLite + Files screen
+adb shell pm grant $PKG android.permission.WRITE_EXTERNAL_STORAGE || true
+adb shell pm grant $PKG android.permission.READ_EXTERNAL_STORAGE || true
+python3 - > $OUT/file_msgs.txt <<'PY'
+import base64, json
+data = ("WatchLite file transfer test\n" * 3000).encode()   # ~87 KB → 3 chunks
+fid = "cifile01"
+msgs = [{"type": "file.start", "payload": {"fid": fid, "name": "ci-test.txt", "size": len(data)}}]
+for i in range(0, len(data), 32768):
+    msgs.append({"type": "file.chunk", "payload": {"fid": fid, "i": i // 32768, "data": base64.b64encode(data[i:i+32768]).decode()}})
+msgs.append({"type": "file.end", "payload": {"fid": fid, "n": len(msgs) - 1}})
+for m in msgs: print(base64.b64encode(json.dumps(m).encode()).decode())
+PY
+while read -r M; do adb shell am start -n $PKG/.settings.SettingsActivity --es ci_link "$M" >/dev/null; sleep 1.5; done < $OUT/file_msgs.txt
+sleep 2
+adb shell ls -l /sdcard/Download/WatchLite/ > $OUT/files_check.txt 2>&1 || true
+adb shell ls -l /sdcard/Android/data/$PKG/files/received/ >> $OUT/files_check.txt 2>&1 || true
+grep -q "ci-test.txt" $OUT/files_check.txt || echo "Received file not saved" >> $OUT/CRASHED
+adb shell am start -n $PKG/.files.FilesActivity; sleep 3
+shot "x_63_files" 1
+swipe 160 300 160 100 300; shot "x_64_files2" 1
+adb shell input keyevent KEYCODE_HOME; sleep 2
+
 # 7) Phone companion UI smoke test (renders, no crash)
 if [ -f app/build/outputs/apk/phone-release.apk ]; then
   adb install -r -g app/build/outputs/apk/phone-release.apk || true

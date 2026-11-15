@@ -109,6 +109,7 @@ class SettingsActivity : Activity() {
         scroll = ScrollView(this).apply { isVerticalScrollBarEnabled = false; addView(list); setBackgroundColor(Ui.BG) }
         setContentView(scroll)
         open(getString(R.string.settings), ::mainScreen)
+        if (intent.getStringExtra("screen") == "widgets") open(s(R.string.st_widgets), ::widgetsScreen)
     }
 
     override fun onResume() { super.onResume(); current?.invoke() }
@@ -218,6 +219,7 @@ class SettingsActivity : Activity() {
         nav(s(R.string.st_chime), if (p.chimeEnabled) s(R.string.on) else s(R.string.off), ::chimeScreen)
         nav(s(R.string.st_gestures), s(R.string.st_gestures_sum), ::gestures)
         nav(s(R.string.st_drawer), s(R.string.st_drawer_sum), ::drawerScreen)
+        nav(s(R.string.st_widgets), s(R.string.st_widgets_sum), ::widgetsScreen)
         nav(s(R.string.st_steps), Digits.fmt(p.stepsGoal), ::stepsScreen)
         nav(s(R.string.st_notifications), null, ::notifScreen)
         nav(s(R.string.st_prayer), cityLabel(), ::prayerScreen)
@@ -312,6 +314,31 @@ class SettingsActivity : Activity() {
                 true
             }
         }
+    }
+
+    /** Order and visibility of the cards on the widgets page (swipe up). */
+    private fun widgetsScreen() {
+        val order = com.watchlite.launcher.widgets.WidgetsPage.order().toMutableList()
+        fun save() { p.widgetOrder = order.joinToString(","); refresh() }
+        order.forEachIndexed { i, key ->
+            val shown = key !in p.widgetHidden
+            val right = ui.hbox()
+            fun arrow(icon: Int, enabled: Boolean, move: Int) = ui.circleButton(icon, 9f, tint = if (enabled) Ui.TEXT else Ui.TEXT2) {
+                if (enabled) { order.removeAt(i); order.add(i + move, key); save() }
+            }.apply { alpha = if (enabled) 1f else 0.35f }
+            right.addView(arrow(R.drawable.ic_expand_less, i > 0, -1), ui.lp(ui.px(9f), ui.px(9f), end = 1.5f))
+            right.addView(arrow(R.drawable.ic_expand_more, i < order.size - 1, 1), ui.lp(ui.px(9f), ui.px(9f), end = 1.5f))
+            val sw = Switch(this).apply {
+                isChecked = shown; isClickable = false
+                thumbTintList = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf(ui.accent, 0xFFBBBBBB.toInt()))
+                trackTintList = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf((ui.accent and 0x00FFFFFF) or 0x88000000.toInt(), Ui.CARD2))
+            }
+            right.addView(sw)
+            row(s(com.watchlite.launcher.widgets.WidgetsPage.label(key)), null, right) {
+                p.widgetHidden = if (shown) p.widgetHidden + key else p.widgetHidden - key; refresh()
+            }.alpha = if (shown) 1f else 0.6f
+        }
+        action(s(R.string.reset_order)) { p.widgetOrder = ""; p.widgetHidden = emptySet(); refresh() }
     }
 
     private fun aodScreen() {

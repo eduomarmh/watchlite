@@ -144,4 +144,21 @@
     <string name="alert_watch_low">Watch battery is low (%1$d%%)</string>
     <string name="alert_watch_full">Watch is fully charged</string>
     <string name="alert_watch_lost">Watch disconnected. Did you leave it behind?</string>
+    <string name="sec_files">Files</string>
+    <string name="send_file">Send a file to the watch</string>
+    <string name="files_hint">You can also share any file from another app: Share → Send to watch. Files from the watch are saved in Download/WatchLite.</string>
+    <string name="file_sent_ok">Delivered to the watch</string>
+    <string name="file_saved">Saved in Download/WatchLite</string>
+    <string name="file_failed">Transfer failed</string>
+    <string name="file_cancelled">Cancelled</string>
+    <string name="file_sending">Sending</string>
+    <string name="file_receiving">Receiving from the watch</string>
+    <string name="cancel_transfer">Cancel</string>
+    <string name="files_from_watch">From the watch</string>
+    <string name="no_viewer">No app can open this file</string>
+    <string name="files_channel">Files from the watch</string>
+    <string name="file_from_watch">File from the watch</string>
+    <string name="share_label">Send to watch</string>
+    <string name="share_nothing">Nothing to send</string>
+    <string name="share_sending">Sending %1$d file(s) to the watch…</string>
 </resources>

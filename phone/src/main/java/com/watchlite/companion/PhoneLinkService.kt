@@ -246,6 +246,7 @@ class PhoneLinkService : Service() {
             "notif.reply" -> PhoneNotifListener.instance?.reply(p.optString("key"), p.optString("action"), p.optString("text"))
             "media.cmd" -> media(p.optString("cmd"))
             "theme.thumb" -> { ThemeStore.saveThumb(this, p); changed() }
+            "file.start", "file.chunk", "file.end", "file.cancel", "file.done" -> FileTransfer.handle(this, env.optString("type"), p)
             "theme.thumbs.done" -> { ThemeStore.done(this, p); changed() }
             "theme.progress" -> { ThemeStore.event = "progress:" + (p.optInt("index") + 1) + "/" + p.optInt("total"); changed() }
             "theme.installed" -> { ThemeStore.event = "installed:" + p.optString("id"); changed() }

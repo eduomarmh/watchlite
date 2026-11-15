@@ -41,6 +41,7 @@ key = first 16 bytes of `SHA-256("watchlite-v1:" + pairingCode)`. The 6-digit pa
 | phone→watch | `theme.install` | chunks `{id, index, total, apply, data(base64 of .wtheme)}` (48 KB each; `apply` selects it after install); watch replies `theme.installed {id}` or `theme.error {id,error}` |
 | phone→watch | `theme.apply` | `{id}` |
 | phone→watch | `theme.thumbs` | `{have:{id:rev}}`; watch streams `theme.thumb {id, rev, name, builtIn, data(jpeg base64)}` for faces whose preview changed, then `theme.thumbs.done {ids, current}` |
+| both ways | `file.start` / `file.chunk` / `file.end` | `{fid, name, size}` → `{fid, i, data(base64, 32 KB)}` ×n → `{fid, n}`; receiver answers `file.done {fid, ok}`; either side may send `file.cancel {fid}`. Max 200 MB. Watch saves to Download/WatchLite, phone to Download/WatchLite (MediaStore). |
 | phone→watch | `theme.delete` | `{id}` (user faces only) |
 | watch→phone | `theme.progress` | `{id, index, total}` while a `theme.install` is received |
 | watch→phone | `find.phone` | `{}` (ring the phone) |

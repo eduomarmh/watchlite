@@ -86,7 +86,7 @@ class NotificationStore {
     }
 
     fun open(ctx: Context, item: NotificationItem) {
-        if (item.source == NotificationItem.PHONE) {
+        if (item.source == NotificationItem.PHONE && item.contentIntent == null) {
             LinkManager.send("notif.action", org.json.JSONObject().put("key", item.key.removePrefix("phone:")).put("action", "open"))
             return
         }

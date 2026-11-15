@@ -22,6 +22,16 @@
         android:supportsRtl="true"
         android:theme="@style/Companion">
 
+        <activity android:name=".ShareToWatchActivity" android:exported="true" android:label="@string/share_label"
+            android:icon="@mipmap/ic_launcher" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:excludeFromRecents="true"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ThemePickerActivity" android:exported="true" />
         <activity android:name=".ThemeDesignerActivity" android:exported="true" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop">
