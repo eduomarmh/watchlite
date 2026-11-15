@@ -31,6 +31,9 @@ import java.util.Locale
  * No GPS: the phone's last known coarse location is reused.
  */
 class LinkExtras(private val ctx: Context) {
+    private val io = java.util.concurrent.Executors.newSingleThreadExecutor()
+    private fun safe(what: String, f: () -> Unit) = try { f() } catch (t: Throwable) { Log.w("WLC", "extras $what", t) }
+    private fun sendAsync(type: String, p: JSONObject, ok: () -> Unit = {}) = io.execute { safe(type) { if (PhoneLinkService.send(type, p)) main.post(ok) } }
     private val prefs get() = CompanionApp.prefs
     private val main = Handler(Looper.getMainLooper())
     private fun on(key: String, def: Boolean = true) = prefs.getBoolean(key, def)
@@ -42,6 +45,7 @@ class LinkExtras(private val ctx: Context) {
     }
 
     fun stop() {
+        io.shutdownNow()
         try { (ctx.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).unregisterNetworkCallback(netCb) } catch (_: Throwable) { }
         try { ctx.unregisterReceiver(dndReceiver) } catch (_: Throwable) { }
         unregisterMedia()
@@ -51,9 +55,9 @@ class LinkExtras(private val ctx: Context) {
     /** Called each time the link (re)connects: push the current state once. */
     fun onConnected() {
         lastNet = ""; lastMedia = ""; lastTrack = ""
-        sendNet(currentNet())
-        sendMedia()
-        maybeWeather(force = System.currentTimeMillis() - prefs.getLong("weather_time", 0) > 45 * 60_000L)
+        safe("net") { sendNet(currentNet()) }
+        safe("media") { sendMedia() }
+        safe("weather") { maybeWeather(force = System.currentTimeMillis() - prefs.getLong("weather_time", 0) > 45 * 60_000L) }
     }
 
     // ------------------------------------------------------------------ network type
@@ -81,7 +85,8 @@ class LinkExtras(private val ctx: Context) {
 
     private fun sendNet(type: String) {
         if (!on("mod_net") || type == lastNet || !PhoneLinkService.connected) return
-        if (PhoneLinkService.send("net.state", JSONObject().put("type", type))) lastNet = type
+        lastNet = type
+        sendAsync("net.state", JSONObject().put("type", type))
     }
 
     // ------------------------------------------------------------------ do-not-disturb sync
@@ -90,7 +95,7 @@ class LinkExtras(private val ctx: Context) {
             if (!on("mod_dnd_sync", false)) return
             val nm = ctx.getSystemService(NotificationManager::class.java)
             val dnd = nm.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
-            PhoneLinkService.send("ctl.set", JSONObject().put("k", "dnd").put("v", dnd))
+            sendAsync("ctl.set", JSONObject().put("k", "dnd").put("v", dnd))
         }
     }
 
@@ -116,10 +121,10 @@ class LinkExtras(private val ctx: Context) {
     }
     private val listenerCn get() = ComponentName(ctx, PhoneNotifListener::class.java)
 
-    private val sessionsCb = MediaSessionManager.OnActiveSessionsChangedListener { list -> attach(list?.firstOrNull()) }
+    private val sessionsCb = MediaSessionManager.OnActiveSessionsChangedListener { list -> safe("sessions") { attach(list?.firstOrNull()) } }
     private val mediaCb = object : MediaController.Callback() {
-        override fun onMetadataChanged(metadata: MediaMetadata?) = sendMedia()
-        override fun onPlaybackStateChanged(state: PlaybackState?) = sendMedia()
+        override fun onMetadataChanged(metadata: MediaMetadata?) = safe("media") { sendMedia() }
+        override fun onPlaybackStateChanged(state: PlaybackState?) = safe("media") { sendMedia() }
         override fun onSessionDestroyed() { attach(null) }
     }
 
@@ -159,7 +164,8 @@ class LinkExtras(private val ctx: Context) {
         // cover art: only when the track changes, ~100 px JPEG (a few KB)
         val track = "$title|$artist"
         if (track != lastTrack) o.put("art", artBase64(md) ?: "")
-        if (PhoneLinkService.send("media.state", o)) { lastMedia = key; lastTrack = track }
+        lastMedia = key; lastTrack = track
+        sendAsync("media.state", o)
     }
 
     // ------------------------------------------------------------------ weather + location (hourly, coarse, no GPS)
@@ -172,7 +178,7 @@ class LinkExtras(private val ctx: Context) {
         val wantWeather = on("mod_weather"); val wantLoc = on("mod_location", false)
         if (!wantWeather && !wantLoc) return
         val loc = lastLocation() ?: return
-        if (wantLoc) PhoneLinkService.send("location.state", JSONObject().put("lat", loc.first).put("lng", loc.second))
+        if (wantLoc) sendAsync("location.state", JSONObject().put("lat", loc.first).put("lng", loc.second))
         if (!wantWeather) return
         Thread {
             try {
@@ -191,6 +197,14 @@ class LinkExtras(private val ctx: Context) {
         }.start()
     }
 
+    /** Full listener: before Android 11 these methods are abstract, a lambda would crash when they're called. */
+    private val oneShot = object : android.location.LocationListener {
+        override fun onLocationChanged(location: android.location.Location) {}
+        @Deprecated("old API") override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
+    }
+
     @Suppress("MissingPermission")
     private fun lastLocation(): Pair<Double, Double>? {
         if (ctx.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != android.content.pm.PackageManager.PERMISSION_GRANTED) return null
@@ -199,7 +213,10 @@ class LinkExtras(private val ctx: Context) {
             .mapNotNull { try { lm.getLastKnownLocation(it) } catch (_: Throwable) { null } }.maxByOrNull { it.time }
         if (best != null) return best.latitude to best.longitude
         // no cached fix yet: ask once for a cheap network fix; it is used next hour
-        try { @Suppress("DEPRECATION") lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, { }, Looper.getMainLooper()) } catch (_: Throwable) { }
+        try {
+            if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+                @Suppress("DEPRECATION") lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, oneShot, Looper.getMainLooper())
+        } catch (_: Throwable) { }
         return null
     }
 
@@ -219,7 +236,9 @@ class LinkExtras(private val ctx: Context) {
     }
 
     // ------------------------------------------------------------------ watch battery alerts (from the stats we already get)
-    fun onWatchStats(s: JSONObject) {
+    fun onWatchStats(s: JSONObject) = safe("alerts") { watchAlerts(s) }
+
+    private fun watchAlerts(s: JSONObject) {
         if (!on("mod_watch_alerts")) return
         val lvl = s.optInt("battery", -1); val chg = s.optBoolean("charging")
         if (lvl < 0) return
@@ -235,7 +254,9 @@ class LinkExtras(private val ctx: Context) {
         }
     }
 
-    fun notifyDisconnected(show: Boolean) {
+    fun notifyDisconnected(show: Boolean) = safe("lost") { lostNotif(show) }
+
+    private fun lostNotif(show: Boolean) {
         val nm = ctx.getSystemService(NotificationManager::class.java)
         if (!show) { nm.cancel(13); return }
         if (on("mod_lost_alert", false)) notify(13, ctx.getString(R.string.alert_watch_lost))

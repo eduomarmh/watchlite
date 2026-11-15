@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.Outline
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewOutlineProvider
@@ -26,7 +27,7 @@ class ThemePickerActivity : Activity() {
     private val prefs get() = CompanionApp.prefs
     private val bitmaps = HashMap<String, Bitmap>()
     private var shown = ""
-    private val listener = { render() }
+    private val listener = { try { render() } catch (t: Throwable) { Log.w("WLC", "render", t); CompanionApp.report(t) } }
 
     private fun current(): String? = prefs.getString("stats", null)?.let { JSONObject(it).optJSONObject("ctl")?.optString("theme") }
 

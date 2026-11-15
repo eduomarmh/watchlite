@@ -161,4 +161,8 @@
     <string name="share_label">Send to watch</string>
     <string name="share_nothing">Nothing to send</string>
     <string name="share_sending">Sending %1$d file(s) to the watch…</string>
+    <string name="crash_title">The app crashed last time</string>
+    <string name="crash_copy">Copy</string>
+    <string name="crash_share">Share</string>
+    <string name="crash_copied">Copied. Paste it to the developer.</string>
 </resources>

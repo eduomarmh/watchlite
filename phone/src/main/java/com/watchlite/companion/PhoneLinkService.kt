@@ -42,11 +42,30 @@ class CompanionApp : Application() {
         lateinit var I: CompanionApp
             private set
         val prefs: SharedPreferences get() = I.getSharedPreferences("companion", Context.MODE_PRIVATE)
+
+        /** Saves an error report (shown with copy/share on the next launch) without killing the app. */
+        fun report(t: Throwable) {
+            try {
+                val sw = java.io.StringWriter(); t.printStackTrace(java.io.PrintWriter(sw))
+                java.io.File(I.filesDir, "crash.txt").writeText("WatchLite companion ${I.packageManager.getPackageInfo(I.packageName, 0).versionName}\n" +
+                    "Android ${Build.VERSION.RELEASE} (${Build.MANUFACTURER} ${Build.MODEL})\n(caught, app kept running)\n\n" + sw.toString().take(6000))
+            } catch (_: Throwable) { }
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
         I = this
+        // crash report: saved to a file and shown (with a copy button) the next time the app opens
+        val prev = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+            try {
+                val sw = java.io.StringWriter(); e.printStackTrace(java.io.PrintWriter(sw))
+                java.io.File(filesDir, "crash.txt").writeText("WatchLite companion ${packageManager.getPackageInfo(packageName, 0).versionName}\n" +
+                    "Android ${Build.VERSION.RELEASE} (${Build.MANUFACTURER} ${Build.MODEL})\nthread: ${t.name}\n\n" + sw.toString().take(6000))
+            } catch (_: Throwable) { }
+            prev?.uncaughtException(t, e)
+        }
         if (prefs.getString("watch_addr", "").isNullOrEmpty().not()) PhoneLinkService.start(this)
     }
 }

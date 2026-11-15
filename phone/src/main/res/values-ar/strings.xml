@@ -161,4 +161,8 @@
     <string name="share_label">ابعت للساعة</string>
     <string name="share_nothing">مفيش حاجة تتبعت</string>
     <string name="share_sending">بيبعت %1$d ملف للساعة…</string>
+    <string name="crash_title">التطبيق قفل فجأة آخر مرة</string>
+    <string name="crash_copy">نسخ</string>
+    <string name="crash_share">مشاركة</string>
+    <string name="crash_copied">اتنسخ. ابعته للمطور.</string>
 </resources>

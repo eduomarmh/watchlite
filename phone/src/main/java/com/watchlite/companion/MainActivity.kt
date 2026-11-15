@@ -14,6 +14,7 @@ import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.os.PowerManager
 import android.provider.Settings
 import android.text.InputType
@@ -52,7 +53,7 @@ class MainActivity : Activity() {
     private var map: MapView? = null
     private var marker: Marker? = null
     private val prefs get() = CompanionApp.prefs
-    private val listener = { render() }
+    private val listener = { try { render() } catch (t: Throwable) { Log.w("WLC", "render", t); CompanionApp.report(t) } }
 
     private lateinit var statusDot: View
     private lateinit var statusText: TextView
@@ -125,8 +126,26 @@ class MainActivity : Activity() {
         }
     }
 
+    /** Shows the last crash (if any) with copy/share, so it can be sent to the developer. */
+    private fun showCrashReport() {
+        val f = java.io.File(filesDir, "crash.txt")
+        if (!f.isFile) return
+        val text = f.readText(); f.delete()
+        val tv = TextView(this).apply { this.text = text; textSize = 11f; setTextIsSelectable(true); setPadding(dp(20), dp(8), dp(20), 0) }
+        AlertDialog.Builder(this).setTitle(R.string.crash_title).setView(ScrollView(this).apply { addView(tv) })
+            .setPositiveButton(R.string.crash_copy) { _, _ ->
+                (getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager).setPrimaryClip(android.content.ClipData.newPlainText("crash", text))
+                toast(getString(R.string.crash_copied))
+            }
+            .setNeutralButton(R.string.crash_share) { _, _ ->
+                startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, text), null))
+            }
+            .setNegativeButton(android.R.string.cancel, null).show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.post { showCrashReport() }
         Configuration.getInstance().apply {
             userAgentValue = packageName
             osmdroidBasePath = filesDir
