@@ -95,10 +95,9 @@ object ChargeSounds {
             player?.release()
             val mp = android.media.MediaPlayer()
             player = mp
-        val mp = android.media.MediaPlayer()
-        mp.setAudioAttributes(android.media.AudioAttributes.Builder()
-            .setUsage(android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-            .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+            mp.setAudioAttributes(android.media.AudioAttributes.Builder()
+                .setUsage(android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
             c.resources.openRawResourceFd(res).use { mp.setDataSource(it.fileDescriptor, it.startOffset, it.length) }
             mp.setOnCompletionListener { it.release(); if (player === it) player = null }
             mp.setOnErrorListener { m, _, _ -> m.release(); if (player === m) player = null; true }
