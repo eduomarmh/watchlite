@@ -508,7 +508,7 @@
     <string name="no_vibrate_silent">زي وضع الموبايل الصامت</string>
     <string name="no_vibrate_silent_sum">لما الموبايل يبقى صامت، الساعة متتهزش</string>
     <string name="charge_anim">انيميشن الشحن</string>
-    <string name="charge_anim_sum">بيظهر كام ثانية أول ما الشاحن يتوصل</string>
+    <string name="charge_anim_sum">بيظهر 10 ثواني أول ما الشاحن يتوصل (المس الشاشة عشان يقفل)</string>
     <string name="charging_now">بيشحن</string>
     <string name="charged_full">مشحونة بالكامل</string>
     <string name="call_incoming">مكالمة واردة</string>

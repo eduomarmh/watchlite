@@ -41,6 +41,9 @@ import kotlin.random.Random
  */
 object ChargeAnim {
     @Volatile var lastShown = 0L
+    /** True from plug-in until the animation is gone: nothing may turn the screen off meanwhile. */
+    @Volatile var active = false
+    fun busy() = active && SystemClock.elapsedRealtime() - lastShown < 13_000
 
     fun register(ctx: Context) {
         ctx.registerReceiver(object : BroadcastReceiver() {
@@ -49,6 +52,7 @@ object ChargeAnim {
                 val now = SystemClock.elapsedRealtime()
                 if (now - lastShown < 8000) return          // flaky contacts: once per plug-in
                 lastShown = now
+                active = true
                 val pm = c.getSystemService(Context.POWER_SERVICE) as PowerManager
                 val wasOn = pm.isInteractive && !AodActivity.showing && !AodGate.homeAodActive
                 Log.i("Charge", "power connected, screen on=$wasOn")
@@ -77,14 +81,18 @@ class ChargingActivity : Activity() {
         val level = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))?.let {
             it.getIntExtra(BatteryManager.EXTRA_LEVEL, 0) * 100 / max(1, it.getIntExtra(BatteryManager.EXTRA_SCALE, 100))
         } ?: 50
-        view = ChargeView(this, level, App.prefs.accent) { close() }
+        val temp = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) ?: 0
+        view = ChargeView(this, level, App.prefs.accent, temp) { close() }
         setContentView(view)
     }
+
+    override fun onResume() { super.onResume(); ChargeAnim.active = true; Log.i("Charge", "animation visible") }
 
     private var closing = false
     private fun close() {
         if (closing || isFinishing) return
         closing = true
+        ChargeAnim.active = false
         Log.i("Charge", "animation done, screen was on=$wasOn")
         finish()
         overridePendingTransition(0, android.R.anim.fade_out)
@@ -97,9 +105,9 @@ class ChargingActivity : Activity() {
 
     override fun onUserLeaveHint() { close() }
 
-    class ChargeView(ctx: Context, private val level: Int, private val accent: Int, private val done: () -> Unit) : View(ctx) {
+    class ChargeView(ctx: Context, private val level: Int, private val accent: Int, private val tempTenths: Int, private val done: () -> Unit) : View(ctx) {
         private val start = SystemClock.uptimeMillis()
-        private val duration = 3800L
+        private val duration = 10_000L
         private val rnd = Random(3)
         private val ring = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
         private val glass = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE }
@@ -155,10 +163,10 @@ class ChargingActivity : Activity() {
                 bolt.lineTo(bxo - 0.2f * s, byo + 1f * s); bolt.lineTo(bxo + 0.55f * s, byo - 0.15f * s); bolt.lineTo(bxo + 0.05f * s, byo - 0.15f * s); bolt.close()
             }
             val fadeIn = min(1f, t / 300f)
-            val fadeOut = min(1f, (duration - t) / 450f)
+            val fadeOut = min(1f, (duration - t) / 600f)
             val alpha = min(fadeIn, fadeOut).coerceIn(0f, 1f)
             val grow = ease(min(1f, t / 600f))
-            val fill = ease(min(1f, t / 1600f)) * level / 100f
+            val fill = ease(min(1f, t / 2400f)) * level / 100f
             val sec = t / 1000f
 
             c.saveLayerAlpha(0f, 0f, w, h, (alpha * 255).toInt())
@@ -219,6 +227,12 @@ class ChargingActivity : Activity() {
             c.drawPath(bolt, dot)
             sub.color = 0xCCFFFFFF.toInt()
             c.drawText(context.getString(if (level >= 100) R.string.charged_full else R.string.charging_now), cx, cy + r + m * 0.26f, sub)
+            // battery temperature fades in once the fill is done
+            if (tempTenths > 0 && t > 2600) {
+                val a = min(1f, (t - 2600) / 500f)
+                sub.color = Color.argb((150 * a).toInt(), 255, 255, 255)
+                c.drawText(Digits.apply("%.1f°C".format(tempTenths / 10f), ar), cx, cy + r + m * 0.34f, sub)
+            }
             c.restore()
             postInvalidateOnAnimation()
         }

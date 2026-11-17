@@ -249,21 +249,45 @@ shot "x_63_files" 1
 swipe 160 300 160 100 300; shot "x_64_files2" 1
 adb shell input keyevent KEYCODE_HOME; sleep 2
 
-# 6g) Charging animation: plug in → animation for ~4 s → gone
+# 6g) Charging animation (10 s), twice:
+#   A) awake face   B) in AOD with "AOD while charging = never" (the AOD logic must not switch the screen off on it)
 adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
-adb shell input keyevent KEYCODE_HOME; sleep 2
-adb shell dumpsys battery unplug; sleep 2
-adb shell dumpsys battery set level 64
+adb shell dumpsys battery unplug; adb shell dumpsys battery set level 64; sleep 1
+adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 2.5
+if adb logcat -d | grep -q "WL-AOD  : enter"; then adb shell input keyevent KEYCODE_HOME; sleep 2.5; fi
 adb logcat -c
-adb shell dumpsys battery set ac 1; sleep 1.3
+adb shell dumpsys battery set ac 1; sleep 1.5
 shot "x_70_charge_anim_1" 0
-sleep 0.9; shot "x_71_charge_anim_2" 0
-sleep 4; shot "x_72_charge_anim_gone" 0
-adb shell dumpsys power | grep -E "mWakefulness=|Display Power: state" >> $OUT/charge_check.txt
-adb shell dumpsys activity activities | grep -E "mResumedActivity|mFocusedActivity" >> $OUT/charge_check.txt
-adb logcat -d | grep -E "WL-Charge|WL-Home|WL-AOD" >> $OUT/charge_check.txt || true
-grep -q "power connected" $OUT/charge_check.txt || echo "Charging animation did not start" >> $OUT/CRASHED
+sleep 4; shot "x_71_charge_anim_5s" 0
+sleep 7; shot "x_72_charge_anim_gone" 0
+adb logcat -d | grep -E "WL-Charge|WL-Home|WL-AOD" > $OUT/charge_check.txt || true
+adb shell dumpsys battery unplug; sleep 10
+adb shell am start -n $PKG/.settings.SettingsActivity --activity-clear-task --es ci_bool aod_enabled --es ci_str aod_charging_mode=never < /dev/null; sleep 3
+adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 2.5
+if ! adb logcat -d | grep -q "WL-AOD  : enter"; then adb shell input keyevent KEYCODE_HOME; sleep 2.5; fi
+adb logcat -c
+adb shell dumpsys battery set ac 1; sleep 3
+shot "x_73_charge_from_aod" 0
+adb shell dumpsys power | grep -E "Display Power: state" > $OUT/charge_aod_power.txt
+adb logcat -d | grep -E "WL-Charge|WL-Home|WL-AOD" > $OUT/charge_check_aod.txt || true
+sleep 9
+python3 - "$OUT" <<'PY' >> $OUT/charge_check.txt
+import sys
+from PIL import Image
+import numpy as np
+out = sys.argv[1]
+def lum(n): return np.asarray(Image.open(f"{out}/screens/{n}.png").convert("L"), np.float32).mean()
+a, b, c = lum("x_70_charge_anim_1"), lum("x_71_charge_anim_5s"), lum("x_73_charge_from_aod")
+print("brightness 1.5s / 5.5s / from-AOD 3s:", round(a, 1), round(b, 1), round(c, 1))
+bad = []
+if a < 3: bad.append("not visible at 1.5 s")
+if b < 3: bad.append("gone before 5.5 s")
+if c < 3: bad.append("not visible when plugged in from AOD")
+if bad: open(f"{out}/CRASHED", "a").write("Charging animation: " + ", ".join(bad) + "\n")
+PY
+grep -q "animation visible" $OUT/charge_check_aod.txt || echo "Charging animation not shown from AOD" >> $OUT/CRASHED
 adb shell dumpsys battery reset; sleep 1
+adb shell am start -n $PKG/.settings.SettingsActivity --activity-clear-task --es ci_str aod_charging_mode=normal < /dev/null; sleep 2
 
 # 6h) Calls: simulated ringing → in call → ended
 msg() { python3 -c "import base64,json,sys; print(base64.b64encode(json.dumps({'type':'call.state','payload':json.loads(sys.argv[1])}).encode()).decode())" "$1"; }

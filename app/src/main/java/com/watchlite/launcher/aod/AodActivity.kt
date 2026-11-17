@@ -63,7 +63,8 @@ object AodGate {
             override fun onReceive(c: Context, i: Intent) {
                 Log.i("AOD", "screen off: everywhere=${App.prefs.aodEverywhere} enabled=${App.prefs.aodEnabled} can=${canEnter()} " +
                     "homeAod=$homeAodActive showing=${AodActivity.showing} sinceAod=${System.currentTimeMillis() - lastAodVisible}")
-                if (homeAodActive || AodActivity.showing || System.currentTimeMillis() - lastAodVisible < 1500) return   // power button pressed while in AOD: stay off
+                if (homeAodActive || AodActivity.showing || System.currentTimeMillis() - lastAodVisible < 1500) return
+                if (com.watchlite.launcher.charge.ChargeAnim.busy()) return   // power button pressed while in AOD: stay off
                 if (!App.prefs.aodEverywhere || !canEnter()) return
                 main.postDelayed({
                     wake(c)

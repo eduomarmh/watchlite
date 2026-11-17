@@ -196,7 +196,8 @@ class HomeActivity : Activity() {
             aod.policy.update(newLevel, charging, App.prefs.aodBatteryMin, App.prefs.aodCharging)
             applyPowerState()
             if (changedCharging) applyTheme()
-            if (!aod.policy.allowed && aod.active) { aod.exit(true); screenOff(force = true) }
+            // the charging animation decides itself where to go when it ends
+            if (!aod.policy.allowed && aod.active) { aod.exit(true); if (!com.watchlite.launcher.charge.ChargeAnim.busy()) screenOff(force = true) }
             val now = System.currentTimeMillis()
             if (st.linkConnected && now - lastStatsSent > 120_000) { lastStatsSent = now; Bg.run { com.watchlite.launcher.link.LinkManager.sendStats() } }
             st.changed()
@@ -472,6 +473,7 @@ class HomeActivity : Activity() {
     /** Turns the screen off: Device-Admin lock if granted, otherwise a black curtain until the system timeout. */
     fun screenOff(force: Boolean = false) {
         if (aod.active && !force) return
+        if (com.watchlite.launcher.charge.ChargeAnim.busy()) return
         if (SystemActions.lockScreen(this)) return
         showCurtain()
         if (!warnedAdmin) { warnedAdmin = true; toast(getString(R.string.enable_admin_hint)) }

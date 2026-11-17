@@ -509,7 +509,7 @@
     <string name="no_vibrate_silent">Follow the phone\'s silent mode</string>
     <string name="no_vibrate_silent_sum">When the phone is on silent, the watch does not vibrate</string>
     <string name="charge_anim">Charging animation</string>
-    <string name="charge_anim_sum">Shown for a few seconds when the charger is connected</string>
+    <string name="charge_anim_sum">Shown for 10 seconds when the charger is connected (tap to close)</string>
     <string name="charging_now">Charging</string>
     <string name="charged_full">Fully charged</string>
     <string name="call_incoming">Incoming call</string>
