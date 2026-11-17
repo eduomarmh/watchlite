@@ -137,9 +137,16 @@ class FilesActivity : Activity() {
 
     private fun home() {
         if (!App.I.state.linkConnected) list.addView(ui.text(s(R.string.files_not_connected), 4.4f, Ui.TEXT2, 1, 3).apply { gravity = Gravity.CENTER }, ui.lp(bottom = 2f))
-        val inbox = FileTransfer.inbox(this)
+        FileTransfer.adopt(this)
         header(s(R.string.files_received))
-        val got = inbox.listFiles()?.filter { it.isFile }?.sortedByDescending { it.lastModified() } ?: emptyList()
+        val storage = FileTransfer.hasStorage(this)
+        list.addView(ui.text(s(if (storage) R.string.files_saved_in else R.string.files_saved_private), 4.2f, Ui.TEXT2, 1, 3), ui.lp(start = 2f, bottom = 1.2f))
+        if (!storage) list.addView(ui.pill(s(R.string.files_allow)) {
+            requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+        }, ui.lp(bottom = 2f))
+        // both places: Download/WatchLite and the app's own folder (files that came before access was allowed)
+        val got = listOf(FileTransfer.inbox(this), FileTransfer.privateInbox(this)).distinct()
+            .flatMap { it.listFiles()?.filter { f -> f.isFile }.orEmpty() }.sortedByDescending { it.lastModified() }
         if (got.isEmpty()) list.addView(ui.text(s(R.string.files_none), 4.4f, Ui.TEXT2), ui.lp(start = 2f, bottom = 1f))
         got.take(30).forEach { f -> row(iconFor(f), f.name, size(f.length()) + " · " + DateFormat.getDateInstance(DateFormat.SHORT).format(f.lastModified())) { fileDialog(f) } }
         header(s(R.string.files_browse))

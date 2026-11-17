@@ -41,6 +41,20 @@ object FileTransfer {
 
     // ------------------------------------------------------------------ storage
     /** Received files go to Download/WatchLite (or the app's own folder without storage permission). */
+    fun privateInbox(ctx: Context) = File(ctx.getExternalFilesDir(null) ?: ctx.filesDir, "received")
+
+    fun hasStorage(ctx: Context) = ctx.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+    /** Files that arrived before storage access was allowed are moved to Download/WatchLite once it is. */
+    fun adopt(ctx: Context) {
+        if (!hasStorage(ctx)) return
+        val pub = inbox(ctx)
+        privateInbox(ctx).listFiles()?.filter { it.isFile }?.forEach { f ->
+            val dest = uniqueName(pub, f.name)
+            if (!f.renameTo(dest)) try { f.copyTo(dest); f.delete() } catch (_: Throwable) { }
+        }
+    }
+
     fun inbox(ctx: Context): File {
         val pub = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "WatchLite")
         val canWrite = ctx.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_GRANTED

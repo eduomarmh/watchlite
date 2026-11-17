@@ -500,4 +500,7 @@
     <string name="file_delete_q">تمسح \"%1$s\"؟</string>
     <string name="file_too_big">الملف كبير (أقصى حاجة 200 ميجا)</string>
     <string name="file_busy">فيه ملف تاني بيتبعت</string>
+    <string name="files_saved_in">بتتحفظ في Download/WatchLite (أي مدير ملفات يفتحها)</string>
+    <string name="files_saved_private">مفيش صلاحية للملفات: الملفات متخزنة جوه التطبيق. اسمح عشان تتحفظ في Download/WatchLite.</string>
+    <string name="files_allow">اسمح بالوصول للملفات</string>
 </resources>

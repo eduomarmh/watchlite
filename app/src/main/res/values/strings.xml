@@ -501,4 +501,7 @@
     <string name="file_delete_q">Delete \"%1$s\"?</string>
     <string name="file_too_big">File is too big (max 200 MB)</string>
     <string name="file_busy">Another file is being sent</string>
+    <string name="files_saved_in">Saved in Download/WatchLite (any file manager can open them)</string>
+    <string name="files_saved_private">Storage access not allowed: files are kept inside the app. Allow it to save them in Download/WatchLite.</string>
+    <string name="files_allow">Allow storage access</string>
 </resources>
