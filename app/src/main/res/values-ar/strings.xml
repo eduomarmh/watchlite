@@ -503,4 +503,23 @@
     <string name="files_saved_in">بتتحفظ في Download/WatchLite (أي مدير ملفات يفتحها)</string>
     <string name="files_saved_private">مفيش صلاحية للملفات: الملفات متخزنة جوه التطبيق. اسمح عشان تتحفظ في Download/WatchLite.</string>
     <string name="files_allow">اسمح بالوصول للملفات</string>
+    <string name="no_vibrate_charging">مفيش اهتزاز وهي بتشحن</string>
+    <string name="no_vibrate_charging_sum">الساعة متتهزش خالص على الشاحن (ما عدا البحث عن الساعة)</string>
+    <string name="no_vibrate_silent">زي وضع الموبايل الصامت</string>
+    <string name="no_vibrate_silent_sum">لما الموبايل يبقى صامت، الساعة متتهزش</string>
+    <string name="charge_anim">انيميشن الشحن</string>
+    <string name="charge_anim_sum">بيظهر كام ثانية أول ما الشاحن يتوصل</string>
+    <string name="charging_now">بيشحن</string>
+    <string name="charged_full">مشحونة بالكامل</string>
+    <string name="call_incoming">مكالمة واردة</string>
+    <string name="call_answer">رد</string>
+    <string name="call_decline">رفض</string>
+    <string name="call_end">إنهاء</string>
+    <string name="call_speaker">السماعة</string>
+    <string name="call_mute">كتم المايك</string>
+    <string name="call_silence">اسكت الرنة</string>
+    <string name="call_unknown">رقم غير معروف</string>
+    <string name="call_ongoing">في مكالمة</string>
+    <string name="call_speaker_on">سماعة الموبايل الخارجية شغالة</string>
+    <string name="call_speaker_off">سماعة الأذن / السماعة المتوصلة</string>
 </resources>

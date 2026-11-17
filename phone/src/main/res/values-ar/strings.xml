@@ -172,4 +172,7 @@
     <string name="fx_snow">تلج</string>
     <string name="fx_rain">مطر</string>
     <string name="fx_fireflies">يراعات</string>
+    <string name="f_calls">المكالمات على الساعة</string>
+    <string name="f_calls_sum">تشوف مين بيرن وترد أو ترفض أو تقفل وتتحكم في السماعة والمايك والصوت من الساعة</string>
+    <string name="perm_calls">السماح بالمكالمات (الهاتف وسجل المكالمات والأسماء)</string>
 </resources>

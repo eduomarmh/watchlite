@@ -47,7 +47,10 @@ class Prefs(ctx: Context) {
     var wheelUpKey by int("wheel_up_key", -1)
     var wheelDownKey by int("wheel_down_key", -1)
     var wheelOnFace by str("wheel_face", "none")      // none | themes
-    var haptics by int("haptics", 1)                    // 0 off, 1 light, 2 strong
+    var haptics by int("haptics", 1)
+    var noVibrateCharging by bool("no_vibrate_charging", true)
+    var noVibratePhoneSilent by bool("no_vibrate_phone_silent", true)
+    var chargeAnim by bool("charge_anim", true)                    // 0 off, 1 light, 2 strong
     var backDouble by str("back_double", "none")
     var backLong by str("back_long", "flashlight")
 

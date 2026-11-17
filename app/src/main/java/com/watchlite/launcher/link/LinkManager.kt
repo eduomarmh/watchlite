@@ -68,6 +68,8 @@ object LinkManager {
                 .put("app", "watchlite").put("version", 1))
             "ping" -> send("pong")
             "stats.request" -> sendStats(full = true)
+            "phone.ringer" -> { App.I.state.phoneRinger = p.optString("mode"); App.I.state.changed() }
+            "call.state" -> com.watchlite.launcher.calls.CallManager.onState(app, p)
             "ctl.set" -> com.watchlite.launcher.util.Bg.ui { RemoteControl.apply(app, p.optString("k"), p); com.watchlite.launcher.util.Bg.run { sendStats() } }
             "watch.locate" -> locate()
             "find.watch" -> findWatch(true)
@@ -166,7 +168,7 @@ object LinkManager {
                 if (!finding) return
                 if (System.currentTimeMillis() > end) { finding = false; send("find.watch.stopped"); return }
                 com.watchlite.launcher.chime.ChimeSounds.play(app, "res:chime_digital", 1f)
-                com.watchlite.launcher.util.Haptics.pattern(app, longArrayOf(0, 300, 150, 300))
+                com.watchlite.launcher.util.Haptics.pattern(app, longArrayOf(0, 300, 150, 300), force = true)
                 h.postDelayed(this, 1500)
             }
         }

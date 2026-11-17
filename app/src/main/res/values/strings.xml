@@ -504,4 +504,23 @@
     <string name="files_saved_in">Saved in Download/WatchLite (any file manager can open them)</string>
     <string name="files_saved_private">Storage access not allowed: files are kept inside the app. Allow it to save them in Download/WatchLite.</string>
     <string name="files_allow">Allow storage access</string>
+    <string name="no_vibrate_charging">No vibration while charging</string>
+    <string name="no_vibrate_charging_sum">The watch never vibrates on the charger (except Find my watch)</string>
+    <string name="no_vibrate_silent">Follow the phone\'s silent mode</string>
+    <string name="no_vibrate_silent_sum">When the phone is on silent, the watch does not vibrate</string>
+    <string name="charge_anim">Charging animation</string>
+    <string name="charge_anim_sum">Shown for a few seconds when the charger is connected</string>
+    <string name="charging_now">Charging</string>
+    <string name="charged_full">Fully charged</string>
+    <string name="call_incoming">Incoming call</string>
+    <string name="call_answer">Answer</string>
+    <string name="call_decline">Decline</string>
+    <string name="call_end">End</string>
+    <string name="call_speaker">Speaker</string>
+    <string name="call_mute">Mute</string>
+    <string name="call_silence">Silence</string>
+    <string name="call_unknown">Unknown number</string>
+    <string name="call_ongoing">On call</string>
+    <string name="call_speaker_on">Phone speaker on</string>
+    <string name="call_speaker_off">Phone earpiece / headset</string>
 </resources>

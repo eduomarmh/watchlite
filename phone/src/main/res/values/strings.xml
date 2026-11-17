@@ -172,4 +172,7 @@
     <string name="fx_snow">Snow</string>
     <string name="fx_rain">Rain</string>
     <string name="fx_fireflies">Fireflies</string>
+    <string name="f_calls">Calls on the watch</string>
+    <string name="f_calls_sum">See who is calling, answer, decline, end, speaker, mute and volume from the watch</string>
+    <string name="perm_calls">Allow calls (phone, call log, contacts)</string>
 </resources>

@@ -50,6 +50,7 @@ class App : Application() {
         ChimeScheduler.schedule(this)
         com.watchlite.launcher.system.Permissions.autoEnable(this)
         com.watchlite.launcher.aod.AodGate.register(this)
+        com.watchlite.launcher.charge.ChargeAnim.register(this)
     }
 
     override fun onTrimMemory(level: Int) {

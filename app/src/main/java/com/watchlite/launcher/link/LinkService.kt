@@ -109,11 +109,7 @@ class LinkService : Service() {
     private var connectedSince = 0L
     private val lostAlert = Runnable {
         if (!App.I.state.linkConnected && App.prefs.linkLostAlert) {
-            com.watchlite.launcher.util.Haptics.tick(this, true)
-            try {
-                val v = getSystemService(android.content.Context.VIBRATOR_SERVICE) as android.os.Vibrator
-                v.vibrate(android.os.VibrationEffect.createWaveform(longArrayOf(0, 300, 200, 300, 200, 600), -1))
-            } catch (_: Throwable) { }
+            com.watchlite.launcher.util.Haptics.pattern(this, longArrayOf(0, 300, 200, 300, 200, 600))
             android.widget.Toast.makeText(this, getString(com.watchlite.launcher.R.string.link_lost_toast), android.widget.Toast.LENGTH_LONG).show()
         }
     }

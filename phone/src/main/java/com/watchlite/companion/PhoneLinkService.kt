@@ -148,9 +148,12 @@ class PhoneLinkService : Service() {
         thread = Thread({ loop() }, "wlc-link").apply { isDaemon = true; start() }
         main.postDelayed(statsTick, 60_000)
         extras = LinkExtras(this).also { it.start() }
+        calls = try { CallBridge(this).also { it.start() } } catch (t: Throwable) { CompanionApp.report(t); null }
     }
 
     var extras: LinkExtras? = null
+        private set
+    var calls: CallBridge? = null
         private set
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -225,7 +228,7 @@ class PhoneLinkService : Service() {
         sendBattery(force = true)
         sendMsg("stats.request")
         PhoneNotifListener.instance?.resendActive()
-        main.post { extras?.onConnected() }
+        main.post { extras?.onConnected(); calls?.onConnected() }
     }
 
     @Synchronized
@@ -265,6 +268,7 @@ class PhoneLinkService : Service() {
             "notif.reply" -> PhoneNotifListener.instance?.reply(p.optString("key"), p.optString("action"), p.optString("text"))
             "media.cmd" -> media(p.optString("cmd"))
             "theme.thumb" -> { ThemeStore.saveThumb(this, p); changed() }
+            "call.cmd" -> main.post { calls?.command(p.optString("cmd")) }
             "file.start", "file.chunk", "file.end", "file.cancel", "file.done" -> FileTransfer.handle(this, env.optString("type"), p)
             "theme.thumbs.done" -> { ThemeStore.done(this, p); changed() }
             "theme.progress" -> { ThemeStore.event = "progress:" + (p.optInt("index") + 1) + "/" + p.optInt("total"); changed() }
@@ -358,6 +362,7 @@ class PhoneLinkService : Service() {
         instance = null
         main.removeCallbacksAndMessages(null)
         extras?.stop(); extras = null
+        calls?.stop(); calls = null
         try { unregisterReceiver(battery) } catch (_: Throwable) { }
         try { socket?.close() } catch (_: Throwable) { }
         connected = false; status = "idle"; changed()

@@ -461,6 +461,9 @@ class SettingsActivity : Activity() {
         choice(s(R.string.back_double), actionsList, { p.backDouble }) { p.backDouble = it }
         choice(s(R.string.back_long), actionsList, { p.backLong }) { p.backLong = it }
         choice(s(R.string.haptics), listOf(0 to s(R.string.off), 1 to s(R.string.light), 2 to s(R.string.strong)), { p.haptics }) { p.haptics = it }
+        switch(s(R.string.no_vibrate_charging), s(R.string.no_vibrate_charging_sum), { p.noVibrateCharging }) { p.noVibrateCharging = it }
+        switch(s(R.string.no_vibrate_silent), s(R.string.no_vibrate_silent_sum), { p.noVibratePhoneSilent }) { p.noVibratePhoneSilent = it }
+        switch(s(R.string.charge_anim), s(R.string.charge_anim_sum), { p.chargeAnim }) { p.chargeAnim = it }
         header(s(R.string.gesture_map))
         list.addView(ui.text(s(R.string.gesture_help), 4.6f, Ui.TEXT2, 1, 0), ui.lp(start = 2f, end = 2f))
     }

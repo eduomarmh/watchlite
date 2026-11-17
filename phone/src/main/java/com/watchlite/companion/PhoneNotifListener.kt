@@ -50,6 +50,8 @@ class PhoneNotifListener : NotificationListenerService() {
         if (sbn.packageName == packageName) return
         if (n.flags and Notification.FLAG_GROUP_SUMMARY != 0) return
         if (sbn.isOngoing) return
+        // calls get their own screen on the watch
+        if (n.category == Notification.CATEGORY_CALL && prefs.getBoolean("mod_calls", true)) return
         // remember the app for the filter list
         val seen = seenApps()
         if (sbn.packageName !in seen) prefs.edit().putStringSet("seen_apps", seen + sbn.packageName).apply()

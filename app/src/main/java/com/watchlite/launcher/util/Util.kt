@@ -102,9 +102,20 @@ object TimeFmt {
 }
 
 object Haptics {
+    /**
+     * Single gate for every vibration in the launcher:
+     * none while charging, none while the phone is on silent (both switchable in Settings → Sound & vibration).
+     */
+    fun allowed(): Boolean {
+        val p = App.prefs; val st = App.I.state
+        if (p.noVibrateCharging && st.charging) return false
+        if (p.noVibratePhoneSilent && st.phoneRinger == "silent") return false
+        return true
+    }
+
     fun tick(ctx: Context, strong: Boolean = false) {
         val level = App.prefs.haptics
-        if (level == 0) return
+        if (level == 0 || !allowed()) return
         val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator ?: return
         if (!v.hasVibrator()) return
         val ms = if (strong || level == 2) 22L else 9L
@@ -114,7 +125,9 @@ object Haptics {
         } catch (_: Throwable) { }
     }
 
-    fun pattern(ctx: Context, p: LongArray) {
+    /** [force] only for "find my watch": it must buzz so the watch can be found. */
+    fun pattern(ctx: Context, p: LongArray, force: Boolean = false) {
+        if (!force && !allowed()) return
         val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator ?: return
         try { v.vibrate(VibrationEffect.createWaveform(p, -1)) } catch (_: Throwable) { }
     }
@@ -167,6 +180,8 @@ class DeviceState {
     @Volatile var battery = 100
     @Volatile var charging = false
     @Volatile var phoneBattery = -1
+    /** Phone ringer mode from the companion: normal | vibrate | silent ("" = unknown). */
+    @Volatile var phoneRinger = ""
     @Volatile var phoneCharging = false
     @Volatile var phoneNet = ""
     @Volatile var weatherTemp = ""

@@ -480,6 +480,10 @@ class MainActivity : Activity() {
         toggle(getString(R.string.f_notif), "mod_notif", R.drawable.ic_notifications, sum = getString(R.string.f_notif_sum))
         toggle(getString(R.string.f_battery), "mod_battery", R.drawable.ic_battery_full)
         toggle(getString(R.string.f_find), "mod_find", R.drawable.ic_phonelink_ring, sum = getString(R.string.f_find_sum))
+        toggle(getString(R.string.f_calls), "mod_calls", R.drawable.ic_call, sum = getString(R.string.f_calls_sum))
+        lastSection?.addView(button(getString(R.string.perm_calls), R.drawable.ic_call) {
+            requestPermissions(CallBridge.PERMS, 5)
+        }, LinearLayout.LayoutParams(-1, dp(44)).apply { topMargin = dp(4); bottomMargin = dp(6) })
         toggle(getString(R.string.f_weather), "mod_weather", R.drawable.ic_light_mode, sum = getString(R.string.f_weather_sum))
         toggle(getString(R.string.f_location), "mod_location", R.drawable.ic_my_location, def = false, sum = getString(R.string.f_location_sum))
         toggle(getString(R.string.f_media), "mod_media", R.drawable.ic_music_note, sum = getString(R.string.f_media_sum))

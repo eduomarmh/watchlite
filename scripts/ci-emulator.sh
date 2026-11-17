@@ -249,6 +249,30 @@ shot "x_63_files" 1
 swipe 160 300 160 100 300; shot "x_64_files2" 1
 adb shell input keyevent KEYCODE_HOME; sleep 2
 
+# 6g) Charging animation: plug in → animation for ~4 s → gone
+adb shell input keyevent KEYCODE_HOME; sleep 2
+adb shell dumpsys battery unplug; sleep 2
+adb shell dumpsys battery set level 64
+adb logcat -c
+adb shell dumpsys battery set ac 1; sleep 1.3
+shot "x_70_charge_anim_1" 0
+sleep 0.9; shot "x_71_charge_anim_2" 0
+sleep 4; shot "x_72_charge_anim_gone" 0
+adb logcat -d | grep -E "WL-Charge" > $OUT/charge_check.txt || true
+grep -q "power connected" $OUT/charge_check.txt || echo "Charging animation did not start" >> $OUT/CRASHED
+adb shell dumpsys battery reset; sleep 1
+
+# 6h) Calls: simulated ringing → in call → ended
+msg() { python3 -c "import base64,json,sys; print(base64.b64encode(json.dumps({'type':'call.state','payload':json.loads(sys.argv[1])}).encode()).decode())" "$1"; }
+adb shell am force-stop $PKG; sleep 1
+adb shell am start -n $PKG/.settings.SettingsActivity --activity-clear-task --es ci_link "$(msg '{"state":"ringing","number":"+201001234567","name":"Ahmed Ali","ringer":"normal"}')" < /dev/null; sleep 3
+shot "x_80_call_ringing" 0
+adb shell am start -n $PKG/.settings.SettingsActivity --activity-clear-task --es ci_link "$(msg '{"state":"offhook","number":"+201001234567","name":"Ahmed Ali","speaker":true,"elapsed":65000}')" < /dev/null; sleep 3
+shot "x_81_call_ongoing" 0
+adb shell am start -n $PKG/.settings.SettingsActivity --activity-clear-task --es ci_link "$(msg '{"state":"idle"}')" < /dev/null; sleep 3
+shot "x_82_call_ended" 0
+adb shell input keyevent KEYCODE_HOME; sleep 1
+
 # 7) Phone companion UI smoke test (renders, no crash)
 if [ -f app/build/outputs/apk/phone-release.apk ]; then
   adb install -r -g app/build/outputs/apk/phone-release.apk || true
