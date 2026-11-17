@@ -479,6 +479,7 @@ class HomeActivity : Activity() {
     private var warnedAdmin = false
 
     private fun showCurtain() {
+        Log.i("Home", "curtain (screen off without device admin)")
         if (curtain != null) return
         curtain = View(this).apply { setBackgroundColor(0xFF000000.toInt()) }
         root.addView(curtain, ui.frameLp())

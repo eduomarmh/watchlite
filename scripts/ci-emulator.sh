@@ -259,7 +259,9 @@ adb shell dumpsys battery set ac 1; sleep 1.3
 shot "x_70_charge_anim_1" 0
 sleep 0.9; shot "x_71_charge_anim_2" 0
 sleep 4; shot "x_72_charge_anim_gone" 0
-adb logcat -d | grep -E "WL-Charge" > $OUT/charge_check.txt || true
+adb shell dumpsys power | grep -E "mWakefulness=|Display Power: state" >> $OUT/charge_check.txt
+adb shell dumpsys activity activities | grep -E "mResumedActivity|mFocusedActivity" >> $OUT/charge_check.txt
+adb logcat -d | grep -E "WL-Charge|WL-Home|WL-AOD" >> $OUT/charge_check.txt || true
 grep -q "power connected" $OUT/charge_check.txt || echo "Charging animation did not start" >> $OUT/CRASHED
 adb shell dumpsys battery reset; sleep 1
 

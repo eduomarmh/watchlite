@@ -85,6 +85,7 @@ class ChargingActivity : Activity() {
     private fun close() {
         if (closing || isFinishing) return
         closing = true
+        Log.i("Charge", "animation done, screen was on=$wasOn")
         finish()
         overridePendingTransition(0, android.R.anim.fade_out)
         // the screen was off: go back to the same quiet state
