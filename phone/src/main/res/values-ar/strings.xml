@@ -165,4 +165,11 @@
     <string name="crash_copy">نسخ</string>
     <string name="crash_share">مشاركة</string>
     <string name="crash_copied">اتنسخ. ابعته للمطور.</string>
+    <string name="design_wallpaper">خلفية جاهزة</string>
+    <string name="fx_sakura">ساكورا</string>
+    <string name="fx_lanterns">فوانيس</string>
+    <string name="fx_clouds">سحاب</string>
+    <string name="fx_snow">تلج</string>
+    <string name="fx_rain">مطر</string>
+    <string name="fx_fireflies">يراعات</string>
 </resources>

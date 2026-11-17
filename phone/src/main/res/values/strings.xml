@@ -165,4 +165,11 @@
     <string name="crash_copy">Copy</string>
     <string name="crash_share">Share</string>
     <string name="crash_copied">Copied. Paste it to the developer.</string>
+    <string name="design_wallpaper">Wallpaper</string>
+    <string name="fx_sakura">Sakura</string>
+    <string name="fx_lanterns">Lanterns</string>
+    <string name="fx_clouds">Clouds</string>
+    <string name="fx_snow">Snow</string>
+    <string name="fx_rain">Rain</string>
+    <string name="fx_fireflies">Fireflies</string>
 </resources>

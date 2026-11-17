@@ -1,0 +1,78 @@
+{
+ "schema": 1,
+ "id": "rain_street",
+ "name": {
+  "en": "Rainy Street",
+  "ar": "شارع المطر"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/rain_street.webp",
+  "overlay": "rain",
+  "overlayColor": "#88A9C8FF",
+  "speed": 1.0
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.2,
+   "size": 0.3,
+   "font": "bebas",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.365,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#DDFFFFFF",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "dot",
+   "text": "notif",
+   "x": 0.92,
+   "y": 0.06,
+   "size": 0.02,
+   "color": "@accent"
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.2,
+   "cy": 0.88,
+   "radius": 0.095,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.8,
+   "cy": 0.88,
+   "radius": 0.095,
+   "color": "#FF0A84FF",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  }
+ ],
+ "accent": "#FFFF6BB5"
+}

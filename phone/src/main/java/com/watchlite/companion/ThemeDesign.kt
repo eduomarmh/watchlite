@@ -31,12 +31,13 @@ import kotlin.math.sin
 class ThemeDesign {
     var id = "ph_" + System.currentTimeMillis().toString(36)
     var name = ""
-    var bgType = "gradient"            // photo | gradient | solid
+    var bgType = "gradient"            // photo | wallpaper | gradient | solid
+    var wallpaper = "sakura_night"     // one of the watch's built-in wallpapers (assets/wallpapers)
     var gradient = 0                   // index into GRADIENTS
     var solid = 0xFF000000.toInt()
     var photoFx = 0.5f; var photoFy = 0.5f; var photoZoom = 1f
     var scrim = 25                     // %
-    var overlay = "none"               // none | twinkle | bubbles | starfield
+    var overlay = "none"               // one of OVERLAYS
     var clock = "digital"              // digital | analog
     var font = "tajawal_extrabold"
     var outline = false
@@ -54,7 +55,7 @@ class ThemeDesign {
     fun toJson(): JSONObject = JSONObject()
         .put("id", id).put("name", name).put("bgType", bgType).put("gradient", gradient).put("solid", solid)
         .put("fx", photoFx.toDouble()).put("fy", photoFy.toDouble()).put("zoom", photoZoom.toDouble())
-        .put("scrim", scrim).put("overlay", overlay).put("clock", clock).put("font", font).put("outline", outline)
+        .put("scrim", scrim).put("wallpaper", wallpaper).put("overlay", overlay).put("clock", clock).put("font", font).put("outline", outline)
         .put("position", position).put("size", size).put("timeColor", timeColor).put("accent", accent)
         .put("date", showDate).put("battery", showBattery).put("steps", showSteps).put("prayer", showPrayer)
         .put("hijri", showHijri).put("seconds", seconds)
@@ -67,13 +68,18 @@ class ThemeDesign {
             intArrayOf(0xFF5C1E4A.toInt(), 0xFF12060F.toInt()), intArrayOf(0xFF3A3A3A.toInt(), 0xFF000000.toInt()))
         val COLORS = listOf(0xFFFFFFFF, 0xFFE8E3FF, 0xFF7B6CFF, 0xFF64D2FF, 0xFF30D158, 0xFFFFD60A, 0xFFFF9F6B, 0xFFFF6B6B, 0xFFFF6BD5, 0xFFBFBFBF).map { it.toInt() }
         val SOLIDS = listOf(0xFF000000, 0xFF101018, 0xFF14213D, 0xFF2D0B3A, 0xFF0B2E20, 0xFF3A0B0B).map { it.toInt() }
+        /** Animated effects the watch can draw on top of any background. */
+        val OVERLAYS = listOf("none", "sakura", "lanterns", "twinkle", "clouds", "snow", "rain", "fireflies", "bubbles", "starfield")
+        /** Wallpapers bundled in both apps (same files), newest first. */
+        fun wallpapers(ctx: Context): List<String> = (ctx.assets.list("wallpapers") ?: emptyArray())
+            .filter { it.endsWith(".webp") }.map { it.removeSuffix(".webp") }.sorted()
         val FONTS = listOf("tajawal_extrabold", "tajawal_light", "bebas", "michroma", "techmono", "ruqaa")
 
         fun fromJson(o: JSONObject) = ThemeDesign().apply {
             id = o.optString("id", id); name = o.optString("name"); bgType = o.optString("bgType", bgType)
             gradient = o.optInt("gradient"); solid = o.optInt("solid", solid)
             photoFx = o.optDouble("fx", .5).toFloat(); photoFy = o.optDouble("fy", .5).toFloat(); photoZoom = o.optDouble("zoom", 1.0).toFloat()
-            scrim = o.optInt("scrim", scrim); overlay = o.optString("overlay", overlay); clock = o.optString("clock", clock)
+            scrim = o.optInt("scrim", scrim); wallpaper = o.optString("wallpaper", wallpaper); overlay = o.optString("overlay", overlay); clock = o.optString("clock", clock)
             font = o.optString("font", font); outline = o.optBoolean("outline"); position = o.optString("position", position)
             size = o.optInt("size", size); timeColor = o.optInt("timeColor", timeColor); accent = o.optInt("accent", accent)
             showDate = o.optBoolean("date", true); showBattery = o.optBoolean("battery", true); showSteps = o.optBoolean("steps", true)
@@ -99,6 +105,7 @@ class ThemeDesign {
         val els = JSONArray()
         val bg = when (bgType) {
             "photo" -> JSONObject().put("type", "image").put("src", "bg.jpg")
+            "wallpaper" -> JSONObject().put("type", "image").put("src", "asset:wallpapers/$wallpaper.webp")
             "solid" -> JSONObject().put("type", "solid").put("colors", JSONArray().put(hex(solid)))
             else -> JSONObject().put("type", "gradient").put("colors", JSONArray(GRADIENTS[gradient.coerceIn(0, GRADIENTS.size - 1)].map { hex(it) }))
         }
@@ -106,7 +113,7 @@ class ThemeDesign {
         if (overlay != "none") bg.put("overlay", overlay).put("overlayColor", hex(accent))
         val dim = hex((timeColor and 0x00FFFFFF) or 0xCC000000.toInt())
         val acc = hex(accent)
-        val shadow = if (bgType == "photo") JSONObject().put("r", 0.02).put("dx", 0).put("dy", 0.006).put("color", "#99000000") else null
+        val shadow = if (bgType == "photo" || bgType == "wallpaper") JSONObject().put("r", 0.02).put("dx", 0).put("dy", 0.006).put("color", "#99000000") else null
 
         fun text(t: String, x: Double, y: Double, s: Double, color: String, font: String = "tajawal_medium") =
             JSONObject().put("type", "text").put("text", t).put("x", x).put("y", y).put("size", s).put("color", color).put("font", font)
@@ -170,6 +177,14 @@ class ManifestPainter(private val ctx: Context) {
     private val tp = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
     private val p = Paint(Paint.ANTI_ALIAS_FLAG)
     private val fonts = HashMap<String, Typeface>()
+    private var assetName = ""; private var assetBmp: Bitmap? = null
+    private fun asset(path: String): Bitmap? {
+        if (path != assetName) {
+            assetBmp = try { ctx.assets.open(path).use { BitmapFactory.decodeStream(it) } } catch (_: Exception) { null }
+            assetName = path
+        }
+        return assetBmp
+    }
     var battery = 76; var steps = 4321; var goal = 6000
 
     private fun font(id: String): Typeface = fonts.getOrPut(id) {
@@ -214,7 +229,19 @@ class ManifestPainter(private val ctx: Context) {
         val bg = m.optJSONObject("background") ?: JSONObject()
         val colors = bg.optJSONArray("colors")
         when (bg.optString("type")) {
-            "image" -> if (photo != null && design != null) c.drawBitmap(photo, design.photoMatrix(photo, w.toFloat(), h.toFloat()), Paint(Paint.FILTER_BITMAP_FLAG)) else c.drawColor(Color.DKGRAY)
+            "image" -> {
+                val src = bg.optString("src")
+                val bmp = if (src.startsWith("asset:")) asset(src.removePrefix("asset:")) else photo
+                when {
+                    bmp == null -> c.drawColor(Color.DKGRAY)
+                    src.startsWith("asset:") -> {   // center-crop like the watch does
+                        val s = max(w.toFloat() / bmp.width, h.toFloat() / bmp.height)
+                        c.save(); c.translate((w - bmp.width * s) / 2f, (h - bmp.height * s) / 2f); c.scale(s, s)
+                        c.drawBitmap(bmp, 0f, 0f, Paint(Paint.FILTER_BITMAP_FLAG)); c.restore()
+                    }
+                    design != null -> c.drawBitmap(bmp, design.photoMatrix(bmp, w.toFloat(), h.toFloat()), Paint(Paint.FILTER_BITMAP_FLAG))
+                }
+            }
             "solid" -> c.drawColor(col(colors?.optString(0), Color.BLACK))
             else -> { p.reset(); p.shader = LinearGradient(0f, 0f, 0f, h.toFloat(), col(colors?.optString(0)), col(colors?.optString(1), Color.BLACK), Shader.TileMode.CLAMP); c.drawRect(0f, 0f, w.toFloat(), h.toFloat(), p); p.shader = null }
         }
@@ -223,7 +250,16 @@ class ManifestPainter(private val ctx: Context) {
             val rnd = java.util.Random(7)
             repeat(28) {
                 p.color = Color.argb(60 + rnd.nextInt(120), Color.red(oc), Color.green(oc), Color.blue(oc))
-                val r = if (bg.optString("overlay") == "bubbles") short * (0.01f + rnd.nextFloat() * 0.04f) else short * (0.004f + rnd.nextFloat() * 0.007f)
+                val kind = bg.optString("overlay")
+                val r = when (kind) {
+                    "bubbles" -> short * (0.01f + rnd.nextFloat() * 0.04f)
+                    "sakura" -> short * (0.012f + rnd.nextFloat() * 0.012f)
+                    "clouds" -> short * (0.06f + rnd.nextFloat() * 0.06f)
+                    "lanterns" -> short * (0.03f + rnd.nextFloat() * 0.02f)
+                    else -> short * (0.004f + rnd.nextFloat() * 0.007f)
+                }
+                if (kind == "clouds") p.color = Color.argb(40, 255, 255, 255)
+                if (kind == "lanterns" && it > 3) return@repeat
                 if (bg.optString("overlay") == "bubbles") { p.style = Paint.Style.STROKE; p.strokeWidth = short * 0.004f } else p.style = Paint.Style.FILL
                 c.drawCircle(rnd.nextFloat() * w, rnd.nextFloat() * h, r, p)
             }

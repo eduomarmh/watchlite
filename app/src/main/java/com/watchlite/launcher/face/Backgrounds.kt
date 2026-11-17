@@ -71,6 +71,10 @@ object Backgrounds {
             "circuit" -> CircuitLayer(cols.first(), bg.speed, !overlay)
             "hud" -> HudLayer(cols, bg.speed)
             "hexgrid" -> HexGridLayer(cols, bg.speed)
+            "sakura" -> SakuraLayer(cols.first(), bg.speed)
+            "lanterns" -> LanternLayer(cols.first(), bg.speed)
+            "clouds" -> CloudsLayer(cols.first(), bg.speed)
+            "rosette" -> RosetteLayer(cols, bg.speed)
             "gradient" -> GradientLayer(cols)
             else -> SolidLayer(cols.firstOrNull() ?: Color.BLACK)
         }

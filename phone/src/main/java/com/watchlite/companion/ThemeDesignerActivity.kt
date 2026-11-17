@@ -137,19 +137,19 @@ class ThemeDesignerActivity : Activity() {
         val b = section(getString(R.string.design_background), R.drawable.ic_image)
         b.addView(ui.segmented(listOf(
             Triple("photo", getString(R.string.design_photo), R.drawable.ic_add_photo_alternate),
+            Triple("wallpaper", getString(R.string.design_wallpaper), R.drawable.ic_image),
             Triple("gradient", getString(R.string.design_gradient), R.drawable.ic_gradient),
             Triple("solid", getString(R.string.design_solid), R.drawable.ic_format_color_fill)), d.bgType) {
             d.bgType = it; if (it == "photo" && photo == null) pickPhoto(); refresh()
         })
         dynamic["photoBtn"] = ui.button(getString(R.string.design_choose_photo), R.drawable.ic_add_photo_alternate) { pickPhoto() }
         b.addView(dynamic["photoBtn"], ui.lp(h = ui.dp(46), top = 10))
+        dynamic["wallpapers"] = wallpaperPicker().also { b.addView(it, ui.lp(top = 10)) }
         dynamic["gradients"] = gradientSwatches().also { b.addView(it, ui.lp(top = 10)) }
         dynamic["solids"] = ui.swatches(ThemeDesign.SOLIDS, d.solid) { d.solid = it; refresh() }.also { b.addView(it, ui.lp(top = 10)) }
         b.addView(ui.slider(getString(R.string.design_dim), R.drawable.ic_bedtime, 0, 70, d.scrim, { "$it%" }) { d.scrim = it; refresh() }, ui.lp(top = 8))
         b.addView(label(getString(R.string.design_effect)))
-        b.addView(ui.segmented(listOf(
-            Triple("none", getString(R.string.design_none), null), Triple("twinkle", getString(R.string.design_twinkle), null),
-            Triple("bubbles", getString(R.string.design_bubbles), null), Triple("starfield", getString(R.string.design_stars), null)), d.overlay) { d.overlay = it; refresh() })
+        b.addView(chips(ThemeDesign.OVERLAYS.map { it to effectName(it) }, d.overlay) { d.overlay = it; refresh() })
 
         // clock
         val c = section(getString(R.string.design_clock), R.drawable.ic_schedule)
@@ -191,6 +191,60 @@ class ThemeDesignerActivity : Activity() {
         setContentView(ScrollView(this).apply { addView(root); setBackgroundColor(0xFF0B0B10.toInt()) })
     }
 
+    private fun effectName(k: String) = getString(when (k) {
+        "none" -> R.string.design_none; "sakura" -> R.string.fx_sakura; "lanterns" -> R.string.fx_lanterns; "twinkle" -> R.string.design_twinkle
+        "clouds" -> R.string.fx_clouds; "snow" -> R.string.fx_snow; "rain" -> R.string.fx_rain; "fireflies" -> R.string.fx_fireflies
+        "bubbles" -> R.string.design_bubbles; else -> R.string.design_stars
+    })
+
+    /** Scrollable single-choice chips. */
+    private fun chips(items: List<Pair<String, String>>, selected: String, onPick: (String) -> Unit): View {
+        val r = ui.hbox()
+        val views = LinkedHashMap<String, TextView>()
+        fun paint(sel: String) = views.forEach { (k, v) ->
+            val on = k == sel
+            v.background = ui.bg(if (on) ui.accent else ui.card2, 18); v.setTextColor(if (on) ui.white else ui.text2)
+        }
+        items.forEach { (k, label) ->
+            val v = ui.tv(label, 13f).apply {
+                setPadding(ui.dp(14), ui.dp(8), ui.dp(14), ui.dp(8))
+                setOnClickListener { paint(k); onPick(k) }
+            }
+            views[k] = v; r.addView(v, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = ui.dp(8) })
+        }
+        paint(selected)
+        return HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(r) }
+    }
+
+    /** The watch's built-in wallpapers (anime, Islamic, cars, tech…) as small previews. */
+    private fun wallpaperPicker(): View {
+        val r = ui.hbox()
+        val frames = LinkedHashMap<String, View>()
+        fun paint() = frames.forEach { (k, v) ->
+            (v.background as GradientDrawable).setStroke(if (k == d.wallpaper) ui.dp(3) else ui.dp(1), if (k == d.wallpaper) ui.accent else 0x33FFFFFF)
+        }
+        for (name in ThemeDesign.wallpapers(this)) {
+            val img = android.widget.ImageView(this).apply {
+                scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
+                try { assets.open("wallpapers/$name.webp").use { setImageBitmap(BitmapFactory.decodeStream(it, null, BitmapFactory.Options().apply { inSampleSize = 4 })) } } catch (_: Exception) { }
+                outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(v: View, o: Outline) { o.setRoundRect(0, 0, v.width, v.height, ui.dpf(10f)) }
+                }
+                clipToOutline = true
+            }
+            val f = FrameLayout(this).apply {
+                background = GradientDrawable().apply { cornerRadius = ui.dpf(12f); setColor(0) }
+                setPadding(ui.dp(3), ui.dp(3), ui.dp(3), ui.dp(3))
+                addView(img, FrameLayout.LayoutParams(-1, -1))
+                setOnClickListener { d.wallpaper = name; d.bgType = "wallpaper"; paint(); refresh() }
+            }
+            frames[name] = f
+            r.addView(f, LinearLayout.LayoutParams(ui.dp(66), ui.dp(80)).apply { marginEnd = ui.dp(8) })
+        }
+        paint()
+        return HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(r) }
+    }
+
     private fun gradientSwatches(): View {
         val r = ui.hbox()
         val views = ArrayList<View>()
@@ -230,6 +284,7 @@ class ThemeDesignerActivity : Activity() {
         dynamic["photoBtn"]?.visibility = if (photoMode) View.VISIBLE else View.GONE
         dynamic["panHint"]?.visibility = if (photoMode && photo != null) View.VISIBLE else View.GONE
         dynamic["gradients"]?.visibility = if (d.bgType == "gradient") View.VISIBLE else View.GONE
+        dynamic["wallpapers"]?.visibility = if (d.bgType == "wallpaper") View.VISIBLE else View.GONE
         dynamic["solids"]?.visibility = if (d.bgType == "solid") View.VISIBLE else View.GONE
         dynamic["digital"]?.visibility = if (d.clock == "digital") View.VISIBLE else View.GONE
         dynamic["analog"]?.visibility = if (d.clock == "analog") View.VISIBLE else View.GONE

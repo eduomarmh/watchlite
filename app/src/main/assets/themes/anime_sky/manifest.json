@@ -1,0 +1,75 @@
+{
+ "schema": 1,
+ "id": "anime_sky",
+ "name": {
+  "en": "Summer Sky",
+  "ar": "سماء الصيف"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/anime_sky.webp"
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.36,
+   "size": 0.27,
+   "font": "tajawal_bold",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.5085,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#DDFFFFFF",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "dot",
+   "text": "notif",
+   "x": 0.92,
+   "y": 0.06,
+   "size": 0.02,
+   "color": "@accent"
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.2,
+   "cy": 0.88,
+   "radius": 0.095,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.8,
+   "cy": 0.88,
+   "radius": 0.095,
+   "color": "#FF0A84FF",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  }
+ ],
+ "accent": "#FF4FA8FF"
+}

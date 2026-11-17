@@ -4,6 +4,8 @@ plugins {
 }
 
 android {
+    // fonts + built-in wallpapers come straight from the watch app, so previews match exactly
+    sourceSets["main"].assets.srcDirs("src/main/assets", "../app/src/main/assets")
     namespace = "com.watchlite.companion"
     compileSdk = 35
 

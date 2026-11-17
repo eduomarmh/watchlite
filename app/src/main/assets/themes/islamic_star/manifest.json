@@ -1,0 +1,91 @@
+{
+ "schema": 1,
+ "id": "islamic_star",
+ "name": {
+  "en": "Islamic Star",
+  "ar": "زخرفة إسلامية"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/islamic_star.webp",
+  "scrim": 0.35
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.42,
+   "size": 0.26,
+   "font": "tajawal_bold",
+   "color": "#FFF4DFA0",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.563,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#DDFFFFFF",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{prayer.next} {prayer.nextTime}",
+   "x": 0.5,
+   "y": 0.6279999999999999,
+   "size": 0.052,
+   "font": "tajawal_medium",
+   "color": "#FFE9C46A",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "dot",
+   "text": "notif",
+   "x": 0.92,
+   "y": 0.06,
+   "size": 0.02,
+   "color": "@accent"
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.2,
+   "cy": 0.86,
+   "radius": 0.095,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.8,
+   "cy": 0.86,
+   "radius": 0.095,
+   "color": "#FF0A84FF",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  }
+ ],
+ "accent": "#FFE9C46A"
+}

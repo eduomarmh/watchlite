@@ -1,0 +1,79 @@
+{
+ "schema": 1,
+ "id": "bamboo",
+ "name": {
+  "en": "Bamboo Forest",
+  "ar": "غابة البامبو"
+ },
+ "author": "WatchLite",
+ "background": {
+  "type": "image",
+  "src": "asset:wallpapers/bamboo.webp",
+  "overlay": "fireflies",
+  "overlayColor": "#FFD8FF8A",
+  "speed": 0.8,
+  "scrim": 0.15
+ },
+ "elements": [
+  {
+   "type": "digitalTime",
+   "x": 0.5,
+   "y": 0.4,
+   "size": 0.26,
+   "font": "tajawal_extrabold",
+   "color": "#FFFFFFFF",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "text",
+   "text": "{date:EEEE d MMMM}",
+   "x": 0.5,
+   "y": 0.543,
+   "size": 0.058,
+   "font": "tajawal_medium",
+   "color": "#DDFFFFFF",
+   "shadow": {
+    "r": 0.025,
+    "dx": 0,
+    "dy": 0.006,
+    "color": "#AA000000"
+   }
+  },
+  {
+   "type": "dot",
+   "text": "notif",
+   "x": 0.92,
+   "y": 0.06,
+   "size": 0.02,
+   "color": "@accent"
+  },
+  {
+   "type": "gauge",
+   "source": "steps",
+   "cx": 0.2,
+   "cy": 0.88,
+   "radius": 0.095,
+   "color": "#FF30D158",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  },
+  {
+   "type": "gauge",
+   "source": "battery",
+   "cx": 0.8,
+   "cy": 0.88,
+   "radius": 0.095,
+   "color": "#FF0A84FF",
+   "trackColor": "#40FFFFFF",
+   "defaultOff": true,
+   "style": "pill"
+  }
+ ],
+ "accent": "#FFB8F28A"
+}
