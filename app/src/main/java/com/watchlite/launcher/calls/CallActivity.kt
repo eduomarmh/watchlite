@@ -136,7 +136,9 @@ class CallActivity : Activity() {
         timer = if (!ringing) ui.text("00:00", 4.6f, ui.accent, 1, 1).apply { gravity = Gravity.CENTER }.also { root.addView(it) } else null
 
         // avatar with the caller's initial; pulses while ringing
-        val label = CallManager.name.ifBlank { CallManager.number }.ifBlank { s(R.string.call_unknown) }
+        // phone numbers stay left-to-right inside Arabic text (the "+" must stay in front)
+        val num = if (CallManager.number.isBlank()) "" else "\u2066" + CallManager.number + "\u2069"
+        val label = CallManager.name.ifBlank { num }.ifBlank { s(R.string.call_unknown) }
         val avatar = FrameLayout(this)
         val glowV = android.view.View(this).apply { background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor((ui.accent and 0x00FFFFFF) or 0x44000000) } }
         avatar.addView(glowV, FrameLayout.LayoutParams(-1, -1))
@@ -154,7 +156,7 @@ class CallActivity : Activity() {
         }
         root.addView(ui.text(label, 7f, Ui.TEXT, 2, 2).apply { gravity = Gravity.CENTER }, ui.lp(top = 2f))
         if (CallManager.name.isNotBlank() && CallManager.number.isNotBlank())
-            root.addView(ui.text(Digits.apply(CallManager.number, Digits.useArabic()), 4.4f, Ui.TEXT2, 1, 1).apply { gravity = Gravity.CENTER })
+            root.addView(ui.text(num, 4.4f, Ui.TEXT2, 1, 1).apply { gravity = Gravity.CENTER })
 
         val spacer = android.view.View(this)
         root.addView(spacer, ui.lp(h = 0, weight = 1f))
