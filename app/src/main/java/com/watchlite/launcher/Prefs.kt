@@ -51,7 +51,8 @@ class Prefs(ctx: Context) {
     var noVibrateCharging by bool("no_vibrate_charging", true)
     var noVibratePhoneSilent by bool("no_vibrate_phone_silent", true)
     var chargeAnim by bool("charge_anim", true)
-    var chargeAnimSec by int("charge_anim_sec", 10)       // 3…30 s                    // 0 off, 1 light, 2 strong
+    var chargeAnimSec by int("charge_anim_sec", 10)
+    var chargeSound by bool("charge_sound", true)       // 3…30 s                    // 0 off, 1 light, 2 strong
     var backDouble by str("back_double", "none")
     var backLong by str("back_long", "flashlight")
 

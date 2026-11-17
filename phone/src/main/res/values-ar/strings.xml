@@ -178,4 +178,5 @@
     <string name="c_charge_anim">انيميشن الشحن</string>
     <string name="c_charge_anim_time">مدة انيميشن الشحن</string>
     <string name="sec_short">ث</string>
+    <string name="c_charge_sound">صوت الشحن</string>
 </resources>

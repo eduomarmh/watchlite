@@ -410,7 +410,8 @@ class MainActivity : Activity() {
             controlTile("chime", getString(R.string.c_chime), R.drawable.ic_alarm),
             controlTile("notifBanner", getString(R.string.c_banner), R.drawable.ic_notifications),
             controlTile("notifVibrate", getString(R.string.c_vibrate), R.drawable.ic_vibration),
-            controlTile("chargeAnim", getString(R.string.c_charge_anim), R.drawable.ic_bolt)))
+            controlTile("chargeAnim", getString(R.string.c_charge_anim), R.drawable.ic_bolt),
+            controlTile("chargeSound", getString(R.string.c_charge_sound), R.drawable.ic_music_note)))
         controlsBox.addView(tv(getString(R.string.c_ringer), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(16); bottomMargin = dp(6) })
         controlsBox.addView(ringerRow())
         controlsBox.addView(slider("brightness", getString(R.string.c_brightness), R.drawable.ic_light_mode, 1, 100, "canBrightness"), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })

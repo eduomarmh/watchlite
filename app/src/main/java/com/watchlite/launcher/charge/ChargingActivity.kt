@@ -48,10 +48,11 @@ object ChargeAnim {
     fun register(ctx: Context) {
         ctx.registerReceiver(object : BroadcastReceiver() {
             override fun onReceive(c: Context, i: Intent) {
-                if (!App.prefs.chargeAnim) return
                 val now = SystemClock.elapsedRealtime()
                 if (now - lastShown < 8000) return          // flaky contacts: once per plug-in
                 lastShown = now
+                playSound(c)
+                if (!App.prefs.chargeAnim) return
                 active = true
                 val pm = c.getSystemService(Context.POWER_SERVICE) as PowerManager
                 val wasOn = pm.isInteractive && !AodActivity.showing && !AodGate.homeAodActive
@@ -63,6 +64,28 @@ object ChargeAnim {
             }
         }, IntentFilter(Intent.ACTION_POWER_CONNECTED))
     }
+}
+
+/**
+ * Short (1 s) soft "power-up" sound. Quiet by design and skipped when the watch is on
+ * silent/vibrate, in Do not disturb, or when the phone is on silent.
+ */
+private fun playSound(c: Context) {
+    if (!App.prefs.chargeSound) return
+    val am = c.getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
+    if (am.ringerMode != android.media.AudioManager.RINGER_MODE_NORMAL) return
+    if (App.I.state.phoneRinger == "silent") return
+    try { if (com.watchlite.launcher.system.SystemActions.dndOn(c)) return } catch (_: Throwable) { }
+    try {
+        val mp = android.media.MediaPlayer()
+        mp.setAudioAttributes(android.media.AudioAttributes.Builder()
+            .setUsage(android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+        c.resources.openRawResourceFd(R.raw.charge_connected).use { mp.setDataSource(it.fileDescriptor, it.startOffset, it.length) }
+        mp.setOnCompletionListener { it.release() }
+        mp.setOnErrorListener { m, _, _ -> m.release(); true }
+        mp.prepare(); mp.start()
+    } catch (t: Throwable) { Log.w("Charge", "sound", t) }
 }
 
 class ChargingActivity : Activity() {

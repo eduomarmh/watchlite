@@ -524,4 +524,6 @@
     <string name="call_speaker_off">سماعة الأذن / السماعة المتوصلة</string>
     <string name="charge_anim_time">مدة انيميشن الشحن</string>
     <string name="seconds_short">ثانية</string>
+    <string name="charge_sound">صوت الشحن</string>
+    <string name="charge_sound_sum">صوت قصير وهادي لما الشاحن يتوصل (مش بيشتغل في الصامت أو عدم الإزعاج)</string>
 </resources>
