@@ -232,7 +232,7 @@ class ChargingActivity : Activity() {
             if (tempTenths > 0 && t > fillMs + 200) {
                 val a = min(1f, (t - fillMs - 200) / 500f)
                 sub.color = Color.argb((150 * a).toInt(), 255, 255, 255)
-                c.drawText(Digits.apply("%.1f°C".format(tempTenths / 10f), ar), cx, cy + r + m * 0.34f, sub)
+                c.drawText(Digits.apply(String.format(java.util.Locale.US, "%.1f°C", tempTenths / 10f), ar), cx, cy + r + m * 0.34f, sub)
             }
             c.restore()
             postInvalidateOnAnimation()
