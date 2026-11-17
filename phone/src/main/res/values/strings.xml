@@ -175,4 +175,7 @@
     <string name="f_calls">Calls on the watch</string>
     <string name="f_calls_sum">See who is calling, answer, decline, end, speaker, mute and volume from the watch</string>
     <string name="perm_calls">Allow calls (phone, call log, contacts)</string>
+    <string name="c_charge_anim">Charging animation</string>
+    <string name="c_charge_anim_time">Charging animation length</string>
+    <string name="sec_short">s</string>
 </resources>

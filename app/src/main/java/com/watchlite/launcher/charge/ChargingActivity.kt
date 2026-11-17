@@ -43,7 +43,7 @@ object ChargeAnim {
     @Volatile var lastShown = 0L
     /** True from plug-in until the animation is gone: nothing may turn the screen off meanwhile. */
     @Volatile var active = false
-    fun busy() = active && SystemClock.elapsedRealtime() - lastShown < 13_000
+    fun busy() = active && SystemClock.elapsedRealtime() - lastShown < App.prefs.chargeAnimSec.coerceIn(3, 30) * 1000L + 3000
 
     fun register(ctx: Context) {
         ctx.registerReceiver(object : BroadcastReceiver() {
@@ -107,7 +107,7 @@ class ChargingActivity : Activity() {
 
     class ChargeView(ctx: Context, private val level: Int, private val accent: Int, private val tempTenths: Int, private val done: () -> Unit) : View(ctx) {
         private val start = SystemClock.uptimeMillis()
-        private val duration = 10_000L
+        private val duration = App.prefs.chargeAnimSec.coerceIn(3, 30) * 1000L
         private val rnd = Random(3)
         private val ring = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
         private val glass = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE }
@@ -166,7 +166,8 @@ class ChargingActivity : Activity() {
             val fadeOut = min(1f, (duration - t) / 600f)
             val alpha = min(fadeIn, fadeOut).coerceIn(0f, 1f)
             val grow = ease(min(1f, t / 600f))
-            val fill = ease(min(1f, t / 2400f)) * level / 100f
+            val fillMs = min(2400f, duration * 0.45f)
+            val fill = ease(min(1f, t / fillMs)) * level / 100f
             val sec = t / 1000f
 
             c.saveLayerAlpha(0f, 0f, w, h, (alpha * 255).toInt())
@@ -228,8 +229,8 @@ class ChargingActivity : Activity() {
             sub.color = 0xCCFFFFFF.toInt()
             c.drawText(context.getString(if (level >= 100) R.string.charged_full else R.string.charging_now), cx, cy + r + m * 0.26f, sub)
             // battery temperature fades in once the fill is done
-            if (tempTenths > 0 && t > 2600) {
-                val a = min(1f, (t - 2600) / 500f)
+            if (tempTenths > 0 && t > fillMs + 200) {
+                val a = min(1f, (t - fillMs - 200) / 500f)
                 sub.color = Color.argb((150 * a).toInt(), 255, 255, 255)
                 c.drawText(Digits.apply("%.1f°C".format(tempTenths / 10f), ar), cx, cy + r + m * 0.34f, sub)
             }

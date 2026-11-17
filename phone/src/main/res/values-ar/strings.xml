@@ -175,4 +175,7 @@
     <string name="f_calls">المكالمات على الساعة</string>
     <string name="f_calls_sum">تشوف مين بيرن وترد أو ترفض أو تقفل وتتحكم في السماعة والمايك والصوت من الساعة</string>
     <string name="perm_calls">السماح بالمكالمات (الهاتف وسجل المكالمات والأسماء)</string>
+    <string name="c_charge_anim">انيميشن الشحن</string>
+    <string name="c_charge_anim_time">مدة انيميشن الشحن</string>
+    <string name="sec_short">ث</string>
 </resources>

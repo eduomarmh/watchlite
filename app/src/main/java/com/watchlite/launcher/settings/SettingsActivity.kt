@@ -464,6 +464,8 @@ class SettingsActivity : Activity() {
         switch(s(R.string.no_vibrate_charging), s(R.string.no_vibrate_charging_sum), { p.noVibrateCharging }) { p.noVibrateCharging = it }
         switch(s(R.string.no_vibrate_silent), s(R.string.no_vibrate_silent_sum), { p.noVibratePhoneSilent }) { p.noVibratePhoneSilent = it }
         switch(s(R.string.charge_anim), s(R.string.charge_anim_sum), { p.chargeAnim }) { p.chargeAnim = it }
+        choice(s(R.string.charge_anim_time), listOf(3, 5, 8, 10, 15, 20, 30).map { it to Digits.apply("$it", Digits.useArabic()) + " " + s(R.string.seconds_short) },
+            { p.chargeAnimSec }) { p.chargeAnimSec = it }
         header(s(R.string.gesture_map))
         list.addView(ui.text(s(R.string.gesture_help), 4.6f, Ui.TEXT2, 1, 0), ui.lp(start = 2f, end = 2f))
     }

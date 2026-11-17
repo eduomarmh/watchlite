@@ -253,7 +253,7 @@ class MainActivity : Activity() {
     private class Tile(val key: String, val view: LinearLayout, val badgeBg: GradientDrawable, val iconV: ImageView,
                        val onRes: Int, val offRes: Int, val state: TextView, val permKey: String?)
     private val tiles = ArrayList<Tile>()
-    private class Slide(val key: String, val bar: SeekBar, val value: TextView, val permKey: String?) { var dragging = false }
+    private class Slide(val key: String, val bar: SeekBar, val value: TextView, val permKey: String?, val min: Int, val unit: String) { var dragging = false }
     private val slides = ArrayList<Slide>()
     private val ringerBtns = LinkedHashMap<String, TextView>()
     private lateinit var themeBtn: Button
@@ -308,7 +308,7 @@ class MainActivity : Activity() {
         return box
     }
 
-    private fun slider(key: String, label: String, iconRes: Int, min: Int = 0, max: Int = 100, permKey: String? = null): View {
+    private fun slider(key: String, label: String, iconRes: Int, min: Int = 0, max: Int = 100, permKey: String? = null, unit: String = "%"): View {
         val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(0, dp(8), 0, dp(4)) }
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         head.addView(iconView(iconRes, accent, 20))
@@ -321,9 +321,9 @@ class MainActivity : Activity() {
             progressTintList = ColorStateList.valueOf(accent); thumbTintList = ColorStateList.valueOf(accent)
             progressBackgroundTintList = ColorStateList.valueOf(0xFF3A3A48.toInt())
         }
-        val sl = Slide(key, bar, value, permKey)
+        val sl = Slide(key, bar, value, permKey, min, unit)
         bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(sb: SeekBar, p: Int, fromUser: Boolean) { if (fromUser) value.text = "${p + min}%" }
+            override fun onProgressChanged(sb: SeekBar, p: Int, fromUser: Boolean) { if (fromUser) value.text = "${p + min}$unit" }
             override fun onStartTrackingTouch(sb: SeekBar) { sl.dragging = true }
             override fun onStopTrackingTouch(sb: SeekBar) {
                 sl.dragging = false
@@ -409,7 +409,8 @@ class MainActivity : Activity() {
             controlTile("aod", getString(R.string.c_aod), R.drawable.ic_nightlight),
             controlTile("chime", getString(R.string.c_chime), R.drawable.ic_alarm),
             controlTile("notifBanner", getString(R.string.c_banner), R.drawable.ic_notifications),
-            controlTile("notifVibrate", getString(R.string.c_vibrate), R.drawable.ic_vibration)))
+            controlTile("notifVibrate", getString(R.string.c_vibrate), R.drawable.ic_vibration),
+            controlTile("chargeAnim", getString(R.string.c_charge_anim), R.drawable.ic_bolt)))
         controlsBox.addView(tv(getString(R.string.c_ringer), 12f, text2), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(16); bottomMargin = dp(6) })
         controlsBox.addView(ringerRow())
         controlsBox.addView(slider("brightness", getString(R.string.c_brightness), R.drawable.ic_light_mode, 1, 100, "canBrightness"), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
@@ -417,6 +418,7 @@ class MainActivity : Activity() {
         controlsBox.addView(slider("volMedia", getString(R.string.c_vol_media), R.drawable.ic_music_note))
         controlsBox.addView(slider("volRing", getString(R.string.c_vol_ring), R.drawable.ic_notifications_active))
         controlsBox.addView(slider("volAlarm", getString(R.string.c_vol_alarm), R.drawable.ic_alarm))
+        controlsBox.addView(slider("chargeAnimSec", getString(R.string.c_charge_anim_time), R.drawable.ic_bolt, 3, 30, unit = " " + getString(R.string.sec_short)))
         themeBtn = button(getString(R.string.c_theme), R.drawable.ic_palette) { chooseTheme() }
         goalBtn = button(getString(R.string.c_goal), R.drawable.ic_flag) { editGoal() }
         controlsBox.addView(row(themeBtn, goalBtn), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
@@ -525,10 +527,9 @@ class MainActivity : Activity() {
         }
         for (s in slides) {
             if (s.dragging || c == null || !c.has(s.key)) continue
-            val min = if (s.key == "brightness" || s.key == "aodBrightness") 1 else 0
             val v = c.optInt(s.key)
-            s.bar.progress = (v - min).coerceIn(0, s.bar.max)
-            s.value.text = "$v%"
+            s.bar.progress = (v - s.min).coerceIn(0, s.bar.max)
+            s.value.text = "$v${s.unit}"
             s.bar.isEnabled = s.permKey == null || c.optBoolean(s.permKey, true)
         }
         val ringer = c?.optString("ringer")

@@ -36,6 +36,7 @@ object RemoteControl {
             .put("ringer", when (am.ringerMode) { AudioManager.RINGER_MODE_SILENT -> "silent"; AudioManager.RINGER_MODE_VIBRATE -> "vibrate"; else -> "normal" })
             .put("aod", p.aodEnabled).put("aodBrightness", (p.aodBrightness * 100).toInt())
             .put("chime", p.chimeEnabled)
+            .put("chargeAnim", p.chargeAnim).put("chargeAnimSec", p.chargeAnimSec)
             .put("goal", p.stepsGoal)
             .put("notifBanner", p.notifBanner).put("notifVibrate", p.notifVibrate)
             .put("theme", p.themeId)
@@ -75,6 +76,8 @@ object RemoteControl {
                 "aod" -> prefs.aodEnabled = p.optBoolean("v")
                 "aodBrightness" -> prefs.aodBrightness = (p.optInt("v").coerceIn(1, 60)) / 100f
                 "chime" -> { prefs.chimeEnabled = p.optBoolean("v"); com.watchlite.launcher.chime.ChimeScheduler.schedule(ctx) }
+                "chargeAnim" -> prefs.chargeAnim = p.optBoolean("v")
+                "chargeAnimSec" -> prefs.chargeAnimSec = p.optInt("v").coerceIn(3, 30)
                 "goal" -> prefs.stepsGoal = p.optInt("v").coerceIn(500, 100_000)
                 "notifBanner" -> prefs.notifBanner = p.optBoolean("v")
                 "notifVibrate" -> prefs.notifVibrate = p.optBoolean("v")
