@@ -76,16 +76,35 @@ private fun playSound(c: Context) {
     if (am.ringerMode != android.media.AudioManager.RINGER_MODE_NORMAL) return
     if (App.I.state.phoneRinger == "silent") return
     try { if (com.watchlite.launcher.system.SystemActions.dndOn(c)) return } catch (_: Throwable) { }
-    try {
+    ChargeSounds.play(c, App.prefs.chargeSoundId)
+}
+
+/** The selectable charging sounds (res/raw/charge_<id>.ogg). */
+object ChargeSounds {
+    val IDS = listOf("crystal", "glass", "pulse", "drop", "energy", "magnet", "harp")
+    fun label(id: String) = when (id) {
+        "glass" -> R.string.cs_glass; "pulse" -> R.string.cs_pulse; "drop" -> R.string.cs_drop; "energy" -> R.string.cs_energy
+        "magnet" -> R.string.cs_magnet; "harp" -> R.string.cs_harp; else -> R.string.cs_crystal
+    }
+    private var player: android.media.MediaPlayer? = null
+
+    /** Plays one sound (also used as a preview when picking it). */
+    fun play(c: Context, id: String) {
+        val res = c.resources.getIdentifier("charge_$id", "raw", c.packageName).takeIf { it != 0 } ?: R.raw.charge_crystal
+        try {
+            player?.release()
+            val mp = android.media.MediaPlayer()
+            player = mp
         val mp = android.media.MediaPlayer()
         mp.setAudioAttributes(android.media.AudioAttributes.Builder()
             .setUsage(android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
             .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
-        c.resources.openRawResourceFd(R.raw.charge_connected).use { mp.setDataSource(it.fileDescriptor, it.startOffset, it.length) }
-        mp.setOnCompletionListener { it.release() }
-        mp.setOnErrorListener { m, _, _ -> m.release(); true }
-        mp.prepare(); mp.start()
-    } catch (t: Throwable) { Log.w("Charge", "sound", t) }
+            c.resources.openRawResourceFd(res).use { mp.setDataSource(it.fileDescriptor, it.startOffset, it.length) }
+            mp.setOnCompletionListener { it.release(); if (player === it) player = null }
+            mp.setOnErrorListener { m, _, _ -> m.release(); if (player === m) player = null; true }
+            mp.prepare(); mp.start()
+        } catch (t: Throwable) { Log.w("Charge", "sound", t) }
+    }
 }
 
 class ChargingActivity : Activity() {

@@ -179,4 +179,12 @@
     <string name="c_charge_anim_time">Charging animation length</string>
     <string name="sec_short">s</string>
     <string name="c_charge_sound">Charging sound</string>
+    <string name="cs_crystal">Crystal</string>
+    <string name="cs_glass">Power up</string>
+    <string name="cs_pulse">Pulse</string>
+    <string name="cs_drop">Water drop</string>
+    <string name="cs_energy">Energy</string>
+    <string name="cs_magnet">Magnetic click</string>
+    <string name="cs_harp">Harp</string>
+    <string name="charge_sound_pick">Charging sound tone</string>
 </resources>

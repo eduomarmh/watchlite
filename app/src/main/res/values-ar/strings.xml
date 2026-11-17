@@ -526,4 +526,12 @@
     <string name="seconds_short">ثانية</string>
     <string name="charge_sound">صوت الشحن</string>
     <string name="charge_sound_sum">صوت قصير وهادي لما الشاحن يتوصل (مش بيشتغل في الصامت أو عدم الإزعاج)</string>
+    <string name="cs_crystal">كريستال</string>
+    <string name="cs_glass">شحن طاقة</string>
+    <string name="cs_pulse">نبضة</string>
+    <string name="cs_drop">نقطة مية</string>
+    <string name="cs_energy">طاقة</string>
+    <string name="cs_magnet">كليك مغناطيس</string>
+    <string name="cs_harp">هارب</string>
+    <string name="charge_sound_pick">نغمة الشحن</string>
 </resources>

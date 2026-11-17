@@ -527,4 +527,12 @@
     <string name="seconds_short">s</string>
     <string name="charge_sound">Charging sound</string>
     <string name="charge_sound_sum">A short soft sound when the charger connects (not on silent / Do not disturb)</string>
+    <string name="cs_crystal">Crystal</string>
+    <string name="cs_glass">Power up</string>
+    <string name="cs_pulse">Pulse</string>
+    <string name="cs_drop">Water drop</string>
+    <string name="cs_energy">Energy</string>
+    <string name="cs_magnet">Magnetic click</string>
+    <string name="cs_harp">Harp</string>
+    <string name="charge_sound_pick">Charging sound tone</string>
 </resources>

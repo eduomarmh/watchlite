@@ -419,6 +419,8 @@ class MainActivity : Activity() {
         controlsBox.addView(slider("volMedia", getString(R.string.c_vol_media), R.drawable.ic_music_note))
         controlsBox.addView(slider("volRing", getString(R.string.c_vol_ring), R.drawable.ic_notifications_active))
         controlsBox.addView(slider("volAlarm", getString(R.string.c_vol_alarm), R.drawable.ic_alarm))
+        chargeSoundBtn = button(getString(R.string.charge_sound_pick), R.drawable.ic_music_note) { pickChargeSound() }
+        controlsBox.addView(chargeSoundBtn, LinearLayout.LayoutParams(-1, dp(46)).apply { topMargin = dp(8) })
         controlsBox.addView(slider("chargeAnimSec", getString(R.string.c_charge_anim_time), R.drawable.ic_bolt, 3, 30, unit = " " + getString(R.string.sec_short)))
         themeBtn = button(getString(R.string.c_theme), R.drawable.ic_palette) { chooseTheme() }
         goalBtn = button(getString(R.string.c_goal), R.drawable.ic_flag) { editGoal() }
@@ -543,7 +545,23 @@ class MainActivity : Activity() {
         val themes = themesList()
         val cur = themes.firstOrNull { it.first == c?.optString("theme") }?.second
         themeBtn.text = cur ?: getString(R.string.c_theme)
+        chargeSoundBtn.text = getString(R.string.charge_sound_pick) + ": " + chargeSoundName(c?.optString("chargeSoundId")?.ifEmpty { "crystal" } ?: "crystal")
         goalBtn.text = c?.optInt("goal", 0)?.takeIf { it > 0 }?.let { "%,d".format(it) } ?: getString(R.string.c_goal)
+    }
+
+    private lateinit var chargeSoundBtn: Button
+    private val chargeSoundIds = listOf("crystal", "glass", "pulse", "drop", "energy", "magnet", "harp")
+    private fun chargeSoundName(id: String) = getString(when (id) {
+        "glass" -> R.string.cs_glass; "pulse" -> R.string.cs_pulse; "drop" -> R.string.cs_drop; "energy" -> R.string.cs_energy
+        "magnet" -> R.string.cs_magnet; "harp" -> R.string.cs_harp; else -> R.string.cs_crystal
+    })
+
+    /** Picking a tone plays it on the watch right away. */
+    private fun pickChargeSound() {
+        val cur = chargeSoundIds.indexOf(ctl()?.optString("chargeSoundId") ?: "crystal")
+        AlertDialog.Builder(this).setTitle(R.string.charge_sound_pick)
+            .setSingleChoiceItems(chargeSoundIds.map { chargeSoundName(it) }.toTypedArray(), cur) { _, i -> sendCtl("chargeSoundId", chargeSoundIds[i]) }
+            .setPositiveButton(android.R.string.ok, null).show()
     }
 
     private fun themesList(): List<Pair<String, String>> {

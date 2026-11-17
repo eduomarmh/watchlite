@@ -465,6 +465,10 @@ class SettingsActivity : Activity() {
         switch(s(R.string.no_vibrate_silent), s(R.string.no_vibrate_silent_sum), { p.noVibratePhoneSilent }) { p.noVibratePhoneSilent = it }
         switch(s(R.string.charge_anim), s(R.string.charge_anim_sum), { p.chargeAnim }) { p.chargeAnim = it }
         switch(s(R.string.charge_sound), s(R.string.charge_sound_sum), { p.chargeSound }) { p.chargeSound = it }
+        val cs = com.watchlite.launcher.charge.ChargeSounds
+        choice(s(R.string.charge_sound_pick), cs.IDS.map { it to s(cs.label(it)) }, { p.chargeSoundId }) {
+            p.chargeSoundId = it; cs.play(this, it)           // preview right away
+        }
         choice(s(R.string.charge_anim_time), listOf(3, 5, 8, 10, 15, 20, 30).map { it to Digits.apply("$it", Digits.useArabic()) + " " + s(R.string.seconds_short) },
             { p.chargeAnimSec }) { p.chargeAnimSec = it }
         header(s(R.string.gesture_map))
