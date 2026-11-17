@@ -91,11 +91,11 @@
             android:theme="@style/Watch.Home" android:screenOrientation="nosensor" />
         <activity android:name=".charge.ChargingActivity" android:exported="false"
             android:excludeFromRecents="true" android:taskAffinity="com.watchlite.launcher.charge"
-            android:launchMode="singleInstance" android:noHistory="true" android:showOnLockScreen="true"
+            android:launchMode="singleInstance" android:noHistory="true"
             android:theme="@style/Watch.Home" android:screenOrientation="nosensor" />
         <activity android:name=".calls.CallActivity" android:exported="false"
             android:excludeFromRecents="true" android:taskAffinity="com.watchlite.launcher.calls"
-            android:launchMode="singleInstance" android:showOnLockScreen="true"
+            android:launchMode="singleInstance"
             android:theme="@style/Watch.Home" android:screenOrientation="nosensor" />
         <activity android:name=".safety.SafeModeActivity" android:exported="false"
             android:launchMode="singleTask" android:excludeFromRecents="true" />

@@ -250,6 +250,7 @@ swipe 160 300 160 100 300; shot "x_64_files2" 1
 adb shell input keyevent KEYCODE_HOME; sleep 2
 
 # 6g) Charging animation: plug in → animation for ~4 s → gone
+adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
 adb shell input keyevent KEYCODE_HOME; sleep 2
 adb shell dumpsys battery unplug; sleep 2
 adb shell dumpsys battery set level 64
