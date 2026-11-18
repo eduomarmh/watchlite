@@ -173,7 +173,7 @@ if len(on) < 6 or len(xs) < 3:
     open(sys.argv[1] + "/CRASHED", "a").write(f"Control Center: only {len(on)} tiles / {len(xs)} columns on screen\n")
 PY
 XY=$(tile_xy "واي فاي"); [ -z "$XY" ] && XY=$(tile_xy "Wi-Fi")
-echo "wifi tile at $XY" > $OUT/control_check.txt
+echo "wifi tile at $XY" >> $OUT/control_check.txt
 if [ -n "$XY" ]; then
   adb shell input tap $XY; sleep 2.5
   shot "x_40_wifi_off" 0
