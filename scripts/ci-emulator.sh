@@ -160,6 +160,18 @@ adb logcat -c; adb shell input keyevent KEYCODE_HOME; sleep 3
 if adb logcat -d | grep -q "WL-AOD  : enter"; then adb shell input keyevent KEYCODE_HOME; sleep 3; fi
 swipe 30 190 290 190; sleep 2
 shot "x_39_control_open" 0
+# every tile of the first rows must be on screen, 3 per row
+adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1; adb shell cat /sdcard/ui.xml > $OUT/control_ui.xml
+python3 - "$OUT" <<'PY' >> $OUT/control_check.txt
+import re, sys
+xml = open(sys.argv[1] + "/control_ui.xml").read()
+tiles = [(d, list(map(int, b))) for d, *b in re.findall(r'class="android.widget.ImageView"[^>]*content-desc="([^"]+)"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml)]
+on = [(d, b) for d, b in tiles if b[0] >= 0 and b[2] <= 320 and b[3] <= 385 and b[2] > b[0]]
+xs = sorted(set((b[0] + b[2]) // 20 for _, b in on))
+print("tiles on screen:", len(on), "column centres:", xs)
+if len(on) < 6 or len(xs) < 3:
+    open(sys.argv[1] + "/CRASHED", "a").write(f"Control Center: only {len(on)} tiles / {len(xs)} columns on screen\n")
+PY
 XY=$(tile_xy "واي فاي"); [ -z "$XY" ] && XY=$(tile_xy "Wi-Fi")
 echo "wifi tile at $XY" > $OUT/control_check.txt
 if [ -n "$XY" ]; then

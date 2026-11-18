@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.provider.Settings
 import android.view.Gravity
 import android.widget.FrameLayout
-import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -111,11 +110,15 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
             ctx.startActivity(Intent(ctx, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         })
 
+        // plain rows of 3 equal cells (GridLayout dropped columns in RTL on some watch firmwares)
         val cols = 3
-        val grid = GridLayout(host).apply { columnCount = cols }
         val cell = (ui.sp.width - ui.sp.safe * 2) / cols
-        for (t in tiles) grid.addView(tileView(t, cell))
-        box.addView(grid, ui.lp(LinearLayout.LayoutParams.WRAP_CONTENT).apply { gravity = Gravity.CENTER_HORIZONTAL })
+        tiles.chunked(cols).forEach { rowTiles ->
+            val row = LinearLayout(host).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_HORIZONTAL }
+            rowTiles.forEach { t -> row.addView(tileView(t, cell), LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)) }
+            repeat(cols - rowTiles.size) { row.addView(android.view.View(host), LinearLayout.LayoutParams(0, 1, 1f)) }
+            box.addView(row, ui.lp())
+        }
         scroll.addView(box)
         addView(scroll, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
     }
@@ -148,7 +151,7 @@ class ControlPage(host: HomeActivity) : Page(host, FROM_LEFT) {
         }
         v.addView(t.circle, LinearLayout.LayoutParams(d, d))
         v.addView(ui.text(context.getString(t.label), 3.9f, Ui.TEXT2, 1).apply { gravity = Gravity.CENTER },
-            LinearLayout.LayoutParams(cell, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = ui.px(1f); bottomMargin = ui.px(2.5f) })
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = ui.px(1f); bottomMargin = ui.px(2.5f) })
         return v
     }
 
