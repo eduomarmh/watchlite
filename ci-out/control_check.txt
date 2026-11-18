@@ -1,0 +1,9 @@
+tiles on screen: 9 column centres: [6, 16, 25]
+wifi tile at 259 168
+Wi-Fi is disabled
+Wi-Fi is enabled
+wifi tile stable after toggle: True
+دائمة -> 61 342
+توفير -> 
+عدم الإزعاج -> 
+بلوتوث -> 

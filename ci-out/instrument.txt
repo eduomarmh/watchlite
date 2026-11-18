@@ -1,0 +1,8 @@
+
+com.watchlite.launcher.ThemeRenderTest:...
+
+Time: 6.151
+
+OK (3 tests)
+
+

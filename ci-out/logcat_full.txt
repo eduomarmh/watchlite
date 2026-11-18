@@ -1,0 +1,759 @@
+--------- beginning of main
+11-18 05:42:09.785  5709  5730 D EGL_emulation: eglMakeCurrent: 0x9e5040c0: ver 3 0 (tinfo 0x9e503210)
+--------- beginning of system
+11-18 05:42:41.892  3479  3537 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10200000 cmp=com.watchlite.launcher/.home.HomeActivity (has extras)} from uid 1000
+11-18 05:42:44.424  3479  3479 I EntropyMixer: Writing entropy...
+11-18 05:42:44.425  3479  3497 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:42:44.427  3479  3497 E KernelCpuSpeedReader: Failed to read cpu-freq: /sys/devices/system/cpu/cpu٠/cpufreq/stats/time_in_state (No such file or directory)
+11-18 05:42:44.428  3479  3497 E BatteryStatsService: modem info is invalid: ModemActivityInfo{ mTimestamp=0 mSleepTimeMs=0 mIdleTimeMs=0 mTxTimeMs[]=[0, 0, 0, 0, 0] mRxTimeMs=0 mEnergyUsed=0}
+11-18 05:42:44.429  3413  3731 D NuPlayerDriver: NuPlayerDriver(0xadc874e0) created, clientPid(5709)
+11-18 05:42:44.431  3413  5915 D GenericSource: FileSource remote
+11-18 05:42:44.434  3413  5914 D NuPlayerDriver: notifyListener_l(0xadc874e0), (1, 0, 0, -1), loop setting(0, 0)
+11-18 05:42:44.436  3413  3473 D NuPlayerDriver: start(0xadc874e0), state is 4, eos is 0
+11-18 05:42:44.436  3413  5914 I GenericSource: start
+11-18 05:42:44.436  5709  5709 I WL-Charge: power connected, screen on=true
+11-18 05:42:44.437  3479  5724 I ActivityManager: START u0 {flg=0x10010000 cmp=com.watchlite.launcher/.charge.ChargingActivity (has extras)} from uid 10065
+11-18 05:42:44.446  3413  5920 I OMXClient: Treble IOmx obtained
+11-18 05:42:44.447  1527  3794 I OMXMaster: makeComponentInstance(OMX.google.vorbis.decoder) in omx@1.0-service process
+11-18 05:42:44.448  1527  3793 E OMXNodeInstance: setConfig(0xb08a17a0:google.vorbis.decoder, ConfigPriority(0x6f800002)) ERROR: Undefined(0x80001001)
+11-18 05:42:44.448  3413  5920 I ACodec  : codec does not support config priority (err -2147483648)
+11-18 05:42:44.448  1527  3793 E OMXNodeInstance: getConfig(0xb08a17a0:google.vorbis.decoder, ConfigAndroidVendorExtension(0x6f100004)) ERROR: Undefined(0x80001001)
+11-18 05:42:44.448  3413  5920 I MediaCodec: MediaCodec will operate in async mode
+11-18 05:42:44.449  1389  1389 W /system/bin/hw/android.hidl.allocator@1.0-service: ashmem_create_region(32768) returning hidl_memory(0xaa09b850, 32768)
+11-18 05:42:44.451  1389  1389 I chatty  : uid=1000(system) allocator@1.0-s identical 6 lines
+11-18 05:42:44.452  1389  1389 W /system/bin/hw/android.hidl.allocator@1.0-service: ashmem_create_region(32768) returning hidl_memory(0xaa09b850, 32768)
+11-18 05:42:44.454  5709  5709 I WL-Charge: animation visible
+11-18 05:42:44.458  1389  1389 W /system/bin/hw/android.hidl.allocator@1.0-service: ashmem_create_region(32768) returning hidl_memory(0xaa09b850, 32768)
+11-18 05:42:44.460  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:44.464  1389  1389 W /system/bin/hw/android.hidl.allocator@1.0-service: ashmem_create_region(32768) returning hidl_memory(0xaa09b850, 32768)
+11-18 05:42:44.464  1389  1389 I chatty  : uid=1000(system) allocator@1.0-s identical 1 line
+11-18 05:42:44.464  1389  1389 W /system/bin/hw/android.hidl.allocator@1.0-service: ashmem_create_region(32768) returning hidl_memory(0xaa09b850, 32768)
+11-18 05:42:44.467  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:44.468  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:42:44.469  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:44.473  3413  5918 D AudioTrack: Client defaulted notificationFrames to 5376 for frameCount 16128
+11-18 05:42:44.474  3413  5914 D NuPlayerDriver: notifyListener_l(0xadc874e0), (6, 0, 0, -1), loop setting(0, 0)
+11-18 05:42:44.474  3416  5224 W audio_hw_generic: Not supplying enough data to HAL, expected position 659525 , only wrote 659520
+11-18 05:42:44.476  5709  5730 D EGL_emulation: eglMakeCurrent: 0x9e5040c0: ver 3 0 (tinfo 0x9e503210)
+11-18 05:42:44.484  3479  3501 I ActivityManager: Displayed com.watchlite.launcher/.charge.ChargingActivity: +36ms (total +11s376ms)
+11-18 05:42:45.007  3413  5919 I NuPlayerDecoder: [audio] saw output EOS
+11-18 05:42:45.007  3413  5918 D AudioTrack: stop() called with 32000 frames delivered
+11-18 05:42:45.083  3479  3497 E BatteryStatsService: modem info is invalid: ModemActivityInfo{ mTimestamp=0 mSleepTimeMs=0 mIdleTimeMs=0 mTxTimeMs[]=[0, 0, 0, 0, 0] mRxTimeMs=0 mEnergyUsed=0}
+11-18 05:42:45.600  3413  5914 D NuPlayerDriver: notifyListener_l(0xadc874e0), (2, 0, 0, -1), loop setting(0, 0)
+11-18 05:42:45.601  5709  5709 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+11-18 05:42:45.601  5709  5709 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+11-18 05:42:45.601  3413  3473 D NuPlayerDriver: reset(0xadc874e0) at state 6
+11-18 05:42:45.601  3413  3473 D NuPlayerDriver: notifyListener_l(0xadc874e0), (8, 0, 0, -1), loop setting(0, 0)
+11-18 05:42:45.605  3413  5914 D NuPlayerDriver: notifyResetComplete(0xadc874e0)
+11-18 05:42:47.453  5709  5732 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:42:47.459  1422  1431 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:42:47.464  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:42:47.464  5927  5927 D         : HostConnection::get() New Host Connection established 0xb4b2f800, tid 5927
+11-18 05:42:48.659  3416  3416 W audio_hw_generic: Not supplying enough data to HAL, expected position 1059207 , only wrote 860400
+11-18 05:42:52.825  3858  4294 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_STATUS_SMS_TIME_OUT
+11-18 05:42:52.825  3858  3858 I Dialer  : RetryPolicy - Retry limit for com.android.voicemail.impl.ActivationTask@b2db4b4 reached
+11-18 05:42:52.825  3858  3858 I Dialer  : RetryPolicy - committing deferred status: configuration_state=4
+11-18 05:42:52.832  3858  3858 I Dialer  : VvmTaskExecutor - no more tasks, stopping service if no task are added in 5000 millis
+11-18 05:42:54.466  5709  5709 I WL-Charge: animation done, screen was on=true
+11-18 05:42:54.488  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:54.489  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:42:54.490  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:54.503  5709  5730 D EGL_emulation: eglMakeCurrent: 0x9e5040c0: ver 3 0 (tinfo 0x9e503210)
+11-18 05:42:54.519  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:54.525  4827  4840 D         : HostConnection::get() New Host Connection established 0x8c3e28c0, tid 4840
+11-18 05:42:54.540  3479  4715 I OpenGLRenderer: Initialized EGL, version 1.4
+11-18 05:42:54.540  3479  4715 D OpenGLRenderer: Swap behavior 1
+11-18 05:42:54.541  3479  4715 D EGL_emulation: eglCreateContext: 0x8e59a8a0: maj 3 min 0 rcv 3
+11-18 05:42:54.541  3479  4715 D EGL_emulation: eglMakeCurrent: 0x8e59a8a0: ver 3 0 (tinfo 0x9e534670)
+11-18 05:42:56.649  3479  3497 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:42:56.651  3479  3497 E KernelCpuSpeedReader: Failed to read cpu-freq: /sys/devices/system/cpu/cpu٠/cpufreq/stats/time_in_state (No such file or directory)
+11-18 05:42:56.651  3479  3494 E KernelCpuSpeedReader: Failed to read cpu-freq: /sys/devices/system/cpu/cpu٠/cpufreq/stats/time_in_state (No such file or directory)
+11-18 05:42:56.652  3479  3497 E BatteryStatsService: modem info is invalid: ModemActivityInfo{ mTimestamp=0 mSleepTimeMs=0 mIdleTimeMs=0 mTxTimeMs[]=[0, 0, 0, 0, 0] mRxTimeMs=0 mEnergyUsed=0}
+11-18 05:42:57.454  5709  5732 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:42:57.682  3479  5724 I ActivityManager: START u0 {flg=0x10008000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras)} from uid 0
+11-18 05:42:57.718  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:57.769  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 2 lines
+11-18 05:42:57.770  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:57.781  5709  5730 D EGL_emulation: eglMakeCurrent: 0x9e5040c0: ver 3 0 (tinfo 0x9e503210)
+11-18 05:42:57.790  5709  5730 D EGL_emulation: eglMakeCurrent: 0x9e5040c0: ver 3 0 (tinfo 0x9e503210)
+11-18 05:42:57.796  3479  3501 I ActivityManager: Displayed com.watchlite.launcher/.settings.SettingsActivity: +104ms
+11-18 05:42:57.834  3858  3858 I Dialer  : VvmTaskExecutor - Stopping service
+11-18 05:42:57.834  3858  3858 I Dialer  : VvmTaskExecutor - finishing Job
+11-18 05:42:57.834  3858  3858 I Dialer  : TaskSchedulerJobService - finishing job
+11-18 05:42:57.837  3858  3858 I Dialer  : JobFinishedPoller.run - Job finished
+11-18 05:42:57.837  3858  3858 I Dialer  : VvmTaskExecutor - terminated
+11-18 05:42:59.715  3479  5724 I ActivityManager: Force stopping com.watchlite.launcher appid=10065 user=0: from pid 5949
+11-18 05:42:59.715  3479  5724 I ActivityManager: Killing 5709:com.watchlite.launcher/u0a65 (adj 0): stop com.watchlite.launcher
+11-18 05:42:59.716  3479  5724 W ActivityManager: Scheduling restart of crashed service com.watchlite.launcher/.system.PowerAccessibilityService in 1000ms
+11-18 05:42:59.716  3479  5724 W ActivityManager: Scheduling restart of crashed service com.watchlite.launcher/.link.LinkService in 11000ms
+11-18 05:42:59.716  3479  5724 W ActivityManager: Scheduling restart of crashed service com.watchlite.launcher/.steps.StepService in 20999ms
+11-18 05:42:59.718  3479  5724 W ActivityManager: Force removing ActivityRecord{cfe5494 u0 com.watchlite.launcher/.settings.SettingsActivity t33}: app died, no saved state
+11-18 05:42:59.721  3479  5724 I WindowManager: Failed to capture screenshot of Token{4874b3d ActivityRecord{cfe5494 u0 com.watchlite.launcher/.settings.SettingsActivity t33 f}} appWin=Window{d1124cf u0 com.watchlite.launcher/com.watchlite.launcher.settings.SettingsActivity} drawState=4
+11-18 05:42:59.731  5951  5951 I zygote  : Late-enabling -Xcheck:jni
+11-18 05:42:59.736  5951  5951 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-18 05:42:59.738  3479  5724 I ActivityManager: Start proc 5951:com.watchlite.launcher/u0a65 for activity com.watchlite.launcher/.home.HomeActivity
+11-18 05:42:59.745  3479  5724 I ActivityManager:   Force finishing activity ActivityRecord{901afc5 u0 com.watchlite.launcher/.home.HomeActivity t23}
+11-18 05:42:59.748  3479  5724 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.watchlite.launcher/.home.HomeActivity} from uid 0
+11-18 05:42:59.749  3479  5724 I ActivityManager:   Force finishing activity ActivityRecord{143b99b u0 com.watchlite.launcher/.files.FilesActivity t29}
+11-18 05:42:59.749  3479  5724 I ActivityManager:   Force stopping service ServiceRecord{aaeb621 u0 com.watchlite.launcher/.link.LinkService}
+11-18 05:42:59.749  3479  5724 I ActivityManager:   Force stopping service ServiceRecord{b1f935d u0 com.watchlite.launcher/.system.PowerAccessibilityService}
+11-18 05:42:59.749  3479  5724 I ActivityManager:   Force stopping service ServiceRecord{6ecc88 u0 com.watchlite.launcher/.steps.StepService}
+11-18 05:42:59.752  3479  3537 W InputDispatcher: channel 'fd9b1b2 com.watchlite.launcher/com.watchlite.launcher.files.FilesActivity (server)' ~ Consumer closed input channel or an error occurred.  events=0x9
+11-18 05:42:59.752  3479  3537 E InputDispatcher: channel 'fd9b1b2 com.watchlite.launcher/com.watchlite.launcher.files.FilesActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+11-18 05:42:59.753  3479  4786 I WindowManager: WIN DEATH: Window{fd9b1b2 u0 com.watchlite.launcher/com.watchlite.launcher.files.FilesActivity}
+11-18 05:42:59.753  3479  4786 W InputDispatcher: Attempted to unregister already unregistered input channel 'fd9b1b2 com.watchlite.launcher/com.watchlite.launcher.files.FilesActivity (server)'
+11-18 05:42:59.757  3479  3524 W WindowManager: Failed looking up window callers=com.android.server.wm.WindowManagerService.windowForClientLocked:5704 com.android.server.wm.WindowManagerService.relayoutWindow:1903 com.android.server.wm.Session.relayout:232 
+11-18 05:42:59.766  3479  3501 W ActivityManager: setHasOverlayUi called on unknown pid: 5709
+11-18 05:42:59.768  3479  3493 W WindowManager: removeWindowToken: Attempted to remove non-existing token: android.os.Binder@acfc17e
+11-18 05:42:59.769  3479  3479 V NotificationListeners: enabling notification listener for 0: ComponentInfo{com.watchlite.launcher/com.watchlite.launcher.notifications.NotifListener}
+11-18 05:42:59.769  3649  3649 D CarrierSvcBindHelper: No carrier app for: 0
+11-18 05:42:59.775  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:59.781  3479  3524 W WindowManager: Failed looking up window callers=com.android.server.wm.WindowManagerService.windowForClientLocked:5704 com.android.server.wm.WindowManagerService.removeWindow:1687 com.android.server.wm.Session.remove:216 
+11-18 05:42:59.792  5951  5951 I WL-App  : start v1.2.19
+11-18 05:42:59.810  5951  5951 I WL-Perm : enabled com.watchlite.launcher/com.watchlite.launcher.system.PowerAccessibilityService in enabled_accessibility_services
+11-18 05:42:59.893  5951  5956 I zygote  : Do partial code cache collection, code=28KB, data=29KB
+11-18 05:42:59.893  5951  5956 I zygote  : After code cache collection, code=28KB, data=29KB
+11-18 05:42:59.893  5951  5956 I zygote  : Increasing code cache capacity to 128KB
+11-18 05:42:59.910  5951  5951 I WL-Home : screen 320x385 @200dpi round=false
+11-18 05:42:59.917  1422  1642 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:42:59.917  5951  5971 D OpenGLRenderer: HWUI GL Pipeline
+11-18 05:42:59.933  5951  5951 I WL-Steps: service mode motion
+11-18 05:42:59.940  5951  5951 I WL-Steps: service mode motion
+11-18 05:42:59.948  5951  5976 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:42:59.950  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:59.951  5951  5971 D         : HostConnection::get() New Host Connection established 0x8f70cbc0, tid 5971
+11-18 05:42:59.951  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:59.952  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:42:59.952  5951  5971 I OpenGLRenderer: Initialized EGL, version 1.4
+11-18 05:42:59.952  5951  5971 D OpenGLRenderer: Swap behavior 1
+11-18 05:42:59.953  5951  5971 D EGL_emulation: eglCreateContext: 0x9e504240: maj 3 min 0 rcv 3
+11-18 05:42:59.953  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:42:59.972  5951  5951 I WL-Face : layers for flow in 16ms animated=false
+11-18 05:43:00.022  4827  4836 D         : HostConnection::get() New Host Connection established 0x8c7e3100, tid 4836
+11-18 05:43:00.023  4827  4838 I zygote  : Background concurrent copying GC freed 68833(3MB) AllocSpace objects, 0(0B) LOS objects, 50% free, 4MB/8MB, paused 5.607ms total 30.686ms
+11-18 05:43:00.026  5951  5956 I zygote  : Do partial code cache collection, code=61KB, data=46KB
+11-18 05:43:00.026  5951  5956 I zygote  : After code cache collection, code=60KB, data=46KB
+11-18 05:43:00.026  5951  5956 I zygote  : Increasing code cache capacity to 256KB
+11-18 05:43:00.122  5951  5956 I zygote  : Do full code cache collection, code=122KB, data=80KB
+11-18 05:43:00.122  5951  5956 I zygote  : After code cache collection, code=68KB, data=40KB
+11-18 05:43:00.126  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:43:00.325  3479  3501 I ActivityManager: Displayed com.watchlite.launcher/.home.HomeActivity: +575ms (total +598ms)
+11-18 05:43:00.787  3479  4035 I ActivityManager: START u0 {flg=0x10008000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras)} from uid 0
+11-18 05:43:00.801  5951  5951 I WL-Call : state idle -> ringing
+11-18 05:43:00.801  3479  4035 I ActivityManager: START u0 {flg=0x10000000 cmp=com.watchlite.launcher/.calls.CallActivity} from uid 10065
+11-18 05:43:00.813  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:00.820  1422  1422 D SurfaceFlinger: duplicate layer name: changing Splash Screen com.watchlite.launcher to Splash Screen com.watchlite.launcher#1
+11-18 05:43:00.831  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:00.840  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 2 lines
+11-18 05:43:00.841  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:00.849  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:43:01.052  3479  3501 I ActivityManager: Displayed com.watchlite.launcher/.calls.CallActivity: +248ms (total +261ms)
+11-18 05:43:03.821  1422  1642 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:03.825  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:03.826  5989  5989 D         : HostConnection::get() New Host Connection established 0xb5e2f800, tid 5989
+11-18 05:43:03.863  3479  4033 I ActivityManager: START u0 {flg=0x10008000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras)} from uid 0
+11-18 05:43:03.870  1396  1404 D hwcomposer: hw_composer sent 740 syncs in 63s
+11-18 05:43:03.882  5951  5951 I WL-Call : state ringing -> offhook
+11-18 05:43:03.882  3479  4033 I ActivityManager: START u0 {flg=0x10000000 cmp=com.watchlite.launcher/.calls.CallActivity} from uid 10065
+11-18 05:43:03.885  3479  4033 I WindowManager: Failed to capture screenshot of Token{c149555 ActivityRecord{618980c u0 com.watchlite.launcher/.settings.SettingsActivity t37 f}} appWin=Window{1283dc2 u0 Splash Screen com.watchlite.launcher} drawState=1
+11-18 05:43:03.889  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:06.904  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:06.911  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:06.912  6000  6000 D         : HostConnection::get() New Host Connection established 0xaf02f800, tid 6000
+11-18 05:43:06.951  3479  4033 I ActivityManager: START u0 {flg=0x10008000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras)} from uid 0
+11-18 05:43:06.963  5951  5951 I WL-Call : state offhook -> idle
+11-18 05:43:06.973  1422  1642 E SurfaceFlinger: Failed to find layer (Splash Screen com.watchlite.launcher#0) in layer parent (no-parent).
+11-18 05:43:07.067  4827  4832 I zygote  : Do full code cache collection, code=250KB, data=172KB
+11-18 05:43:07.067  4827  4832 I zygote  : After code cache collection, code=247KB, data=151KB
+11-18 05:43:07.576  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:07.577  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:07.578  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:07.598  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:43:07.601  3479  3524 I WindowManager: Failed to capture screenshot of Token{bc20329 ActivityRecord{f8a88b0 u0 com.watchlite.launcher/.calls.CallActivity t36 f}} appWin=Window{c850899 u0 com.watchlite.launcher/com.watchlite.launcher.calls.CallActivity} drawState=4
+11-18 05:43:09.949  5951  5976 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:43:09.987  1422  1642 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:09.992  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:09.992  6010  6010 D         : HostConnection::get() New Host Connection established 0xb11af800, tid 6010
+11-18 05:43:10.107  6013  6013 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:10.128  6013  6013 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:10.138  6013  6013 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:10.139  6013  6013 I Input   : injectKeyEvent: KeyEvent { action=ACTION_DOWN, keyCode=KEYCODE_HOME, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=440248, downTime=440248, deviceId=-1, source=0x101 }
+11-18 05:43:10.141  6013  6013 I Input   : injectKeyEvent: KeyEvent { action=ACTION_UP, keyCode=KEYCODE_HOME, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=440248, downTime=440248, deviceId=-1, source=0x101 }
+11-18 05:43:10.143  3479  3537 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10200000 cmp=com.watchlite.launcher/.home.HomeActivity (has extras)} from uid 1000
+11-18 05:43:10.144  5951  5951 I WL-Home : home on face dup=false aod=false
+11-18 05:43:10.145  6013  6013 D AndroidRuntime: Shutting down VM
+11-18 05:43:10.145  5951  5951 I WL-Home : curtain (screen off without device admin)
+11-18 05:43:10.153  3479  3493 E memtrack: Couldn't load memtrack module
+11-18 05:43:10.153  3479  3493 W android.os.Debug: failed to get memory consumption info: -1
+11-18 05:43:10.176  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 135168
+11-18 05:43:10.177  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:10.178  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 135168
+11-18 05:43:10.180  5951  5956 I zygote  : Do partial code cache collection, code=114KB, data=113KB
+11-18 05:43:10.181  5951  5956 I zygote  : After code cache collection, code=99KB, data=104KB
+11-18 05:43:10.181  5951  5956 I zygote  : Increasing code cache capacity to 512KB
+11-18 05:43:10.181  5951  5956 I zygote  : JIT allocated 71KB for compiled code of void android.widget.TextView.<init>(android.content.Context, android.util.AttributeSet, int, int)
+11-18 05:43:10.181  5951  5956 I zygote  : Compiler allocated 4MB to compile void android.widget.TextView.<init>(android.content.Context, android.util.AttributeSet, int, int)
+11-18 05:43:10.190  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:43:11.223  6028  6028 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:11.231  3479  3506 I ActivityManager: Start proc 6028:com.android.defcontainer/u0a5 for service com.android.defcontainer/.DefaultContainerService
+11-18 05:43:11.242  3479  3506 I PackageManager.DexOptimizer: Running dexopt (dexoptNeeded=1) on: /data/app/vmdl1448185356.tmp/base.apk pkg=com.watchlite.companion isa=x86 dexoptFlags=boot_complete,public target-filter=quicken oatDir=/data/app/vmdl1448185356.tmp/oat sharedLibraries=null
+11-18 05:43:11.246  6046  6046 W dex2oat : Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:11.246  6046  6046 W dex2oat : Mismatch between dex2oat instruction set features (ISA: X86 Feature string: -ssse3,-sse4.1,-sse4.2,-avx,-avx2,-popcnt) and those of dex2oat executable (ISA: X86 Feature string: ssse3,-sse4.1,-sse4.2,-avx,-avx2,-popcnt) for the command line:
+11-18 05:43:11.246  6046  6046 W dex2oat : /system/bin/dex2oat --zip-fd=8 --zip-location=base.apk --input-vdex-fd=-1 --output-vdex-fd=10 --oat-fd=9 --oat-location=/data/app/vmdl1448185356.tmp/oat/x86/base.odex --instruction-set=x86 --instruction-set-variant=x86 --instruction-set-features=default --runtime-arg -Xms64m --runtime-arg -Xmx512m --compiler-filter=quicken --swap-fd=11 --classpath-dir=/data/app/vmdl1448185356.tmp
+11-18 05:43:11.246  6046  6046 I dex2oat : /system/bin/dex2oat --input-vdex-fd=-1 --output-vdex-fd=10 --compiler-filter=quicken --classpath-dir=/data/app/vmdl1448185356.tmp
+11-18 05:43:11.402  6046  6046 I dex2oat : dex2oat took 155.816ms (248.599ms cpu) (threads: 2) arena alloc=12KB (12704B) java alloc=348KB (357256B) native alloc=1441KB (1475816B) free=2MB (2194200B)
+11-18 05:43:11.418  1513  1704 D installd: Applied hard quotas for 10067
+11-18 05:43:11.418  3479  3506 D PackageManager: Ephemeral installer not found with new action; try old one
+11-18 05:43:11.418  3479  3506 D PackageManager: Clear ephemeral installer activity
+11-18 05:43:11.419  3479  3479 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@2137af7)
+11-18 05:43:11.419  3479  3493 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@2137af7)
+11-18 05:43:11.420  3479  3479 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@7b27c82)
+11-18 05:43:11.421  1513  1704 E         : Couldn't opendir /data/app/vmdl1448185356.tmp: No such file or directory
+11-18 05:43:11.421  1513  1704 E installd: Failed to delete /data/app/vmdl1448185356.tmp: No such file or directory
+11-18 05:43:11.422  3479  3493 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@7b27c82)
+11-18 05:43:11.422  3479  3479 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@77acf93)
+11-18 05:43:11.422  3479  3493 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@77acf93)
+11-18 05:43:11.422  3479  3479 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@93b5bd0)
+11-18 05:43:11.423  3479  3493 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@93b5bd0)
+11-18 05:43:11.423  3479  3479 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@71fa7c9)
+11-18 05:43:11.423  3479  3493 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@71fa7c9)
+11-18 05:43:11.433  3479  3538 I InputReader: Reconfiguring input devices.  changes=0x00000010
+11-18 05:43:11.439  3479  3494 I ActivityManager: Start proc 6051:com.android.gallery3d/u0a44 for broadcast com.android.gallery3d/.app.PackagesMonitor
+11-18 05:43:11.441  3479  3479 I Telecom : DefaultDialerCache: Refreshing default dialer for user 0: now com.android.dialer: DDC.oR@AHg
+11-18 05:43:11.453  3649  3649 D CarrierSvcBindHelper: No carrier app for: 0
+11-18 05:43:11.455  3649  3649 D ImsResolver: maybeAddedImsService, packageName: com.watchlite.companion
+11-18 05:43:11.455  3649  3649 D CarrierConfigLoader: mHandler: 9 phoneId: 0
+11-18 05:43:11.457  6051  6051 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:11.461  3479  3493 W VoiceInteractionManagerService: no available voice recognition services found for user 0
+11-18 05:43:11.465  3479  3704 I ActivityManager: START u0 {flg=0x10000000 cmp=com.watchlite.companion/.MainActivity} from uid 0
+11-18 05:43:11.478  6069  6069 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:11.482  5951  5970 I WL-IconTheme: detected 12 system apps
+11-18 05:43:11.483  3479  3602 I ActivityManager: Start proc 6069:com.watchlite.companion/u0a67 for activity com.watchlite.companion/.MainActivity
+11-18 05:43:11.496  3479  3602 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.watchlite.companion flg=0x4000010 (has extras) } to com.svox.pico/.VoiceDataInstallerReceiver
+11-18 05:43:11.500  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:11.516  6069  6069 I OsmDroid: Using tile source: Mapnik
+11-18 05:43:11.519  6069  6069 I OsmDroid: Tile cache increased from 0 to 9
+11-18 05:43:11.530  6069  6074 I zygote  : Do partial code cache collection, code=7KB, data=15KB
+11-18 05:43:11.530  6069  6074 I zygote  : After code cache collection, code=7KB, data=15KB
+11-18 05:43:11.530  6069  6074 I zygote  : Increasing code cache capacity to 128KB
+11-18 05:43:11.531  6069  6074 I zygote  : Compiler allocated 5MB to compile void com.watchlite.companion.MainActivity.onCreate(android.os.Bundle)
+11-18 05:43:11.534  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:11.551  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:11.559  1422  1433 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:11.560  6069  6093 D OpenGLRenderer: HWUI GL Pipeline
+11-18 05:43:11.568  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.568  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.568  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.568  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.569  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.569  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.569  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.569  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.570  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.570  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.570  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.570  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.571  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.571  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.571  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.571  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.579  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:11.580  6069  6093 D         : HostConnection::get() New Host Connection established 0x91270e40, tid 6093
+11-18 05:43:11.580  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:11.581  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:11.581  6069  6093 I OpenGLRenderer: Initialized EGL, version 1.4
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.582  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.583  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.583  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.583  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:11.583  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:11.583  6069  6093 D OpenGLRenderer: Swap behavior 1
+11-18 05:43:11.586  6069  6093 D EGL_emulation: eglCreateContext: 0x91217aa0: maj 3 min 0 rcv 3
+11-18 05:43:11.587  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:11.607  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:11.625  6069  6111 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-18 05:43:11.953  3479  3501 I ActivityManager: Displayed com.watchlite.companion/.MainActivity: +478ms (total +8s80ms)
+11-18 05:43:11.978  4827  4827 W com.android.systemui: type=1400 audit(0.0:104): avc: granted { getattr } for comm=496E666C6174657254687265616420 path="/" dev="rootfs" ino=2 scontext=u:r:platform_app:s0:c512,c768 tcontext=u:object_r:rootfs:s0 tclass=dir
+11-18 05:43:11.988  4827  4827 I chatty  : uid=10022(u0_a22) com.android.systemui identical 16 lines
+11-18 05:43:11.988  4827  4827 W com.android.systemui: type=1400 audit(0.0:121): avc: granted { getattr } for comm=496E666C6174657254687265616420 path="/" dev="rootfs" ino=2 scontext=u:r:platform_app:s0:c512,c768 tcontext=u:object_r:rootfs:s0 tclass=dir
+11-18 05:43:12.006  4827  4827 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:12.006  4827  4827 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:12.152  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:43:12.152  3479  3479 W WindowManager: removeWindowToken: Attempted to remove non-existing token: android.os.Binder@bbd7bb3
+11-18 05:43:15.922  3479  3497 E BatteryStatsService: modem info is invalid: ModemActivityInfo{ mTimestamp=0 mSleepTimeMs=0 mIdleTimeMs=0 mTxTimeMs[]=[0, 0, 0, 0, 0] mRxTimeMs=0 mEnergyUsed=0}
+11-18 05:43:16.936  1411  1411 I boot-pipe: done populating /dev/random
+11-18 05:43:17.567  6128  6128 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:17.588  6128  6128 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:17.596  6128  6128 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:17.597  6128  6128 I Input   : injectKeyEvent: KeyEvent { action=ACTION_DOWN, keyCode=KEYCODE_BACK, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=447706, downTime=447706, deviceId=-1, source=0x101 }
+11-18 05:43:17.599  6128  6128 I Input   : injectKeyEvent: KeyEvent { action=ACTION_UP, keyCode=KEYCODE_BACK, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=447706, downTime=447706, deviceId=-1, source=0x101 }
+11-18 05:43:17.599  3479  3495 D AutofillManagerService: onBackKeyPressed()
+11-18 05:43:17.602  6128  6128 D AndroidRuntime: Shutting down VM
+11-18 05:43:17.603  3479  5518 I ActivityManager: Killing 4090:com.android.quicksearchbox/u0a54 (adj 906): empty #17
+11-18 05:43:17.638  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:17.639  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:17.640  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:17.651  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:43:17.655  3479  3524 I WindowManager: Failed to capture screenshot of Token{af9c0d7 ActivityRecord{2651856 u0 com.watchlite.companion/.MainActivity t39 f}} appWin=Window{3b2cdcb u0 com.watchlite.companion/com.watchlite.companion.MainActivity} drawState=4
+11-18 05:43:17.657  3479  3494 I ActivityManager: Killing 4151:com.android.contacts/u0a7 (adj 906): empty #17
+11-18 05:43:17.669  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:18.632  3479  3602 I ActivityManager: START u0 {flg=0x10000000 cmp=com.watchlite.companion/.MainActivity} from uid 0
+11-18 05:43:18.653  6069  6069 I OsmDroid: Using tile source: Mapnik
+11-18 05:43:18.653  6069  6069 I OsmDroid: Tile cache increased from 0 to 9
+11-18 05:43:18.660  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:18.662  6069  6074 I zygote  : Do partial code cache collection, code=45KB, data=56KB
+11-18 05:43:18.662  6069  6074 I zygote  : After code cache collection, code=45KB, data=56KB
+11-18 05:43:18.662  6069  6074 I zygote  : Increasing code cache capacity to 256KB
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.673  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.680  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)
+11-18 05:43:18.680  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:18.682  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:18.683  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.685  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.694  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:18.700  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:18.710  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.716  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.717  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.718  3479  3501 I ActivityManager: Displayed com.watchlite.companion/.MainActivity: +76ms
+11-18 05:43:18.721  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.721  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.721  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.721  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:2 lineCount:2
+11-18 05:43:18.722  6069  6069 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.738  4827  4827 W com.android.systemui: type=1400 audit(0.0:122): avc: granted { getattr } for comm=496E666C6174657254687265616420 path="/" dev="rootfs" ino=2 scontext=u:r:platform_app:s0:c512,c768 tcontext=u:object_r:rootfs:s0 tclass=dir
+11-18 05:43:18.748  4827  4827 I chatty  : uid=10022(u0_a22) com.android.systemui identical 16 lines
+11-18 05:43:18.748  4827  4827 W com.android.systemui: type=1400 audit(0.0:139): avc: granted { getattr } for comm=496E666C6174657254687265616420 path="/" dev="rootfs" ino=2 scontext=u:r:platform_app:s0:c512,c768 tcontext=u:object_r:rootfs:s0 tclass=dir
+11-18 05:43:18.762  4827  4827 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:18.762  4827  4827 W StaticLayout: maxLineHeight should not be -1.  maxLines:1 lineCount:1
+11-18 05:43:19.950  5951  5976 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:43:22.676  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:22.681  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:22.682  6155  6155 D         : HostConnection::get() New Host Connection established 0xa8caf800, tid 6155
+11-18 05:43:22.782  6158  6158 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:22.803  6158  6158 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:22.812  6158  6158 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:22.813  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=452922, downTime=452922, deviceId=0, source=0x1002 }
+11-18 05:43:22.814  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=452922, downTime=452922, deviceId=0, source=0x1002 }
+11-18 05:43:22.820  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=324.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=452929, downTime=452929, deviceId=0, source=0x1002 }
+11-18 05:43:22.836  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=310.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=452946, downTime=452946, deviceId=0, source=0x1002 }
+11-18 05:43:22.854  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=296.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=452964, downTime=452964, deviceId=0, source=0x1002 }
+11-18 05:43:22.870  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=283.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=452980, downTime=452980, deviceId=0, source=0x1002 }
+11-18 05:43:22.888  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=270.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=452997, downTime=452997, deviceId=0, source=0x1002 }
+11-18 05:43:22.904  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=256.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453014, downTime=453014, deviceId=0, source=0x1002 }
+11-18 05:43:22.921  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=243.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453030, downTime=453030, deviceId=0, source=0x1002 }
+11-18 05:43:22.938  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=230.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453047, downTime=453047, deviceId=0, source=0x1002 }
+11-18 05:43:22.954  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=216.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453064, downTime=453064, deviceId=0, source=0x1002 }
+11-18 05:43:22.971  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=202.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453081, downTime=453081, deviceId=0, source=0x1002 }
+11-18 05:43:22.997  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=182.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453106, downTime=453106, deviceId=0, source=0x1002 }
+11-18 05:43:23.008  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=173.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453118, downTime=453118, deviceId=0, source=0x1002 }
+11-18 05:43:23.025  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=160.40001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453134, downTime=453134, deviceId=0, source=0x1002 }
+11-18 05:43:23.041  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=146.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453151, downTime=453151, deviceId=0, source=0x1002 }
+11-18 05:43:23.055  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=135.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453165, downTime=453165, deviceId=0, source=0x1002 }
+11-18 05:43:23.072  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=122.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453182, downTime=453182, deviceId=0, source=0x1002 }
+11-18 05:43:23.089  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=108.399994, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453199, downTime=453199, deviceId=0, source=0x1002 }
+11-18 05:43:23.106  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=95.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453215, downTime=453215, deviceId=0, source=0x1002 }
+11-18 05:43:23.123  6158  6158 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=453232, downTime=453232, deviceId=0, source=0x1002 }
+11-18 05:43:23.126  6158  6158 D AndroidRuntime: Shutting down VM
+11-18 05:43:24.171  1422  1433 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:24.175  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:24.176  6170  6170 D         : HostConnection::get() New Host Connection established 0xabe2f800, tid 6170
+11-18 05:43:24.287  6173  6173 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:24.310  6173  6173 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:24.317  6173  6173 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:24.319  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454427, downTime=454427, deviceId=0, source=0x1002 }
+11-18 05:43:24.320  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454427, downTime=454427, deviceId=0, source=0x1002 }
+11-18 05:43:24.333  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=317.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454443, downTime=454443, deviceId=0, source=0x1002 }
+11-18 05:43:24.351  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=303.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454460, downTime=454460, deviceId=0, source=0x1002 }
+11-18 05:43:24.368  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=289.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454478, downTime=454478, deviceId=0, source=0x1002 }
+11-18 05:43:24.386  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=275.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454495, downTime=454495, deviceId=0, source=0x1002 }
+11-18 05:43:24.402  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=262.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454511, downTime=454511, deviceId=0, source=0x1002 }
+11-18 05:43:24.418  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=249.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454528, downTime=454528, deviceId=0, source=0x1002 }
+11-18 05:43:24.435  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=235.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454545, downTime=454545, deviceId=0, source=0x1002 }
+11-18 05:43:24.452  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=222.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454562, downTime=454562, deviceId=0, source=0x1002 }
+11-18 05:43:24.469  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=208.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454579, downTime=454579, deviceId=0, source=0x1002 }
+11-18 05:43:24.486  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=195.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454595, downTime=454595, deviceId=0, source=0x1002 }
+11-18 05:43:24.502  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=182.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454612, downTime=454612, deviceId=0, source=0x1002 }
+11-18 05:43:24.521  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=167.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454630, downTime=454630, deviceId=0, source=0x1002 }
+11-18 05:43:24.536  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=155.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454645, downTime=454645, deviceId=0, source=0x1002 }
+11-18 05:43:24.553  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=142.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454662, downTime=454662, deviceId=0, source=0x1002 }
+11-18 05:43:24.570  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=128.40001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454679, downTime=454679, deviceId=0, source=0x1002 }
+11-18 05:43:24.587  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=114.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454696, downTime=454696, deviceId=0, source=0x1002 }
+11-18 05:43:24.603  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=102.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454712, downTime=454712, deviceId=0, source=0x1002 }
+11-18 05:43:24.621  6173  6173 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=454730, downTime=454730, deviceId=0, source=0x1002 }
+11-18 05:43:24.623  6173  6173 D AndroidRuntime: Shutting down VM
+11-18 05:43:25.658  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:25.664  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:25.665  6185  6185 D         : HostConnection::get() New Host Connection established 0xaac2f800, tid 6185
+11-18 05:43:25.769  6188  6188 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:25.790  6188  6188 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:25.797  6188  6188 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:25.799  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=455907, downTime=455907, deviceId=0, source=0x1002 }
+11-18 05:43:25.800  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=455907, downTime=455907, deviceId=0, source=0x1002 }
+11-18 05:43:25.813  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=317.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=455923, downTime=455923, deviceId=0, source=0x1002 }
+11-18 05:43:25.831  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=302.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=455941, downTime=455941, deviceId=0, source=0x1002 }
+11-18 05:43:25.848  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=290.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=455957, downTime=455957, deviceId=0, source=0x1002 }
+11-18 05:43:25.865  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=276.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=455974, downTime=455974, deviceId=0, source=0x1002 }
+11-18 05:43:25.881  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=262.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=455991, downTime=455991, deviceId=0, source=0x1002 }
+11-18 05:43:25.899  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=250.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456007, downTime=456007, deviceId=0, source=0x1002 }
+11-18 05:43:25.915  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=236.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456024, downTime=456024, deviceId=0, source=0x1002 }
+11-18 05:43:25.933  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=221.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456043, downTime=456043, deviceId=0, source=0x1002 }
+11-18 05:43:25.948  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=209.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456058, downTime=456058, deviceId=0, source=0x1002 }
+11-18 05:43:25.965  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=195.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456075, downTime=456075, deviceId=0, source=0x1002 }
+11-18 05:43:25.982  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=182.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456091, downTime=456091, deviceId=0, source=0x1002 }
+11-18 05:43:25.999  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=169.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456108, downTime=456108, deviceId=0, source=0x1002 }
+11-18 05:43:26.016  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=155.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456125, downTime=456125, deviceId=0, source=0x1002 }
+11-18 05:43:26.032  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=142.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456142, downTime=456142, deviceId=0, source=0x1002 }
+11-18 05:43:26.049  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=128.40001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456159, downTime=456159, deviceId=0, source=0x1002 }
+11-18 05:43:26.066  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=114.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456176, downTime=456176, deviceId=0, source=0x1002 }
+11-18 05:43:26.083  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=102.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456192, downTime=456192, deviceId=0, source=0x1002 }
+11-18 05:43:26.100  6188  6188 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=456209, downTime=456209, deviceId=0, source=0x1002 }
+11-18 05:43:26.101  6188  6188 D AndroidRuntime: Shutting down VM
+11-18 05:43:27.137  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:27.143  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:27.152  6201  6201 D         : HostConnection::get() New Host Connection established 0xa8e2f800, tid 6201
+11-18 05:43:27.255  6204  6204 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:27.276  6204  6204 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:27.283  6204  6204 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:27.284  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457393, downTime=457393, deviceId=0, source=0x1002 }
+11-18 05:43:27.285  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457393, downTime=457393, deviceId=0, source=0x1002 }
+11-18 05:43:27.293  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=322.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457403, downTime=457403, deviceId=0, source=0x1002 }
+11-18 05:43:27.311  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=308.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457420, downTime=457420, deviceId=0, source=0x1002 }
+11-18 05:43:27.331  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=292.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457440, downTime=457440, deviceId=0, source=0x1002 }
+11-18 05:43:27.345  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=281.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457454, downTime=457454, deviceId=0, source=0x1002 }
+11-18 05:43:27.361  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=267.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457471, downTime=457471, deviceId=0, source=0x1002 }
+11-18 05:43:27.378  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=254.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457487, downTime=457487, deviceId=0, source=0x1002 }
+11-18 05:43:27.395  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=241.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457504, downTime=457504, deviceId=0, source=0x1002 }
+11-18 05:43:27.411  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=227.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457521, downTime=457521, deviceId=0, source=0x1002 }
+11-18 05:43:27.429  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=214.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457538, downTime=457538, deviceId=0, source=0x1002 }
+11-18 05:43:27.445  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=200.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457555, downTime=457555, deviceId=0, source=0x1002 }
+11-18 05:43:27.462  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=187.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457571, downTime=457571, deviceId=0, source=0x1002 }
+11-18 05:43:27.479  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=174.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457588, downTime=457588, deviceId=0, source=0x1002 }
+11-18 05:43:27.496  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=160.40001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457605, downTime=457605, deviceId=0, source=0x1002 }
+11-18 05:43:27.513  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=146.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457622, downTime=457622, deviceId=0, source=0x1002 }
+11-18 05:43:27.530  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=133.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457639, downTime=457639, deviceId=0, source=0x1002 }
+11-18 05:43:27.547  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=119.600006, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457656, downTime=457656, deviceId=0, source=0x1002 }
+11-18 05:43:27.563  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=106.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457672, downTime=457672, deviceId=0, source=0x1002 }
+11-18 05:43:27.580  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=93.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457689, downTime=457689, deviceId=0, source=0x1002 }
+11-18 05:43:27.596  6204  6204 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=457706, downTime=457706, deviceId=0, source=0x1002 }
+11-18 05:43:27.597  6204  6204 D AndroidRuntime: Shutting down VM
+11-18 05:43:28.632  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:28.636  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:28.637  6216  6216 D         : HostConnection::get() New Host Connection established 0xa76af800, tid 6216
+11-18 05:43:28.754  6219  6219 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:28.775  6219  6219 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:28.782  6219  6219 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:28.783  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458892, downTime=458892, deviceId=0, source=0x1002 }
+11-18 05:43:28.784  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458892, downTime=458892, deviceId=0, source=0x1002 }
+11-18 05:43:28.790  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=323.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458900, downTime=458900, deviceId=0, source=0x1002 }
+11-18 05:43:28.807  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=310.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458917, downTime=458917, deviceId=0, source=0x1002 }
+11-18 05:43:28.824  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=297.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458933, downTime=458933, deviceId=0, source=0x1002 }
+11-18 05:43:28.841  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=283.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458950, downTime=458950, deviceId=0, source=0x1002 }
+11-18 05:43:28.859  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=269.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458968, downTime=458968, deviceId=0, source=0x1002 }
+11-18 05:43:28.875  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=256.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=458984, downTime=458984, deviceId=0, source=0x1002 }
+11-18 05:43:28.892  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=242.79999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459001, downTime=459001, deviceId=0, source=0x1002 }
+11-18 05:43:28.908  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=229.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459018, downTime=459018, deviceId=0, source=0x1002 }
+11-18 05:43:28.926  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=214.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459036, downTime=459036, deviceId=0, source=0x1002 }
+11-18 05:43:28.943  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=202.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459051, downTime=459051, deviceId=0, source=0x1002 }
+11-18 05:43:28.959  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=189.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459068, downTime=459068, deviceId=0, source=0x1002 }
+11-18 05:43:28.977  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=175.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459085, downTime=459085, deviceId=0, source=0x1002 }
+11-18 05:43:28.993  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=162.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459102, downTime=459102, deviceId=0, source=0x1002 }
+11-18 05:43:29.010  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=147.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459120, downTime=459120, deviceId=0, source=0x1002 }
+11-18 05:43:29.026  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=134.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459136, downTime=459136, deviceId=0, source=0x1002 }
+11-18 05:43:29.043  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=121.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459153, downTime=459153, deviceId=0, source=0x1002 }
+11-18 05:43:29.060  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=107.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459170, downTime=459170, deviceId=0, source=0x1002 }
+11-18 05:43:29.077  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=94.79999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459186, downTime=459186, deviceId=0, source=0x1002 }
+11-18 05:43:29.094  6219  6219 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=459203, downTime=459203, deviceId=0, source=0x1002 }
+11-18 05:43:29.095  6219  6219 D AndroidRuntime: Shutting down VM
+11-18 05:43:29.950  5951  5976 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:43:30.132  1422  1431 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:30.138  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:30.139  6231  6231 D         : HostConnection::get() New Host Connection established 0xb3caf800, tid 6231
+11-18 05:43:30.243  6234  6234 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:30.264  6234  6234 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:30.272  6234  6234 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:30.273  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460382, downTime=460382, deviceId=0, source=0x1002 }
+11-18 05:43:30.273  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460382, downTime=460382, deviceId=0, source=0x1002 }
+11-18 05:43:30.287  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=318.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460397, downTime=460397, deviceId=0, source=0x1002 }
+11-18 05:43:30.304  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=304.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460414, downTime=460414, deviceId=0, source=0x1002 }
+11-18 05:43:30.321  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=290.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460431, downTime=460431, deviceId=0, source=0x1002 }
+11-18 05:43:30.338  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=277.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460448, downTime=460448, deviceId=0, source=0x1002 }
+11-18 05:43:30.355  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=264.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460464, downTime=460464, deviceId=0, source=0x1002 }
+11-18 05:43:30.372  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=250.79999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460481, downTime=460481, deviceId=0, source=0x1002 }
+11-18 05:43:30.388  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=237.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460498, downTime=460498, deviceId=0, source=0x1002 }
+11-18 05:43:30.405  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=223.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460515, downTime=460515, deviceId=0, source=0x1002 }
+11-18 05:43:30.422  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=210.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460531, downTime=460531, deviceId=0, source=0x1002 }
+11-18 05:43:30.485  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=159.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460595, downTime=460595, deviceId=0, source=0x1002 }
+11-18 05:43:30.508  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=142.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460617, downTime=460617, deviceId=0, source=0x1002 }
+11-18 05:43:30.523  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=129.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460633, downTime=460633, deviceId=0, source=0x1002 }
+11-18 05:43:30.541  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=115.600006, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460650, downTime=460650, deviceId=0, source=0x1002 }
+11-18 05:43:30.557  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=102.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460666, downTime=460666, deviceId=0, source=0x1002 }
+11-18 05:43:30.573  6234  6234 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=460683, downTime=460683, deviceId=0, source=0x1002 }
+11-18 05:43:30.575  6234  6234 D AndroidRuntime: Shutting down VM
+11-18 05:43:30.596  3479  5518 I ActivityManager: START u0 {flg=0x10000000 cmp=com.watchlite.companion/.ThemeDesignerActivity} from uid 0
+11-18 05:43:30.612  3479  3493 E memtrack: Couldn't load memtrack module
+11-18 05:43:30.612  3479  3493 W android.os.Debug: failed to get memory consumption info: -1
+11-18 05:43:30.616  3479  3493 E memtrack: Couldn't load memtrack module
+11-18 05:43:30.617  3479  3493 W android.os.Debug: failed to get memory consumption info: -1
+11-18 05:43:30.621  3479  3493 E memtrack: Couldn't load memtrack module
+11-18 05:43:30.621  3479  3493 W android.os.Debug: failed to get memory consumption info: -1
+11-18 05:43:30.650  6069  6074 I zygote  : Compiler allocated 4MB to compile void com.watchlite.companion.ThemeDesignerActivity.a()
+11-18 05:43:30.717  6069  6069 I zygote  : Deoptimizing void android.view.ViewRootImpl$SendWindowContentChangedAccessibilityEvent.run() due to JIT inline cache
+11-18 05:43:30.724  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:30.725  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:30.726  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:30.735  6069  6074 I zygote  : Do full code cache collection, code=123KB, data=124KB
+11-18 05:43:30.736  6069  6074 I zygote  : After code cache collection, code=95KB, data=87KB
+11-18 05:43:30.737  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:30.877  3479  3501 I ActivityManager: Displayed com.watchlite.companion/.ThemeDesignerActivity: +266ms
+11-18 05:43:30.879  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:30.882  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:35.629  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:35.634  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:35.635  6253  6253 D         : HostConnection::get() New Host Connection established 0xa9a2f800, tid 6253
+11-18 05:43:35.747  6256  6256 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:35.768  6256  6256 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:35.776  6256  6256 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:35.777  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465885, downTime=465885, deviceId=0, source=0x1002 }
+11-18 05:43:35.778  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465885, downTime=465885, deviceId=0, source=0x1002 }
+11-18 05:43:35.796  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=313.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465906, downTime=465906, deviceId=0, source=0x1002 }
+11-18 05:43:35.814  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=299.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465923, downTime=465923, deviceId=0, source=0x1002 }
+11-18 05:43:35.831  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=286.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465940, downTime=465940, deviceId=0, source=0x1002 }
+11-18 05:43:35.847  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=272.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465957, downTime=465957, deviceId=0, source=0x1002 }
+11-18 05:43:35.865  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=258.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465974, downTime=465974, deviceId=0, source=0x1002 }
+11-18 05:43:35.881  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=246.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=465990, downTime=465990, deviceId=0, source=0x1002 }
+11-18 05:43:35.898  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=232.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466007, downTime=466007, deviceId=0, source=0x1002 }
+11-18 05:43:35.914  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=218.79999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466024, downTime=466024, deviceId=0, source=0x1002 }
+11-18 05:43:35.931  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=205.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466041, downTime=466041, deviceId=0, source=0x1002 }
+11-18 05:43:35.948  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=191.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466058, downTime=466058, deviceId=0, source=0x1002 }
+11-18 05:43:35.965  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=178.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466074, downTime=466074, deviceId=0, source=0x1002 }
+11-18 05:43:35.982  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=165.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466091, downTime=466091, deviceId=0, source=0x1002 }
+11-18 05:43:35.998  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=151.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466108, downTime=466108, deviceId=0, source=0x1002 }
+11-18 05:43:36.016  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=138.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466125, downTime=466125, deviceId=0, source=0x1002 }
+11-18 05:43:36.032  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=124.399994, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466142, downTime=466142, deviceId=0, source=0x1002 }
+11-18 05:43:36.049  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=111.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466158, downTime=466158, deviceId=0, source=0x1002 }
+11-18 05:43:36.066  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=98.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466175, downTime=466175, deviceId=0, source=0x1002 }
+11-18 05:43:36.082  6256  6256 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=466192, downTime=466192, deviceId=0, source=0x1002 }
+11-18 05:43:36.085  6256  6256 D AndroidRuntime: Shutting down VM
+11-18 05:43:37.123  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:37.130  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:37.131  6268  6268 D         : HostConnection::get() New Host Connection established 0xa9aaf800, tid 6268
+11-18 05:43:37.242  6271  6271 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:37.264  6271  6271 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:37.273  6271  6271 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:37.275  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467383, downTime=467383, deviceId=0, source=0x1002 }
+11-18 05:43:37.276  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467383, downTime=467383, deviceId=0, source=0x1002 }
+11-18 05:43:37.293  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=314.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467403, downTime=467403, deviceId=0, source=0x1002 }
+11-18 05:43:37.310  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=301.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467419, downTime=467419, deviceId=0, source=0x1002 }
+11-18 05:43:37.327  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=287.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467436, downTime=467436, deviceId=0, source=0x1002 }
+11-18 05:43:37.345  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=273.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467454, downTime=467454, deviceId=0, source=0x1002 }
+11-18 05:43:37.361  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=260.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467470, downTime=467470, deviceId=0, source=0x1002 }
+11-18 05:43:37.377  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=246.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467487, downTime=467487, deviceId=0, source=0x1002 }
+11-18 05:43:37.396  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=232.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467505, downTime=467505, deviceId=0, source=0x1002 }
+11-18 05:43:37.414  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=217.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467524, downTime=467524, deviceId=0, source=0x1002 }
+11-18 05:43:37.432  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=202.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467542, downTime=467542, deviceId=0, source=0x1002 }
+11-18 05:43:37.448  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=190.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467558, downTime=467558, deviceId=0, source=0x1002 }
+11-18 05:43:37.462  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=179.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467571, downTime=467571, deviceId=0, source=0x1002 }
+11-18 05:43:37.478  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=166.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467588, downTime=467588, deviceId=0, source=0x1002 }
+11-18 05:43:37.496  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=152.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467605, downTime=467605, deviceId=0, source=0x1002 }
+11-18 05:43:37.512  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=139.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467621, downTime=467621, deviceId=0, source=0x1002 }
+11-18 05:43:37.529  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=125.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467639, downTime=467639, deviceId=0, source=0x1002 }
+11-18 05:43:37.546  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=112.399994, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467655, downTime=467655, deviceId=0, source=0x1002 }
+11-18 05:43:37.562  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=98.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467672, downTime=467672, deviceId=0, source=0x1002 }
+11-18 05:43:37.579  6271  6271 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=467689, downTime=467689, deviceId=0, source=0x1002 }
+11-18 05:43:37.582  6271  6271 D AndroidRuntime: Shutting down VM
+11-18 05:43:38.617  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:38.622  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:38.623  6283  6283 D         : HostConnection::get() New Host Connection established 0xb6caf800, tid 6283
+11-18 05:43:38.731  6286  6286 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:38.752  6286  6286 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:38.760  6286  6286 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:38.761  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468870, downTime=468870, deviceId=0, source=0x1002 }
+11-18 05:43:38.762  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468870, downTime=468870, deviceId=0, source=0x1002 }
+11-18 05:43:38.772  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=320.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468882, downTime=468882, deviceId=0, source=0x1002 }
+11-18 05:43:38.789  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=306.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468899, downTime=468899, deviceId=0, source=0x1002 }
+11-18 05:43:38.806  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=293.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468916, downTime=468916, deviceId=0, source=0x1002 }
+11-18 05:43:38.824  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=279.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468933, downTime=468933, deviceId=0, source=0x1002 }
+11-18 05:43:38.840  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=266.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468950, downTime=468950, deviceId=0, source=0x1002 }
+11-18 05:43:38.857  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=253.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468966, downTime=468966, deviceId=0, source=0x1002 }
+11-18 05:43:38.874  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=239.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=468983, downTime=468983, deviceId=0, source=0x1002 }
+11-18 05:43:38.891  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=226.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469000, downTime=469000, deviceId=0, source=0x1002 }
+11-18 05:43:38.908  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=212.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469017, downTime=469017, deviceId=0, source=0x1002 }
+11-18 05:43:38.924  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=198.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469034, downTime=469034, deviceId=0, source=0x1002 }
+11-18 05:43:38.941  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=186.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469050, downTime=469050, deviceId=0, source=0x1002 }
+11-18 05:43:38.958  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=172.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469067, downTime=469067, deviceId=0, source=0x1002 }
+11-18 05:43:38.975  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=158.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469084, downTime=469084, deviceId=0, source=0x1002 }
+11-18 05:43:38.991  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=145.20001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469101, downTime=469101, deviceId=0, source=0x1002 }
+11-18 05:43:39.008  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=131.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469118, downTime=469118, deviceId=0, source=0x1002 }
+11-18 05:43:39.025  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=118.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469135, downTime=469135, deviceId=0, source=0x1002 }
+11-18 05:43:39.042  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=104.399994, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469152, downTime=469152, deviceId=0, source=0x1002 }
+11-18 05:43:39.059  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=91.600006, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469168, downTime=469168, deviceId=0, source=0x1002 }
+11-18 05:43:39.076  6286  6286 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=469185, downTime=469185, deviceId=0, source=0x1002 }
+11-18 05:43:39.076  6286  6286 D AndroidRuntime: Shutting down VM
+11-18 05:43:39.950  5951  5976 E BluetoothAdapter: Bluetooth binder is null
+11-18 05:43:40.116  1422  1431 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:40.122  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:40.122  6298  6298 D         : HostConnection::get() New Host Connection established 0xad4af800, tid 6298
+11-18 05:43:40.236  6301  6301 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:40.257  6301  6301 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:40.265  6301  6301 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:40.266  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470375, downTime=470375, deviceId=0, source=0x1002 }
+11-18 05:43:40.267  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470375, downTime=470375, deviceId=0, source=0x1002 }
+11-18 05:43:40.286  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=314.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470395, downTime=470395, deviceId=0, source=0x1002 }
+11-18 05:43:40.304  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=298.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470414, downTime=470414, deviceId=0, source=0x1002 }
+11-18 05:43:40.320  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=286.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470429, downTime=470429, deviceId=0, source=0x1002 }
+11-18 05:43:40.336  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=273.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470446, downTime=470446, deviceId=0, source=0x1002 }
+11-18 05:43:40.353  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=259.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470463, downTime=470463, deviceId=0, source=0x1002 }
+11-18 05:43:40.370  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=246.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470480, downTime=470480, deviceId=0, source=0x1002 }
+11-18 05:43:40.387  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=233.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470496, downTime=470496, deviceId=0, source=0x1002 }
+11-18 05:43:40.404  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=219.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470513, downTime=470513, deviceId=0, source=0x1002 }
+11-18 05:43:40.421  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=206.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470530, downTime=470530, deviceId=0, source=0x1002 }
+11-18 05:43:40.437  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=192.40001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470547, downTime=470547, deviceId=0, source=0x1002 }
+11-18 05:43:40.454  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=178.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470564, downTime=470564, deviceId=0, source=0x1002 }
+11-18 05:43:40.471  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=165.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470581, downTime=470581, deviceId=0, source=0x1002 }
+11-18 05:43:40.488  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=152.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470597, downTime=470597, deviceId=0, source=0x1002 }
+11-18 05:43:40.504  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=138.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470614, downTime=470614, deviceId=0, source=0x1002 }
+11-18 05:43:40.521  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=125.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470631, downTime=470631, deviceId=0, source=0x1002 }
+11-18 05:43:40.538  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=111.59999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470648, downTime=470648, deviceId=0, source=0x1002 }
+11-18 05:43:40.555  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=98.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470665, downTime=470665, deviceId=0, source=0x1002 }
+11-18 05:43:40.572  6301  6301 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=470681, downTime=470681, deviceId=0, source=0x1002 }
+11-18 05:43:40.572  6301  6301 D AndroidRuntime: Shutting down VM
+11-18 05:43:41.615  1422  1991 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:41.622  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:41.623  6313  6313 D         : HostConnection::get() New Host Connection established 0xb40af800, tid 6313
+11-18 05:43:41.737  6316  6316 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:41.760  6316  6316 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:41.768  6316  6316 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:41.770  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471878, downTime=471878, deviceId=0, source=0x1002 }
+11-18 05:43:41.771  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=330.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471878, downTime=471878, deviceId=0, source=0x1002 }
+11-18 05:43:41.782  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=318.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471892, downTime=471892, deviceId=0, source=0x1002 }
+11-18 05:43:41.799  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=305.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471909, downTime=471909, deviceId=0, source=0x1002 }
+11-18 05:43:41.816  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=291.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471926, downTime=471926, deviceId=0, source=0x1002 }
+11-18 05:43:41.833  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=278.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471942, downTime=471942, deviceId=0, source=0x1002 }
+11-18 05:43:41.850  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=265.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471959, downTime=471959, deviceId=0, source=0x1002 }
+11-18 05:43:41.867  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=251.6, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471976, downTime=471976, deviceId=0, source=0x1002 }
+11-18 05:43:41.883  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=238.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=471993, downTime=471993, deviceId=0, source=0x1002 }
+11-18 05:43:41.901  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=224.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472010, downTime=472010, deviceId=0, source=0x1002 }
+11-18 05:43:41.918  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=210.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472027, downTime=472027, deviceId=0, source=0x1002 }
+11-18 05:43:41.934  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=197.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472044, downTime=472044, deviceId=0, source=0x1002 }
+11-18 05:43:41.951  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=184.4, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472060, downTime=472060, deviceId=0, source=0x1002 }
+11-18 05:43:41.967  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=170.79999, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472077, downTime=472077, deviceId=0, source=0x1002 }
+11-18 05:43:41.984  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=157.2, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472094, downTime=472094, deviceId=0, source=0x1002 }
+11-18 05:43:42.001  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=144.40001, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472110, downTime=472110, deviceId=0, source=0x1002 }
+11-18 05:43:42.018  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=130.8, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472127, downTime=472127, deviceId=0, source=0x1002 }
+11-18 05:43:42.037  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=115.600006, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472146, downTime=472146, deviceId=0, source=0x1002 }
+11-18 05:43:42.051  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_MOVE, actionButton=0, id[0]=0, x[0]=160.0, y[0]=103.600006, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472161, downTime=472161, deviceId=0, source=0x1002 }
+11-18 05:43:42.068  6316  6316 I Input   : injectMotionEvent: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=160.0, y[0]=90.0, toolType[0]=TOOL_TYPE_UNKNOWN, buttonState=0, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=472178, downTime=472178, deviceId=0, source=0x1002 }
+11-18 05:43:42.069  6316  6316 D AndroidRuntime: Shutting down VM
+11-18 05:43:42.183  6326  6326 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:42.209  6326  6326 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:42.217  6326  6326 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:42.218  6326  6326 I Input   : injectKeyEvent: KeyEvent { action=ACTION_DOWN, keyCode=KEYCODE_BACK, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=472327, downTime=472327, deviceId=-1, source=0x101 }
+11-18 05:43:42.221  6326  6326 I Input   : injectKeyEvent: KeyEvent { action=ACTION_UP, keyCode=KEYCODE_BACK, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=472327, downTime=472327, deviceId=-1, source=0x101 }
+11-18 05:43:42.223  3479  3495 D AutofillManagerService: onBackKeyPressed()
+11-18 05:43:42.226  6326  6326 D AndroidRuntime: Shutting down VM
+11-18 05:43:42.242  3479  3493 E memtrack: Couldn't load memtrack module
+11-18 05:43:42.242  3479  3493 W android.os.Debug: failed to get memory consumption info: -1
+11-18 05:43:42.246  3479  3493 E memtrack: Couldn't load memtrack module
+11-18 05:43:42.246  3479  3493 W android.os.Debug: failed to get memory consumption info: -1
+11-18 05:43:42.260  6069  6069 I zygote  : Deoptimizing void android.view.ViewRootImpl$SendWindowContentChangedAccessibilityEvent.run() due to JIT inline cache
+11-18 05:43:42.276  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:42.277  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:42.277  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:42.295  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:43.246  3479  4036 I ActivityManager: START u0 {flg=0x10000000 cmp=com.watchlite.companion/.ThemePickerActivity} from uid 0
+11-18 05:43:42.308  6069  6093 I chatty  : uid=10067(u0_a67) com.watchlite.companion identical 1 line
+11-18 05:43:42.311  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:43.253  6069  6069 I zygote  : Deoptimizing int a.o0.c(int) due to JIT inline cache
+11-18 05:43:43.264  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:43.265  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:43.266  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:43.280  6069  6093 D EGL_emulation: eglMakeCurrent: 0x91217aa0: ver 3 0 (tinfo 0x9e3307b0)
+11-18 05:43:43.286  3479  3501 I ActivityManager: Displayed com.watchlite.companion/.ThemePickerActivity: +35ms
+11-18 05:43:47.285  1422  1433 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-18 05:43:47.289  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+11-18 05:43:47.290  6343  6343 D         : HostConnection::get() New Host Connection established 0xb2baf800, tid 6343
+11-18 05:43:47.313  3479  4036 I ActivityManager: Force stopping com.watchlite.companion appid=10067 user=0: from pid 6348
+11-18 05:43:47.313  3479  4036 I ActivityManager: Killing 6069:com.watchlite.companion/u0a67 (adj 0): stop com.watchlite.companion
+11-18 05:43:47.313  3479  4036 W ActivityManager: Force removing ActivityRecord{6fe10c8 u0 com.watchlite.companion/.ThemePickerActivity t40}: app died, no saved state
+11-18 05:43:47.314  3479  4036 I WindowManager: Failed to capture screenshot of Token{5fa4561 ActivityRecord{6fe10c8 u0 com.watchlite.companion/.ThemePickerActivity t40 f}} appWin=Window{2b4d69d u0 com.watchlite.companion/com.watchlite.companion.ThemePickerActivity} drawState=4
+11-18 05:43:47.320  6350  6350 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-18 05:43:47.326  3479  4036 I ActivityManager: Start proc 6350:com.watchlite.companion/u0a67 for activity com.watchlite.companion/.MainActivity
+11-18 05:43:47.330  3479  4036 I ActivityManager:   Force finishing activity ActivityRecord{d1b878f u0 com.watchlite.companion/.MainActivity t40}
+11-18 05:43:47.331  3479  4036 I ActivityManager:   Force finishing activity ActivityRecord{d1b878f u0 com.watchlite.companion/.MainActivity t40 f}
+11-18 05:43:47.331  3479  4036 W ActivityManager: Duplicate finish request for ActivityRecord{d1b878f u0 com.watchlite.companion/.MainActivity t40 f}
+11-18 05:43:47.338  3479  3602 I ActivityManager: Killing 4216:com.android.managedprovisioning/u0a14 (adj 906): empty #17
+11-18 05:43:47.340  3649  3649 D CarrierSvcBindHelper: No carrier app for: 0
+11-18 05:43:47.348  1422  1433 E SurfaceFlinger: Failed to find layer (Splash Screen com.watchlite.companion#0) in layer parent (no-parent).
+11-18 05:43:47.363  3479  5594 I WindowManager: WIN DEATH: Window{29b367c u0 com.watchlite.companion/com.watchlite.companion.MainActivity}
+11-18 05:43:47.364  3479  3501 W ActivityManager: setHasOverlayUi called on unknown pid: 6069
+11-18 05:43:47.369  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:47.372  1395  1395 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-18 05:43:47.375  1395  1395 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 495616
+11-18 05:43:47.396  5951  5971 D EGL_emulation: eglMakeCurrent: 0x9e504240: ver 3 0 (tinfo 0x9e503100)

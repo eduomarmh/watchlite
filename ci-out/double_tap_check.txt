@@ -1,0 +1,2 @@
+11-18 05:40:26.640  4930  4930 I WL-Home : double tap on face
+11-18 05:40:26.640  4930  4930 I WL-AOD  : enter

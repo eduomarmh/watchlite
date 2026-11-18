@@ -1,0 +1,2 @@
+11-18 05:42:44.436  5709  5709 I WL-Charge: power connected, screen on=true
+11-18 05:42:44.454  5709  5709 I WL-Charge: animation visible

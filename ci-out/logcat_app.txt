@@ -1,0 +1,57 @@
+11-18 05:42:44.436  5709  5709 I WL-Charge: power connected, screen on=true
+11-18 05:42:44.454  5709  5709 I WL-Charge: animation visible
+11-18 05:42:54.466  5709  5709 I WL-Charge: animation done, screen was on=true
+11-18 05:42:59.792  5951  5951 I WL-App  : start v1.2.19
+11-18 05:42:59.810  5951  5951 I WL-Perm : enabled com.watchlite.launcher/com.watchlite.launcher.system.PowerAccessibilityService in enabled_accessibility_services
+11-18 05:42:59.910  5951  5951 I WL-Home : screen 320x385 @200dpi round=false
+11-18 05:42:59.933  5951  5951 I WL-Steps: service mode motion
+11-18 05:42:59.940  5951  5951 I WL-Steps: service mode motion
+11-18 05:42:59.972  5951  5951 I WL-Face : layers for flow in 16ms animated=false
+11-18 05:43:00.801  5951  5951 I WL-Call : state idle -> ringing
+11-18 05:43:03.882  5951  5951 I WL-Call : state ringing -> offhook
+11-18 05:43:06.963  5951  5951 I WL-Call : state offhook -> idle
+11-18 05:43:10.107  6013  6013 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:10.138  6013  6013 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:10.144  5951  5951 I WL-Home : home on face dup=false aod=false
+11-18 05:43:10.145  6013  6013 D AndroidRuntime: Shutting down VM
+11-18 05:43:10.145  5951  5951 I WL-Home : curtain (screen off without device admin)
+11-18 05:43:11.482  5951  5970 I WL-IconTheme: detected 12 system apps
+11-18 05:43:17.567  6128  6128 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:17.596  6128  6128 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:17.602  6128  6128 D AndroidRuntime: Shutting down VM
+11-18 05:43:22.782  6158  6158 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:22.812  6158  6158 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:23.126  6158  6158 D AndroidRuntime: Shutting down VM
+11-18 05:43:24.287  6173  6173 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:24.317  6173  6173 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:24.623  6173  6173 D AndroidRuntime: Shutting down VM
+11-18 05:43:25.769  6188  6188 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:25.797  6188  6188 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:26.101  6188  6188 D AndroidRuntime: Shutting down VM
+11-18 05:43:27.255  6204  6204 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:27.283  6204  6204 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:27.597  6204  6204 D AndroidRuntime: Shutting down VM
+11-18 05:43:28.754  6219  6219 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:28.782  6219  6219 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:29.095  6219  6219 D AndroidRuntime: Shutting down VM
+11-18 05:43:30.243  6234  6234 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:30.272  6234  6234 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:30.575  6234  6234 D AndroidRuntime: Shutting down VM
+11-18 05:43:35.747  6256  6256 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:35.776  6256  6256 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:36.085  6256  6256 D AndroidRuntime: Shutting down VM
+11-18 05:43:37.242  6271  6271 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:37.273  6271  6271 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:37.582  6271  6271 D AndroidRuntime: Shutting down VM
+11-18 05:43:38.731  6286  6286 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:38.760  6286  6286 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:39.076  6286  6286 D AndroidRuntime: Shutting down VM
+11-18 05:43:40.236  6301  6301 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:40.265  6301  6301 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:40.572  6301  6301 D AndroidRuntime: Shutting down VM
+11-18 05:43:41.737  6316  6316 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:41.768  6316  6316 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:42.069  6316  6316 D AndroidRuntime: Shutting down VM
+11-18 05:43:42.183  6326  6326 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-18 05:43:42.217  6326  6326 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-18 05:43:42.226  6326  6326 D AndroidRuntime: Shutting down VM

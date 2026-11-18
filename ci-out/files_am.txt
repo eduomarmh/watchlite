@@ -1,0 +1,5 @@
+Starting: Intent { flg=0x8000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras) }
+Starting: Intent { flg=0x8000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras) }
+Starting: Intent { flg=0x8000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras) }
+Starting: Intent { flg=0x8000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras) }
+Starting: Intent { flg=0x8000 cmp=com.watchlite.launcher/.settings.SettingsActivity (has extras) }

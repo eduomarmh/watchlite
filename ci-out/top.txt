@@ -1,0 +1,20 @@
+Tasks: 145 total,   1 running, 143 sleeping,   0 stopped,   1 zombie
+Mem:   1548720k total,   878452k used,   670268k free,    13044k buffers
+Swap:        0k total,        0k used,        0k free,   570704k cached
+200%cpu   0%user   0%nice   0%sys 200%idle   0%iow   0%irq   0%sirq   0%host
+  PID USER         PR  NI VIRT  RES  SHR S[%CPU] %MEM     TIME+ ARGS                       
+ 3346 shell        20   0 6.8M 2.4M 1.9M R  4.0   0.1   0:00.00 top -n 1 -b
+ 3334 logd         20   0 5.9M 2.2M 1.8M S  0.0   0.1   0:00.01 logcat -Q
+ 3041 u0_a26       20   0 1.3G  57M  48M S  0.0   3.7   0:00.02 com.android.calendar
+ 2999 u0_a65       10 -10 1.3G 111M  83M S  0.0   7.3   0:01.75 com.watchlite.launcher
+ 2960 u0_a43       20   0 1.3G  71M  61M S  0.0   4.7   0:00.03 com.android.inputmethod.latin
+ 2932 u0_a13       20   0 1.3G 100M  83M S  0.0   6.5   0:00.19 com.android.launcher3
+ 2788 u0_a16       20   0 1.3G  50M  41M S  0.0   3.2   0:00.01 com.android.packageinstaller
+ 2765 u0_a57       20   0 1.3G  78M  66M S  0.0   5.1   0:00.09 com.android.messaging
+ 2747 u0_a44       20   0 1.3G  55M  46M S  0.0   3.6   0:00.02 com.android.gallery3d
+ 2693 u0_a5        20   0 1.3G  53M  44M S  0.0   3.4   0:00.01 com.android.defcontainer
+ 2679 u0_a7        20   0 1.3G  55M  46M S  0.0   3.6   0:00.01 com.android.contacts
+ 2652 u0_a32       20   0 1.3G  53M  44M S  0.0   3.4   0:00.01 com.android.camera2
+ 2549 root         20   0    0    0    0 S  0.0   0.0   0:00.01 [kworker/1:2]
+ 2514 u0_a3        20   0 1.3G  62M  52M S  0.0   4.0   0:00.05 com.android.providers.calendar
+ 2464 u0_a54       20   0 1.3G  52M  43M S  0.0   3.4   0:00.01 com.android.quicksearchbox
